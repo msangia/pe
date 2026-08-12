@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1 - Ahorro externo y crecimiento - Política Económica II</title>
+    
+    <!-- Tailwind CSS with Typography Plugin -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Prism CSS for Stata highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <!-- MathJax Configuration -->
+    <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        unlp: '#004b7c',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+        pre { position: relative; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
+    
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center text-slate-600 hover:text-unlp transition-colors font-medium">
+                <i class="fas fa-arrow-left mr-2"></i> Volver al inicio
+            </a>
+            <span class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Clase 1</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <!-- Header Section -->
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Ahorro externo, cuenta corriente y crecimiento</h1>
+            <p class="text-xl text-slate-500 font-light">Política Económica II (2026) - FCE / UNLP</p>
+        </header>
+
+        <!-- Article Content -->
+        <article class="prose prose-slate prose-lg max-w-none prose-headings:text-unlp prose-a:text-blue-600 prose-img:rounded-xl prose-img:shadow-md">
+            
+            <div class="bg-blue-50 border-l-4 border-unlp p-6 rounded-r-lg mb-10 shadow-sm not-prose">
+                <h3 class="text-lg font-bold text-unlp mb-2 flex items-center"><i class="fas fa-exclamation-triangle mr-2"></i> Reglas Formales para la Entrega</h3>
+                <ul class="list-disc ml-5 text-slate-700 space-y-2 mt-3">
+                    <li><strong>Integrantes:</strong> máximo 3 por grupo.</li>
+                    <li><strong>Extensión:</strong> máximo 12 carillas (hoja A4, 12pts, etc.). La página 13 no se corrige.</li>
+                    <li><strong>Copia o plagio:</strong> trabajo desaprobado, grupo fuera del régimen de promoción.</li>
+                    <li><strong>Uso de asistentes de IA:</strong> permitido para programar, depurar, buscar bibliografía y revisar redacción. <strong>Obligatorio</strong> un párrafo final declarando qué herramientas se usaron y para qué. El grupo responde por cada línea de código y cada afirmación.</li>
+                    <li><strong>Entrega TP1:</strong> <span class="bg-slate-200 px-2 py-1 rounded text-sm text-slate-600"><i class="far fa-calendar-alt"></i> Fecha a Confirmar</span> (hasta las 12 del mediodía).</li>
+                </ul>
+            </div>
+
+            <h2>1. Revisión de la literatura y Bibliografía (Tema 2026)</h2>
+            <p><strong>Referencia metodológica central:</strong><br>
+            <em>Can countries rely on foreign saving for investment and economic development?</em> (Cavallo, Eichengreen y Panizza, 2018)</p>
+            <ul>
+                <li>Los episodios de déficit de cuenta corriente <strong>grandes y persistentes</strong> rara vez se asocian con crecimiento sostenido, y con frecuencia terminan en frenos súbitos.</li>
+                <li>El enfoque es de <strong>episodios</strong>, no de regresión promedio.</li>
+                <li>Contradice la lectura "benigna" según la cual el déficit refleja simplemente convergencia y suavizamiento intertemporal.</li>
+            </ul>
+            <p><strong>El enigma de fondo:</strong></p>
+            <ul>
+                <li><strong>Lucas (1990)</strong>, <em>Why Doesn't Capital Flow from Rich to Poor Countries?</em> El capital debería fluir hacia los países pobres y no lo hace.</li>
+                <li><strong>Gourinchas y Jeanne (2013)</strong>, <em>The Allocation Puzzle</em>. Entre países en desarrollo, el capital fluye <strong>menos</strong> hacia los que más crecen.</li>
+                <li><strong>Prasad, Rajan y Subramanian (2007)</strong>. Los países no industriales que recurrieron menos al ahorro externo crecieron más rápido.</li>
+            </ul>
+
+            <hr class="my-10 border-slate-200">
+
+            <h2>2. Datos</h2>
+            <p>Fuentes a utilizar: WDI (World Bank), PWT (University of Groningen), IFS (IMF).</p>
+            <p>Base de datos de la clase: <code>datos_WB_2026.xlsx</code> (hoja 1: panel; hoja 2: metadatos).</p>
+            
+            <div class="overflow-x-auto not-prose my-6">
+                <table class="w-full text-left border-collapse bg-white rounded-lg shadow-sm border border-slate-200">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Variable</th>
+                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Código WDI</th>
+                            <th class="p-3 border-b border-slate-200 font-semibold text-slate-700">Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr><td class="p-3 border-b border-slate-100 font-mono text-blue-600">gdp_pc2021</td><td class="p-3 border-b border-slate-100 text-slate-600">NY.GDP.PCAP.PP.KD</td><td class="p-3 border-b border-slate-100">PIB per cápita PPA (int$ constantes)</td></tr>
+                        <tr><td class="p-3 border-b border-slate-100 font-mono text-blue-600">cab</td><td class="p-3 border-b border-slate-100 text-slate-600">BN.CAB.XOKA.GD.ZS</td><td class="p-3 border-b border-slate-100">Saldo de cuenta corriente (%PIB)</td></tr>
+                        <tr><td class="p-3 border-b border-slate-100 font-mono text-blue-600">gns</td><td class="p-3 border-b border-slate-100 text-slate-600">NY.GNS.ICTR.ZS</td><td class="p-3 border-b border-slate-100">Ahorro nacional bruto (%PIB)</td></tr>
+                        <tr><td class="p-3 font-mono text-blue-600">inv</td><td class="p-3 text-slate-600">NE.GDI.TOTL.ZS</td><td class="p-3">Formación bruta de capital (%PIB)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr class="my-10 border-slate-200">
+
+            <h2>3. Conceptos básicos de Stata</h2>
+            <p>Se puede importar directamente desde Excel. Verificar que los nombres de las variables estén en minúscula y los separadores de decimales coincidan.</p>
+            <pre><code class="language-stata">import excel using datos_WB_2026.xlsx, first sheet(1) clear
+label var gdp_pc2021 "PIB per capita PPA"
+label var cab        "Cuenta corriente (%PIB)"
+sum
+save wb_data.dta, replace</code></pre>
+
+            <h3>Merge y Collapse</h3>
+            <pre><code class="language-stata">use wb_data.dta, clear
+merge m:1 ccode using meta.dta, keep(match master) nogen
+
+collapse gdp_pc2021 (max) cab_max = cab (p50) inv_p50 = inv, by(region)</code></pre>
+
+            <h3>Datos en Panel y Efectos Fijos</h3>
+            <p>El estimador de efectos fijos controla por la heterogeneidad no observada invariable en el tiempo mediante la transformación <em>within</em> (restar a cada observación la media individual).</p>
+            <div class="bg-white p-4 rounded border border-slate-200 text-center overflow-x-auto">
+                $$ y_{it} = \beta x_{it} + \mu_i + \epsilon_{it} $$
+            </div>
+            
+            <pre><code class="language-stata">use wb_data.dta, clear
+merge m:1 ccode using meta.dta, keep(match master) nogen
+egen id = group(ccode)
+tsset id year, yearly
+
+* Creación de variables
+gen gdp_gr = ((gdp_pc2021 / L.gdp_pc2021) - 1) * 100
+gen lny    = ln(gdp_pc2021)</code></pre>
+
+            <hr class="my-12 border-slate-300 border-2 border-dashed">
+
+            <!-- TRABAJO PRÁCTICO 1 -->
+            <div id="tp1" class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 md:p-12 mb-10">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
+                    <div>
+                        <span class="text-unlp font-bold tracking-widest uppercase text-sm">Práctica Oficial</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900 mt-1 mb-0 border-0 pb-0">Trabajo Práctico Nro. 1</h2>
+                        <p class="text-slate-500 mt-2">Guía paso a paso</p>
+                    </div>
+                    <i class="fas fa-laptop-code text-4xl text-slate-200"></i>
+                </div>
+
+                <div class="prose-h3:text-lg prose-h3:font-bold prose-h3:text-slate-800 prose-li:my-1">
+                    
+                    <h3>Consigna 1. Introducción: la identidad</h3>
+                    <p>El punto de partida es la identidad de cuentas nacionales de una economía abierta:</p>
+                    <div class="bg-slate-50 p-3 rounded text-center">
+                        $$ S^{n}_{t} + S^{ext}_{t} = I_{t} \qquad \Longrightarrow \qquad S^{ext}_{t} \equiv I_{t} - S^{n}_{t} = -CC_{t} $$
+                    </div>
+                    <p>Un <strong>déficit</strong> de cuenta corriente ($CC<0$) equivale a <strong>ahorro externo positivo</strong>. En Stata:</p>
+                    <pre><code class="language-stata">gen sext    = -cab            // via cuenta corriente
+gen sext_is = inv - gns       // via identidad inversion - ahorro
+gen disc    = sext - sext_is  // discrepancia estadística</code></pre>
+
+                    <h3>Consigna 3. Análisis descriptivo</h3>
+                    <p>El enunciado pide al menos 30 países. Deben reportar cuántos quedan y por qué se excluyeron los demás. Analicen la relación entre países (<em>between</em>) y dentro de cada país (<em>within</em>).</p>
+
+                    <h3>Consigna 4. Estimaciones econométricas</h3>
+                    <p>La especificación central a estimar es:</p>
+                    <div class="bg-slate-50 p-3 rounded text-center">
+                        $$ g_{it} = \alpha + \beta\,S^{ext}_{it} + \gamma \ln y_{i,t-1} + \delta' X_{it} + \mu_i + \tau_t + \epsilon_{it} $$
+                    </div>
+                    
+                    <pre><code class="language-stata">xtset id year, yearly
+eststo clear
+
+* (1) MCO agrupado
+eststo m1: reg gdp_gr sext, vce(cluster id)
+* (2) EF de pais
+eststo m2: xtreg gdp_gr sext, fe rob
+* (3) EF de pais y de anio
+eststo m3: xtreg gdp_gr sext i.year, fe rob
+* (4) EF + controles
+eststo m4: xtreg gdp_gr sext L.lny open pop_gr linfl i.year, fe rob</code></pre>
+
+                    <p><strong>El error que más se repite:</strong> Incluir la inversión como control cambia la interpretación del coeficiente $\beta$ (pasa a medir sustitución de ahorro interno por externo manteniendo inversión constante).</p>
+
+                    <h3>Consigna 5. Conclusiones</h3>
+                    <ul>
+                        <li>Respondan la pregunta del trabajo de forma <strong>directa</strong> antes de matizarla.</li>
+                        <li>Las recomendaciones de política deben estar condicionadas a la robustez de los hallazgos.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </article>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-stata.min.js"></script>
+    <script>
+        // Agregar botón de copia al código Stata
+        document.querySelectorAll('pre').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.innerHTML = '<i class="far fa-copy"></i>';
+            button.title = "Copiar código";
+            block.appendChild(button);
+            
+            button.addEventListener('click', () => {
+                const codeNode = block.querySelector('code');
+                const text = codeNode ? codeNode.innerText : block.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    button.innerHTML = '<i class="fas fa-check text-emerald-400"></i>';
+                    setTimeout(() => { button.innerHTML = '<i class="far fa-copy"></i>'; }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
