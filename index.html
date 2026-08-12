@@ -1,88 +1,422 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política Económica II - UNLP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        unlp: '#004b7c',
-                    }
-                }
-            }
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Política Económica II · 2026 — FCE UNLP</title>
+<meta name="description" content="Material de la cátedra de Política Económica II, Facultad de Ciencias Económicas, Universidad Nacional de La Plata. Clases y enunciados de los trabajos prácticos 2026.">
+<meta property="og:title" content="Política Económica II · 2026 — FCE UNLP">
+<meta property="og:description" content="Clases y enunciados de los trabajos prácticos 2026.">
+<meta property="og:type" content="website">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#fff; --surface:#f5f7f9; --surface2:#e9eef3; --line:#dce3ea;
+  --text:#111820; --muted:#57646f; --accent:#00608c; --accent2:#0a7ea4;
+  --accent-soft:#e4f1f8; --warn:#a35a06; --warn-soft:#fdf4e5;
+  --danger:#a71f1f; --danger-soft:#fdedec; --ok:#146c39; --ok-soft:#e8f5ed;
+  --code-bg:#0e151c; --code-text:#dbe6f0;
+  --r:10px; --maxw:1240px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --c1:#00608c; --c2:#0f8a6a;
+}
+[data-theme=dark]{
+  --bg:#0c1116; --surface:#141b23; --surface2:#1c252e; --line:#28323d;
+  --text:#e2eaf1; --muted:#94a2af; --accent:#4fa9d8; --accent2:#5cbfd6;
+  --accent-soft:#0f2c3b; --warn:#e0a54e; --warn-soft:#302509; --danger:#ef8a84; --danger-soft:#331716;
+  --ok:#5cc189; --ok-soft:#10291b; --code-bg:#060b10;
+  --c1:#4fa9d8; --c2:#3fbf95;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{max-width:100%}
+.skip{position:absolute;left:-9999px;background:var(--accent);color:#fff;padding:10px 16px;z-index:300}
+.skip:focus{left:8px;top:8px}
+
+/* ---- topbar ---- */
+.topbar{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tin{max-width:var(--maxw);margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:750;font-size:14.5px;letter-spacing:-.01em;text-decoration:none;color:var(--text);white-space:nowrap}
+.brand b{color:var(--accent);font-weight:750}
+.sp{flex:1}
+.btn{background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:8px;
+  padding:6px 12px;font:inherit;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;
+  gap:7px;text-decoration:none;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--surface2);border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.bar{position:absolute;left:0;bottom:-1px;height:3px;background:var(--accent);width:0}
+#tocBtn{display:none}
+
+/* ---- layout ---- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;display:grid;
+  grid-template-columns:252px minmax(0,1fr);gap:46px;align-items:start}
+.toc{position:sticky;top:88px;max-height:calc(100vh - 112px);overflow-y:auto;padding:22px 0 40px;font-size:13.6px}
+.toc h2{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 10px}
+.toc a{display:block;padding:5px 10px;color:var(--muted);text-decoration:none;
+  border-left:2px solid transparent;border-radius:0 5px 5px 0;line-height:1.35}
+.toc a:hover{color:var(--text);background:var(--surface)}
+.toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:650}
+.toc a.sub{padding-left:24px;font-size:12.9px}
+main{padding:26px 0 90px;min-width:0}
+
+/* ---- hero ---- */
+.hero{padding:22px 0 28px;border-bottom:1px solid var(--line)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:20px;margin-bottom:14px}
+.hero h1{font-size:clamp(29px,4.4vw,45px);line-height:1.08;margin:0 0 13px;letter-spacing:-.026em;font-weight:800}
+.lead{font-size:18.5px;color:var(--muted);margin:0;max-width:64ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{font-size:12.7px;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:5px 13px;color:var(--muted)}
+
+/* ---- tipografía ---- */
+h2.sec{font-size:26px;margin:54px 0 6px;letter-spacing:-.02em;scroll-margin-top:80px;font-weight:760}
+h2.sec .n{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:9px}
+h3{font-size:19px;margin:34px 0 8px;letter-spacing:-.012em;scroll-margin-top:80px;font-weight:700}
+h4{font-size:15.5px;margin:22px 0 6px;font-weight:700}
+p{margin:0 0 14px}
+a{color:var(--accent);text-underline-offset:2px}
+ul,ol{margin:0 0 15px;padding-left:22px}
+li{margin:5px 0}li::marker{color:var(--muted)}
+strong{font-weight:670}
+.sub{color:var(--muted);font-size:15px;margin:-2px 0 20px}
+hr{border:0;border-top:1px solid var(--line);margin:46px 0}
+code{font-family:var(--mono);font-size:.875em;background:var(--surface2);padding:1.5px 5px;border-radius:4px}
+
+/* ---- tarjetas ---- */
+.grid{display:grid;gap:14px;margin:18px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(238px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(182px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.card h4{margin:0 0 5px;font-size:14.5px}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.card p+p{margin-top:8px}
+.card .big{font-size:27px;font-weight:800;color:var(--accent);line-height:1.15;letter-spacing:-.02em}
+
+/* ---- avisos ---- */
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 18px;
+  border-radius:0 8px 8px 0;margin:20px 0}
+.note.warn{border-color:var(--warn);background:var(--warn-soft)}
+.note.danger{border-color:var(--danger);background:var(--danger-soft)}
+.note.ok{border-color:var(--ok);background:var(--ok-soft)}
+.note .tag{display:block;font-size:11.3px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.07em;margin-bottom:5px;color:var(--accent)}
+.note.warn .tag{color:var(--warn)}.note.danger .tag{color:var(--danger)}.note.ok .tag{color:var(--ok)}
+.note>:last-child{margin-bottom:0}
+
+/* ---- código ---- */
+.codewrap{margin:16px 0}
+.codewrap .hd{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);
+  border:1px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;padding:6px 12px;
+  font-size:12px;color:var(--muted)}
+.codewrap .fn{font-family:var(--mono);font-size:11.5px}
+.copy{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;
+  padding:3px 9px;font:inherit;font-size:11.5px;cursor:pointer;transition:.15s}
+.copy:hover{color:var(--text);border-color:var(--accent)}
+.copy.done{color:var(--ok);border-color:var(--ok)}
+pre{margin:0;background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:0 0 8px 8px;
+  overflow-x:auto;font-family:var(--mono);font-size:13.1px;line-height:1.62;border:1px solid var(--line);border-top:0}
+pre code{background:none;padding:0;font-size:inherit;white-space:pre}
+.t-cmd{color:#7dd3fc;font-weight:600}.t-opt{color:#c4b5fd}.t-str{color:#86efac}
+.t-com{color:#6b7c8d;font-style:italic}.t-mac{color:#fca5a5}.t-num{color:#fcd34d}
+
+/* ---- tablas ---- */
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:700;font-size:12.4px;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface)}
+td code{white-space:nowrap;font-size:12.5px}
+
+/* ---- pestañas ---- */
+.tabs{margin:18px 0}
+.tabbar{display:flex;gap:3px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabbar button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
+  padding:8px 14px;font:inherit;font-size:13.7px;font-weight:650;cursor:pointer;margin-bottom:-1px}
+.tabbar button:hover{color:var(--text)}
+.tabbar button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabpanel[hidden]{display:none}
+.tabpanel{padding-top:6px}
+
+/* ---- details ---- */
+details{border:1px solid var(--line);border-radius:8px;margin:16px 0;background:var(--surface);overflow:hidden}
+summary{padding:12px 16px;cursor:pointer;font-weight:650;font-size:14.5px;list-style:none;
+  display:flex;align-items:center;gap:9px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";color:var(--accent);transition:transform .18s;display:inline-block}
+details[open] summary::before{transform:rotate(90deg)}
+summary:hover{background:var(--surface2)}
+.dbody{padding:2px 16px 14px;border-top:1px solid var(--line)}
+.dbody>:first-child{margin-top:12px}
+
+/* ---- bloques de consigna ---- */
+.paso{border:1px solid var(--line);border-radius:12px;margin:26px 0;overflow:hidden;background:var(--bg)}
+.paso>header{background:var(--surface);padding:14px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:14px}
+.pn{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:16px}
+.paso>header h3{margin:0;font-size:18px;scroll-margin-top:80px}
+.paso>header .what{font-size:13px;color:var(--muted);margin:1px 0 0}
+.pbody{padding:6px 20px 20px}
+.quote{border-left:3px solid var(--line);padding:2px 0 2px 15px;margin:16px 0;
+  color:var(--muted);font-size:14.4px;font-style:italic}
+
+/* ---- figuras ---- */
+figure{margin:22px 0}
+figure svg{width:100%;height:auto;display:block;background:var(--surface);
+  border:1px solid var(--line);border-radius:8px}
+figcaption{font-size:13.4px;color:var(--muted);margin-top:9px;line-height:1.5}
+.pl-bg{fill:var(--bg)}.pl-grid{stroke:var(--line);stroke-width:1}
+.pl-ax{stroke:var(--muted);stroke-width:1.2}
+.pt-a{fill:var(--c1);opacity:.55}.pt-b{fill:#e0733d;opacity:.55}.pt-out{fill:var(--danger);opacity:.85}
+.ln-pool{stroke:var(--text);stroke-width:2.4;fill:none}
+.ln-a{stroke:var(--c1);stroke-width:2.4;fill:none}.ln-b{stroke:#e0733d;stroke-width:2.4;fill:none}
+.ln-c{stroke:var(--c2);stroke-width:2.2;fill:none}
+.ln-45{stroke:var(--muted);stroke-width:1.6;stroke-dasharray:6 4}
+.ln-z{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.bar-p{fill:var(--c1);opacity:.75}.bar-n{fill:#e0733d;opacity:.75}
+.pl-lab{fill:var(--muted);font-size:12.3px;font-family:var(--font)}
+.pl-tick{fill:var(--muted);font-size:10.4px;font-family:var(--mono)}
+.pl-note{fill:var(--muted);font-size:11.4px;font-family:var(--font);font-style:italic}
+.lgd rect{fill:var(--bg);stroke:var(--line)}
+.lgd text{fill:var(--text);font-size:11.4px;font-family:var(--font)}
+
+/* ---- ecuaciones ---- */
+.eq{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:15px 20px;
+  margin:18px 0;overflow-x:auto;overflow-y:hidden}
+.eq .cap{display:block;font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center}
+.katex{font-size:1.06em}
+.katex-display{margin:.2em 0}
+
+/* ---- checklist ---- */
+.check{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px 18px 16px;margin:20px 0}
+.check .hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 0 10px;
+  border-bottom:1px solid var(--line);margin-bottom:6px}
+.check .cnt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.check label{display:flex;gap:11px;align-items:flex-start;padding:7px 0;cursor:pointer;font-size:14.4px}
+.check input{margin:4px 0 0;width:16px;height:16px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
+.check input:checked+span{color:var(--muted);text-decoration:line-through}
+
+footer{border-top:1px solid var(--line);padding:26px 0 46px;color:var(--muted);font-size:13.4px}
+footer p{margin:0 0 6px}
+
+/* ---- portada ---- */
+.home{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+.home-hero{padding:56px 0 34px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:40px}
+.home-hero h1{font-size:clamp(32px,5vw,50px);margin:12px 0 14px;letter-spacing:-.028em;font-weight:800;line-height:1.06}
+.home-hero .lead{margin:0 auto;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
+.ccard{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;transition:box-shadow .18s,transform .18s,border-color .18s}
+.ccard:hover{box-shadow:0 8px 26px rgba(0,0,0,.09);transform:translateY(-2px);border-color:var(--accent)}
+.ccard .strip{height:4px}
+.ccard .in{padding:24px 24px 20px;display:flex;flex-direction:column;flex:1}
+.ccard h3{margin:12px 0 8px;font-size:21px;line-height:1.22}
+.ccard p.d{color:var(--muted);font-size:14.4px;margin:0 0 18px;flex:1}
+.ccard .topics{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+.ccard .topics span{font-size:11.8px;background:var(--surface);border:1px solid var(--line);
+  border-radius:6px;padding:3px 9px;color:var(--muted)}
+.ccard .acts{display:flex;flex-wrap:wrap;gap:9px;border-top:1px solid var(--line);padding-top:16px}
+.badge{display:inline-block;font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 11px;border-radius:20px}
+
+/* ---- responsive ---- */
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0;padding:0 16px}
+  #tocBtn{display:inline-flex}
+  .toc{position:static;max-height:none;padding:14px 0;border-bottom:1px solid var(--line);display:none}
+  .toc.open{display:block}
+  .tin{padding:9px 16px}
+  body{font-size:16px}
+}
+@media print{
+  .topbar,.toc,.copy,.btn{display:none!important}
+  .wrap,.home{display:block;max-width:none;padding:0}
+  body{font-size:10.5pt;color:#000;background:#fff}
+  pre{background:#f4f4f4;color:#000;border:1px solid #bbb}
+  .t-cmd,.t-opt,.t-str,.t-com,.t-mac,.t-num{color:#000!important}
+  details[open] .dbody{display:block}
+  .paso,figure,.eq,table{break-inside:avoid}
+  a::after{content:" (" attr(href) ")";font-size:8.5pt;color:#555}
+}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <header class="bg-unlp text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight">Política Económica II</h1>
-                <p class="text-blue-200 text-sm">Facultad de Ciencias Económicas | UNLP (2026)</p>
-            </div>
-            <div>
-                <i class="fas fa-university text-3xl opacity-80"></i>
-            </div>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="topbar">
+  <div class="tin">
+    <a class="brand" href="index.html">Política Económica&nbsp;II <b>· 2026</b></a>
+    <div class="sp"></div>
+    <button class="btn" id="themeBtn" type="button" aria-label="Activar tema oscuro">
+      <span aria-hidden="true">◐</span><span class="tl">Oscuro</span></button>
+  </div>
+</div>
+
+<main id="main" class="home">
+  <div class="home-hero">
+    <span class="eyebrow">Material de cátedra</span>
+    <h1>Política Económica II</h1>
+    <p class="lead">Facultad de Ciencias Económicas · Universidad Nacional de La Plata<br>
+    Clases, código y enunciados de los trabajos prácticos de la cursada 2026.</p>
+  </div>
+
+  <div class="cards">
+
+    <article class="ccard">
+      <div class="strip" style="background:var(--c1)"></div>
+      <div class="in">
+        <span class="badge" style="background:var(--accent-soft);color:var(--accent)">Clase 1</span>
+        <h3>Ahorro externo, cuenta corriente y crecimiento</h3>
+        <p class="d">La identidad ahorro-inversión-cuenta corriente, la paradoja de Lucas y la evidencia
+        sobre si conviene financiar la inversión con ahorro externo. Datos de panel y efectos fijos en Stata.</p>
+        <div class="topics">
+          <span>Identidad I−S=−CC</span><span>Paradoja de Lucas</span><span>Panel</span>
+          <span>Efectos fijos</span><span>WDI</span>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full">
-        <div class="mb-10 text-center">
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Material de Cátedra</h2>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">Bienvenido al portal de la materia. Aquí encontrarás los apuntes dinámicos, códigos y enunciados de los Trabajos Prácticos de la cursada.</p>
+        <div class="acts">
+          <a class="btn primary" href="clase1.html">Ir a la clase</a>
+          <a class="btn" href="PEII_EnunciadoTP1_2026.pdf" download>Enunciado TP1 (PDF)</a>
         </div>
+      </div>
+    </article>
 
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Clase 1 Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                <div class="h-2 bg-blue-500"></div>
-                <div class="p-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Clase 1</span>
-                        <i class="fas fa-chart-line text-slate-400 text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Ahorro externo, cuenta corriente y crecimiento</h3>
-                    <p class="text-slate-600 mb-6 line-clamp-3">Introducción a los conceptos de ahorro, inversión y cuenta corriente. Paradoja de Lucas, importación de datos en Stata, estimadores de efectos fijos y variables instrumentales.</p>
-                    
-                    <div class="border-t border-slate-100 pt-4 mt-auto">
-                        <a href="clase1_pe2_2026.html" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors">
-                            Ir a la clase <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Clase 2 Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                <div class="h-2 bg-emerald-500"></div>
-                <div class="p-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Clase 2</span>
-                        <i class="fas fa-file-invoice-dollar text-slate-400 text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3">Política Fiscal: Análisis e instrumentación</h3>
-                    <p class="text-slate-600 mb-6 line-clamp-3">Sostenibilidad de la deuda (indicador de Blanchard), análisis de ciclicidad del gasto, Filtro de Hodrick-Prescott y cálculo del Balance Estructural.</p>
-                    
-                    <div class="border-t border-slate-100 pt-4 mt-auto">
-                        <a href="clase2_pe2_2026.html" class="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-800 transition-colors">
-                            Ir a la clase <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <article class="ccard">
+      <div class="strip" style="background:var(--c2)"></div>
+      <div class="in">
+        <span class="badge" style="background:var(--ok-soft);color:var(--ok)">Clase 2</span>
+        <h3>Política fiscal: análisis e instrumentación</h3>
+        <p class="d">Sostenibilidad de la deuda con el indicador de Blanchard, ciclicidad del gasto, filtro
+        de Hodrick-Prescott y cálculo del balance estructural, con sus limitaciones.</p>
+        <div class="topics">
+          <span>Indicador de Blanchard</span><span>Ciclicidad</span><span>Filtro HP</span>
+          <span>Balance estructural</span><span>MECON · OPC</span>
         </div>
-    </main>
+        <div class="acts">
+          <a class="btn primary" href="clase2.html">Ir a la clase</a>
+          <a class="btn" href="PEII_EnunciadoTP2_2026.pdf" download>Enunciado TP2 (PDF)</a>
+        </div>
+      </div>
+    </article>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center">
-        <p>© 2026 Cátedra de Política Económica II - Universidad Nacional de La Plata</p>
-    </footer>
+  </div>
+
+  <div class="note" style="margin-top:34px">
+    <span class="tag">Cómo se trabaja</span>
+    <p>Grupos de hasta 3 integrantes · máximo 12 carillas · entrega del <code>.do</code> junto con el
+    informe · declaración obligatoria de uso de asistentes de IA. El detalle está en cada clase y en el
+    enunciado correspondiente.</p>
+  </div>
+
+  <footer>
+    <p><strong>Cátedra de Política Económica II</strong> · Facultad de Ciencias Económicas · Universidad Nacional de La Plata</p>
+    <p>2026. Todas las fuentes de datos utilizadas son de acceso público y gratuito.</p>
+  </footer>
+</main>
+
+<script>
+/* tema */
+var theme='light';
+var tb=document.getElementById('themeBtn');
+if(tb){tb.addEventListener('click',function(){
+  theme=theme==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',theme);
+  var l=this.querySelector('.tl'); if(l) l.textContent=theme==='light'?'Oscuro':'Claro';
+  this.setAttribute('aria-label',theme==='light'?'Activar tema oscuro':'Activar tema claro');
+});}
+
+/* resaltado Stata */
+var CMDS=('use save clear import export delimited excel merge append collapse reshape preserve restore keep '+
+'drop rename order sort gsort by bysort egen gen generate replace label summarize sum tabulate tab table '+
+'collect list count describe codebook pwcorr correlate regress reg xtreg xtset tsset tsfilter hp predict '+
+'eststo esttab estimates etable local global set display di if in of using foreach forvalues while return '+
+'quietly qui noisily capture confirm assert duplicates twoway two scatter line lfit bar function connected '+
+'histogram graph levelsof xtile inrange missing max min mean tsline dfuller pperron rowtotal group'
+).split(' ');
+var CRE=new RegExp('\\b('+CMDS.join('|')+')\\b','g');
+function hl(s){return s.split('\n').map(function(l){
+  var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if(/^\s*\*/.test(e))return '<span class="t-com">'+e+'</span>';
+  var c='',m=e.match(/(\s\/\/.*)$/);
+  if(m){c='<span class="t-com">'+m[1]+'</span>';e=e.slice(0,e.length-m[1].length);}
+  var st=[];
+  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '\u0000'+(st.length-1)+'\u0000';});
+  e=e.replace(/\$[A-Za-z_][A-Za-z0-9_]*/g,'<span class="t-mac">$&</span>');
+  e=e.replace(/`[^'`]*'/g,'<span class="t-mac">$&</span>');
+  e=e.replace(CRE,'<span class="t-cmd">$1</span>');
+  e=e.replace(/(,\s*)([a-z][a-zA-Z0-9_]*)/g,'$1<span class="t-opt">$2</span>');
+  e=e.replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="t-num">$1</span>');
+  e=e.replace(/\u0000(\d+)\u0000/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
+  return e+c;}).join('\n');}
+document.querySelectorAll('pre code').forEach(function(c){c.dataset.raw=c.textContent;c.innerHTML=hl(c.textContent);});
+
+/* copiar */
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var c=b.closest('.codewrap').querySelector('code'),t=c.dataset.raw||c.textContent;
+  function ok(){b.textContent='Copiado';b.classList.add('done');
+    setTimeout(function(){b.textContent='Copiar';b.classList.remove('done');},1600);}
+  function fb(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;
+    document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(a);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb);}else{fb();}
+});});
+
+/* pestañas */
+document.querySelectorAll('.tabs').forEach(function(box){
+  var bs=box.querySelectorAll('.tabbar button'),ps=box.querySelectorAll('.tabpanel');
+  bs.forEach(function(b,i){
+    b.addEventListener('click',function(){bs.forEach(function(x,j){
+      x.setAttribute('aria-selected',j===i?'true':'false');ps[j].hidden=j!==i;});});
+    b.addEventListener('keydown',function(ev){
+      var d=ev.key==='ArrowRight'?1:ev.key==='ArrowLeft'?-1:0;
+      if(d){ev.preventDefault();var k=(i+d+bs.length)%bs.length;bs[k].focus();bs[k].click();}});
+  });
+});
+
+/* progreso */
+var bar=document.getElementById('bar');
+if(bar){function pg(){var h=document.documentElement.scrollHeight-window.innerHeight;
+  bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+'%';}
+  window.addEventListener('scroll',pg,{passive:true});pg();}
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('.toc a')),map={};
+links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var tg=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
+if(tg.length&&'IntersectionObserver' in window){
+  var seen={};
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){seen[e.target.id]=e.isIntersecting;});
+    for(var i=0;i<tg.length;i++){if(seen[tg[i].id]){
+      links.forEach(function(a){a.classList.remove('on');});
+      if(map[tg[i].id])map[tg[i].id].classList.add('on');break;}}
+  },{rootMargin:'-78px 0px -68% 0px'});
+  tg.forEach(function(t){io.observe(t);});
+}
+
+/* índice móvil */
+var tt=document.getElementById('tocBtn'),toc=document.getElementById('toc');
+if(tt&&toc){
+  tt.addEventListener('click',function(){var o=toc.classList.toggle('open');
+    tt.setAttribute('aria-expanded',o?'true':'false');});
+  toc.addEventListener('click',function(e){if(e.target.tagName==='A'&&window.innerWidth<=900){
+    toc.classList.remove('open');tt.setAttribute('aria-expanded','false');}});
+}
+
+/* checklist */
+document.querySelectorAll('.check').forEach(function(b){
+  var ins=b.querySelectorAll('input'),o=b.querySelector('.cnt');
+  function u(){var n=0;ins.forEach(function(i){if(i.checked)n++;});
+    o.textContent=n+' de '+ins.length;o.style.color=n===ins.length?'var(--ok)':'';}
+  ins.forEach(function(i){i.addEventListener('change',u);});u();
+});
+</script>
 </body>
 </html>

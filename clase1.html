@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clase 1 · Ahorro externo, cuenta corriente y crecimiento — Política Económica II 2026</title>
+<meta name="description" content="Identidad ahorro-inversión-cuenta corriente, paradoja de Lucas, datos de panel y efectos fijos en Stata. Guía de la clase 1 de Política Económica II, FCE-UNLP.">
+<meta property="og:title" content="Clase 1 · Ahorro externo, cuenta corriente y crecimiento — Política Económica II 2026">
+<meta property="og:description" content="Identidad ahorro-inversión-cuenta corriente, paradoja de Lucas, datos de panel y efectos fijos en Stata. Guía de la clase 1 de Política Económica II, FCE-UNLP.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#fff; --surface:#f5f7f9; --surface2:#e9eef3; --line:#dce3ea;
+  --text:#111820; --muted:#57646f; --accent:#00608c; --accent2:#0a7ea4;
+  --accent-soft:#e4f1f8; --warn:#a35a06; --warn-soft:#fdf4e5;
+  --danger:#a71f1f; --danger-soft:#fdedec; --ok:#146c39; --ok-soft:#e8f5ed;
+  --code-bg:#0e151c; --code-text:#dbe6f0;
+  --r:10px; --maxw:1240px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --c1:#00608c; --c2:#0f8a6a;
+}
+[data-theme=dark]{
+  --bg:#0c1116; --surface:#141b23; --surface2:#1c252e; --line:#28323d;
+  --text:#e2eaf1; --muted:#94a2af; --accent:#4fa9d8; --accent2:#5cbfd6;
+  --accent-soft:#0f2c3b; --warn:#e0a54e; --warn-soft:#302509; --danger:#ef8a84; --danger-soft:#331716;
+  --ok:#5cc189; --ok-soft:#10291b; --code-bg:#060b10;
+  --c1:#4fa9d8; --c2:#3fbf95;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{max-width:100%}
+.skip{position:absolute;left:-9999px;background:var(--accent);color:#fff;padding:10px 16px;z-index:300}
+.skip:focus{left:8px;top:8px}
+
+/* ---- topbar ---- */
+.topbar{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tin{max-width:var(--maxw);margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:750;font-size:14.5px;letter-spacing:-.01em;text-decoration:none;color:var(--text);white-space:nowrap}
+.brand b{color:var(--accent);font-weight:750}
+.sp{flex:1}
+.btn{background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:8px;
+  padding:6px 12px;font:inherit;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;
+  gap:7px;text-decoration:none;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--surface2);border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.bar{position:absolute;left:0;bottom:-1px;height:3px;background:var(--accent);width:0}
+#tocBtn{display:none}
+
+/* ---- layout ---- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;display:grid;
+  grid-template-columns:252px minmax(0,1fr);gap:46px;align-items:start}
+.toc{position:sticky;top:88px;max-height:calc(100vh - 112px);overflow-y:auto;padding:22px 0 40px;font-size:13.6px}
+.toc h2{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 10px}
+.toc a{display:block;padding:5px 10px;color:var(--muted);text-decoration:none;
+  border-left:2px solid transparent;border-radius:0 5px 5px 0;line-height:1.35}
+.toc a:hover{color:var(--text);background:var(--surface)}
+.toc a.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:650}
+.toc a.sub{padding-left:24px;font-size:12.9px}
+main{padding:26px 0 90px;min-width:0}
+
+/* ---- hero ---- */
+.hero{padding:22px 0 28px;border-bottom:1px solid var(--line)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:20px;margin-bottom:14px}
+.hero h1{font-size:clamp(29px,4.4vw,45px);line-height:1.08;margin:0 0 13px;letter-spacing:-.026em;font-weight:800}
+.lead{font-size:18.5px;color:var(--muted);margin:0;max-width:64ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{font-size:12.7px;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:5px 13px;color:var(--muted)}
+
+/* ---- tipografía ---- */
+h2.sec{font-size:26px;margin:54px 0 6px;letter-spacing:-.02em;scroll-margin-top:80px;font-weight:760}
+h2.sec .n{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:9px}
+h3{font-size:19px;margin:34px 0 8px;letter-spacing:-.012em;scroll-margin-top:80px;font-weight:700}
+h4{font-size:15.5px;margin:22px 0 6px;font-weight:700}
+p{margin:0 0 14px}
+a{color:var(--accent);text-underline-offset:2px}
+ul,ol{margin:0 0 15px;padding-left:22px}
+li{margin:5px 0}li::marker{color:var(--muted)}
+strong{font-weight:670}
+.sub{color:var(--muted);font-size:15px;margin:-2px 0 20px}
+hr{border:0;border-top:1px solid var(--line);margin:46px 0}
+code{font-family:var(--mono);font-size:.875em;background:var(--surface2);padding:1.5px 5px;border-radius:4px}
+
+/* ---- tarjetas ---- */
+.grid{display:grid;gap:14px;margin:18px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(238px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(182px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.card h4{margin:0 0 5px;font-size:14.5px}
+.card p{margin:0;font-size:14px;color:var(--muted)}
+.card p+p{margin-top:8px}
+.card .big{font-size:27px;font-weight:800;color:var(--accent);line-height:1.15;letter-spacing:-.02em}
+
+/* ---- avisos ---- */
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 18px;
+  border-radius:0 8px 8px 0;margin:20px 0}
+.note.warn{border-color:var(--warn);background:var(--warn-soft)}
+.note.danger{border-color:var(--danger);background:var(--danger-soft)}
+.note.ok{border-color:var(--ok);background:var(--ok-soft)}
+.note .tag{display:block;font-size:11.3px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.07em;margin-bottom:5px;color:var(--accent)}
+.note.warn .tag{color:var(--warn)}.note.danger .tag{color:var(--danger)}.note.ok .tag{color:var(--ok)}
+.note>:last-child{margin-bottom:0}
+
+/* ---- código ---- */
+.codewrap{margin:16px 0}
+.codewrap .hd{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);
+  border:1px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;padding:6px 12px;
+  font-size:12px;color:var(--muted)}
+.codewrap .fn{font-family:var(--mono);font-size:11.5px}
+.copy{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:6px;
+  padding:3px 9px;font:inherit;font-size:11.5px;cursor:pointer;transition:.15s}
+.copy:hover{color:var(--text);border-color:var(--accent)}
+.copy.done{color:var(--ok);border-color:var(--ok)}
+pre{margin:0;background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:0 0 8px 8px;
+  overflow-x:auto;font-family:var(--mono);font-size:13.1px;line-height:1.62;border:1px solid var(--line);border-top:0}
+pre code{background:none;padding:0;font-size:inherit;white-space:pre}
+.t-cmd{color:#7dd3fc;font-weight:600}.t-opt{color:#c4b5fd}.t-str{color:#86efac}
+.t-com{color:#6b7c8d;font-style:italic}.t-mac{color:#fca5a5}.t-num{color:#fcd34d}
+
+/* ---- tablas ---- */
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-weight:700;font-size:12.4px;text-transform:uppercase;
+  letter-spacing:.04em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface)}
+td code{white-space:nowrap;font-size:12.5px}
+
+/* ---- pestañas ---- */
+.tabs{margin:18px 0}
+.tabbar{display:flex;gap:3px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabbar button{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);
+  padding:8px 14px;font:inherit;font-size:13.7px;font-weight:650;cursor:pointer;margin-bottom:-1px}
+.tabbar button:hover{color:var(--text)}
+.tabbar button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabpanel[hidden]{display:none}
+.tabpanel{padding-top:6px}
+
+/* ---- details ---- */
+details{border:1px solid var(--line);border-radius:8px;margin:16px 0;background:var(--surface);overflow:hidden}
+summary{padding:12px 16px;cursor:pointer;font-weight:650;font-size:14.5px;list-style:none;
+  display:flex;align-items:center;gap:9px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";color:var(--accent);transition:transform .18s;display:inline-block}
+details[open] summary::before{transform:rotate(90deg)}
+summary:hover{background:var(--surface2)}
+.dbody{padding:2px 16px 14px;border-top:1px solid var(--line)}
+.dbody>:first-child{margin-top:12px}
+
+/* ---- bloques de consigna ---- */
+.paso{border:1px solid var(--line);border-radius:12px;margin:26px 0;overflow:hidden;background:var(--bg)}
+.paso>header{background:var(--surface);padding:14px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:14px}
+.pn{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:16px}
+.paso>header h3{margin:0;font-size:18px;scroll-margin-top:80px}
+.paso>header .what{font-size:13px;color:var(--muted);margin:1px 0 0}
+.pbody{padding:6px 20px 20px}
+.quote{border-left:3px solid var(--line);padding:2px 0 2px 15px;margin:16px 0;
+  color:var(--muted);font-size:14.4px;font-style:italic}
+
+/* ---- figuras ---- */
+figure{margin:22px 0}
+figure svg{width:100%;height:auto;display:block;background:var(--surface);
+  border:1px solid var(--line);border-radius:8px}
+figcaption{font-size:13.4px;color:var(--muted);margin-top:9px;line-height:1.5}
+.pl-bg{fill:var(--bg)}.pl-grid{stroke:var(--line);stroke-width:1}
+.pl-ax{stroke:var(--muted);stroke-width:1.2}
+.pt-a{fill:var(--c1);opacity:.55}.pt-b{fill:#e0733d;opacity:.55}.pt-out{fill:var(--danger);opacity:.85}
+.ln-pool{stroke:var(--text);stroke-width:2.4;fill:none}
+.ln-a{stroke:var(--c1);stroke-width:2.4;fill:none}.ln-b{stroke:#e0733d;stroke-width:2.4;fill:none}
+.ln-c{stroke:var(--c2);stroke-width:2.2;fill:none}
+.ln-45{stroke:var(--muted);stroke-width:1.6;stroke-dasharray:6 4}
+.ln-z{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.bar-p{fill:var(--c1);opacity:.75}.bar-n{fill:#e0733d;opacity:.75}
+.pl-lab{fill:var(--muted);font-size:12.3px;font-family:var(--font)}
+.pl-tick{fill:var(--muted);font-size:10.4px;font-family:var(--mono)}
+.pl-note{fill:var(--muted);font-size:11.4px;font-family:var(--font);font-style:italic}
+.lgd rect{fill:var(--bg);stroke:var(--line)}
+.lgd text{fill:var(--text);font-size:11.4px;font-family:var(--font)}
+
+/* ---- ecuaciones ---- */
+.eq{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:15px 20px;
+  margin:18px 0;overflow-x:auto;overflow-y:hidden}
+.eq .cap{display:block;font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center}
+.katex{font-size:1.06em}
+.katex-display{margin:.2em 0}
+
+/* ---- checklist ---- */
+.check{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px 18px 16px;margin:20px 0}
+.check .hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 0 10px;
+  border-bottom:1px solid var(--line);margin-bottom:6px}
+.check .cnt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.check label{display:flex;gap:11px;align-items:flex-start;padding:7px 0;cursor:pointer;font-size:14.4px}
+.check input{margin:4px 0 0;width:16px;height:16px;accent-color:var(--accent);flex:0 0 auto;cursor:pointer}
+.check input:checked+span{color:var(--muted);text-decoration:line-through}
+
+footer{border-top:1px solid var(--line);padding:26px 0 46px;color:var(--muted);font-size:13.4px}
+footer p{margin:0 0 6px}
+
+/* ---- portada ---- */
+.home{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+.home-hero{padding:56px 0 34px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:40px}
+.home-hero h1{font-size:clamp(32px,5vw,50px);margin:12px 0 14px;letter-spacing:-.028em;font-weight:800;line-height:1.06}
+.home-hero .lead{margin:0 auto;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
+.ccard{background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;transition:box-shadow .18s,transform .18s,border-color .18s}
+.ccard:hover{box-shadow:0 8px 26px rgba(0,0,0,.09);transform:translateY(-2px);border-color:var(--accent)}
+.ccard .strip{height:4px}
+.ccard .in{padding:24px 24px 20px;display:flex;flex-direction:column;flex:1}
+.ccard h3{margin:12px 0 8px;font-size:21px;line-height:1.22}
+.ccard p.d{color:var(--muted);font-size:14.4px;margin:0 0 18px;flex:1}
+.ccard .topics{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+.ccard .topics span{font-size:11.8px;background:var(--surface);border:1px solid var(--line);
+  border-radius:6px;padding:3px 9px;color:var(--muted)}
+.ccard .acts{display:flex;flex-wrap:wrap;gap:9px;border-top:1px solid var(--line);padding-top:16px}
+.badge{display:inline-block;font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 11px;border-radius:20px}
+
+/* ---- responsive ---- */
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0;padding:0 16px}
+  #tocBtn{display:inline-flex}
+  .toc{position:static;max-height:none;padding:14px 0;border-bottom:1px solid var(--line);display:none}
+  .toc.open{display:block}
+  .tin{padding:9px 16px}
+  body{font-size:16px}
+}
+@media print{
+  .topbar,.toc,.copy,.btn{display:none!important}
+  .wrap,.home{display:block;max-width:none;padding:0}
+  body{font-size:10.5pt;color:#000;background:#fff}
+  pre{background:#f4f4f4;color:#000;border:1px solid #bbb}
+  .t-cmd,.t-opt,.t-str,.t-com,.t-mac,.t-num{color:#000!important}
+  details[open] .dbody{display:block}
+  .paso,figure,.eq,table{break-inside:avoid}
+  a::after{content:" (" attr(href) ")";font-size:8.5pt;color:#555}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="topbar">
+  <div class="tin">
+    <a class="brand" href="index.html">Política Económica&nbsp;II <b>· 2026</b></a>
+    <div class="sp"></div>
+    <button class="btn" id="tocBtn" type="button" aria-expanded="false" aria-controls="toc">Índice</button>
+    <button class="btn" id="themeBtn" type="button" aria-label="Activar tema oscuro">
+      <span aria-hidden="true">◐</span><span class="tl">Oscuro</span></button>
+  </div>
+  <div class="bar" id="bar" role="presentation"></div>
+</div>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Índice de la clase">
+<h2>En esta clase</h2>
+
+<a href="#reglas">1. Reglas de entrega</a>
+<a href="#pregunta">2. La pregunta</a>
+<a href="#identidad">3. La identidad</a>
+<a href="#datos">4. Datos</a>
+<a href="#stata">5. Armar el panel</a>
+<a href="#ef" class="sub">Efectos fijos</a>
+<a href="#descriptivo">6. Del dato a la evidencia</a>
+<a href="#estimacion">7. Estimación</a>
+<a href="#trampa" class="sub">La trampa de la inversión</a>
+<a href="#problemas">8. Qué puede salir mal</a>
+<a href="#cierre">9. Antes de entregar</a>
+
+</nav>
+<main id="main">
+
+<div class="hero">
+  <span class="eyebrow">Clase 1</span>
+  <h1>Ahorro externo, cuenta corriente y crecimiento</h1>
+  <p class="lead">El capital debería fluir de los países ricos a los pobres. No lo hace. Esta clase
+  arma las herramientas para medir ese desacuerdo entre la teoría y los datos.</p>
+  <div class="meta">
+    <span class="chip">FCE · UNLP</span><span class="chip">Stata</span>
+    <span class="chip">Datos de panel</span><span class="chip">World Bank · WDI</span>
+  </div>
+  <p style="margin-top:20px"><a class="btn primary" href="PEII_EnunciadoTP1_2026.pdf" download>Descargar enunciado del TP1 (PDF)</a></p>
+</div>
+
+<h2 class="sec" id="reglas"><span class="n">1</span>Reglas de entrega</h2>
+<div class="grid g3">
+  <div class="card"><div class="big">3</div><h4>Integrantes</h4><p>Máximo por grupo.</p></div>
+  <div class="card"><div class="big">12</div><h4>Carillas</h4><p>A4, 12&nbsp;pts. La página 13 no se corrige.</p></div>
+  <div class="card"><div class="big">5</div><h4>Consignas</h4><p>Cada una es una sección del informe, en orden.</p></div>
+</div>
+
+<div class="note danger"><span class="tag">Sin excepciones</span>
+<p><strong>Copia o plagio:</strong> trabajo desaprobado y grupo fuera del régimen de promoción.</p></div>
+
+<div class="note"><span class="tag">Nuevo en 2026</span>
+<p><strong>Asistentes de IA.</strong> Permitidos para programar, depurar, buscar bibliografía y revisar
+redacción. Es obligatorio un párrafo final declarando qué herramientas usaron y para qué.</p>
+<p>El grupo responde por cada línea de código y cada afirmación del texto. Una referencia que no existe,
+o un número que el código no reproduce, se evalúa como error propio.</p></div>
+
+<h3>Reproducibilidad</h3>
+<p>Entreguen el <code>.do</code> junto con el informe. Tiene que correr de principio a fin, desde los datos
+crudos hasta las tablas finales. Si no corre, el trabajo vuelve antes de corregirse. Es la misma regla que
+aplican hoy las revistas de la profesión.</p>
+
+<h2 class="sec" id="pregunta"><span class="n">2</span>La pregunta</h2>
+
+<p>El modelo neoclásico tiene una predicción nítida. Si el capital es escaso donde el ingreso es bajo, su
+producto marginal ahí es más alto, y el capital debería fluir de los países ricos a los pobres. Esos países
+invertirían por encima de su ahorro, tendrían déficit de cuenta corriente y convergerían más rápido.</p>
+
+<p><strong>El problema es que no ocurre.</strong> Ni en la dirección de los flujos, ni en su asociación con
+el crecimiento. Ese desacuerdo entre teoría y evidencia es el tema del TP.</p>
+
+<div class="note"><span class="tag">Lo que hay que responder</span>
+<p>¿Los países que financian su inversión con ahorro externo crecen más rápido, o crecen más los que la
+financian con ahorro propio?</p></div>
+
+<h3>Cinco trabajos para empezar</h3>
+<p class="sub">No pueden ser los únicos. La revisión de literatura tiene que organizar un debate, no
+encadenar resúmenes.</p>
+
+<div class="grid g2">
+  <div class="card"><h4>Lucas (1990)</h4>
+  <p><em>Why Doesn't Capital Flow from Rich to Poor Countries?</em></p>
+  <p>El planteo original. Es calibración, no econometría: sirve para dimensionar cuán grande es la anomalía.</p></div>
+
+  <div class="card"><h4>Gourinchas y Jeanne (2013)</h4>
+  <p><em>The Allocation Puzzle</em></p>
+  <p>Refina el enigma: entre países en desarrollo el capital fluye <strong>menos</strong> hacia los que más
+  crecen. Al revés de lo que predice el modelo.</p></div>
+
+  <div class="card"><h4>Prasad, Rajan y Subramanian (2007)</h4>
+  <p><em>Foreign Capital and Economic Growth</em></p>
+  <p>Estima directamente la relación del TP. Los países no industriales que recurrieron menos al ahorro
+  externo crecieron más rápido.</p></div>
+
+  <div class="card"><h4>Cavallo, Eichengreen y Panizza (2018)</h4>
+  <p><em>Can countries rely on foreign saving…?</em></p>
+  <p>Referencia metodológica central. Enfoque de <strong>episodios</strong>, no de regresión promedio: los
+  déficits grandes y persistentes rara vez terminan bien.</p></div>
+
+  <div class="card"><h4>Blanchard y Giavazzi (2002)</h4>
+  <p><em>Current Account Deficits in the Euro Area</em></p>
+  <p>La lectura benigna: el déficit refleja convergencia y suavizamiento intertemporal. Es el contraargumento
+  que la revisión tiene que discutir.</p></div>
+
+  <div class="card"><h4>Grigoli, Herman y Schmidt-Hebbel (2018)</h4>
+  <p><em>Saving in the world</em></p>
+  <p>Determinantes del ahorro. Importa porque muestra que el ahorro externo no es una variable de política
+  directa: se determina junto con el ahorro doméstico y la inversión.</p></div>
+</div>
+
+<div class="note ok"><span class="tag">La tensión que organiza el tema</span>
+<p>De un lado, el déficit como señal de convergencia. Del otro, la evidencia de que los países que más
+recurren al ahorro externo no crecen más y son más frágiles. Si la revisión no deja clara esa tensión, no
+está cumpliendo su función.</p></div>
+
+<h2 class="sec" id="identidad"><span class="n">3</span>La identidad</h2>
+
+<p>Todo el trabajo se apoya en la identidad de cuentas nacionales de una economía abierta. Del equilibrio
+ahorro-inversión:</p>
+
+<div class="eq">
+$$ \underbrace{S^{n}_{t}}_{\text{ahorro nacional}} + \underbrace{S^{ext}_{t}}_{\text{ahorro externo}} = I_{t}
+\qquad\Longrightarrow\qquad S^{ext}_{t} \;\equiv\; I_{t} - S^{n}_{t} \;=\; -\,CC_{t} $$
+<span class="cap">Un déficit de cuenta corriente ($CC_t &lt; 0$) equivale a ahorro externo positivo:
+el país absorbe más de lo que produce y financia la diferencia con el resto del mundo.</span>
+</div>
+
+<p>Tres cosas hay que tener claras antes de seguir:</p>
+<ol>
+<li><strong>Es una identidad, no una relación de comportamiento.</strong> Se cumple por construcción y no
+dice nada sobre causalidad. Un déficit puede reflejar inversión que sube, ahorro que cae, o las dos cosas.</li>
+<li><strong>El signo esperado es ambiguo.</strong> Una lectura ve convergencia; la otra ve apreciación real,
+pérdida de competitividad del sector transable y exposición a reversiones súbitas.</li>
+<li><strong>Condicionar en $I$ cambia la pregunta.</strong> Volvemos sobre esto en la sección 7, y es el
+error más frecuente del trabajo.</li>
+</ol>
+
+<h3>Ahora, en los datos</h3>
+<p>La identidad dice que estas dos medidas del ahorro externo deberían ser la misma. Constrúyanlas y
+comparen antes de hacer cualquier otra cosa:</p>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>gen sext    = -cab            // via cuenta corriente
+gen sext_is = inv - gns       // via identidad I - S
+gen disc    = sext - sext_is  // discrepancia
+
+label var sext    "Ahorro externo (%PIB)"
+label var sext_is "Ahorro externo, medida I-S (%PIB)"
+
+sum sext sext_is disc
+pwcorr sext sext_is, sig</code></pre></div>
+
+<figure><svg viewBox="0 0 620 400" role="img" aria-label="Las dos medidas del ahorro externo se ubican cerca de la línea de 45 grados pero no sobre ella">
+<rect x="58" y="18" width="544" height="334" class="pl-bg"/>
+<line x1="100.9" y1="18" x2="100.9" y2="352" class="pl-grid"/>
+<line x1="58" y1="325.6" x2="602" y2="325.6" class="pl-grid"/>
+<text x="100.9" y="368" class="pl-tick" text-anchor="middle">-15</text>
+<text x="50" y="329.6" class="pl-tick" text-anchor="end">-15</text>
+<line x1="172.5" y1="18" x2="172.5" y2="352" class="pl-grid"/>
+<line x1="58" y1="281.7" x2="602" y2="281.7" class="pl-grid"/>
+<text x="172.5" y="368" class="pl-tick" text-anchor="middle">-10</text>
+<text x="50" y="285.7" class="pl-tick" text-anchor="end">-10</text>
+<line x1="244.1" y1="18" x2="244.1" y2="352" class="pl-grid"/>
+<line x1="58" y1="237.7" x2="602" y2="237.7" class="pl-grid"/>
+<text x="244.1" y="368" class="pl-tick" text-anchor="middle">-5</text>
+<text x="50" y="241.7" class="pl-tick" text-anchor="end">-5</text>
+<line x1="315.7" y1="18" x2="315.7" y2="352" class="pl-grid"/>
+<line x1="58" y1="193.8" x2="602" y2="193.8" class="pl-grid"/>
+<text x="315.7" y="368" class="pl-tick" text-anchor="middle">0</text>
+<text x="50" y="197.8" class="pl-tick" text-anchor="end">0</text>
+<line x1="387.3" y1="18" x2="387.3" y2="352" class="pl-grid"/>
+<line x1="58" y1="149.8" x2="602" y2="149.8" class="pl-grid"/>
+<text x="387.3" y="368" class="pl-tick" text-anchor="middle">5</text>
+<text x="50" y="153.8" class="pl-tick" text-anchor="end">5</text>
+<line x1="458.8" y1="18" x2="458.8" y2="352" class="pl-grid"/>
+<line x1="58" y1="105.9" x2="602" y2="105.9" class="pl-grid"/>
+<text x="458.8" y="368" class="pl-tick" text-anchor="middle">10</text>
+<text x="50" y="109.9" class="pl-tick" text-anchor="end">10</text>
+<line x1="530.4" y1="18" x2="530.4" y2="352" class="pl-grid"/>
+<line x1="58" y1="61.9" x2="602" y2="61.9" class="pl-grid"/>
+<text x="530.4" y="368" class="pl-tick" text-anchor="middle">15</text>
+<text x="50" y="65.9" class="pl-tick" text-anchor="end">15</text>
+<line x1="58.0" y1="352.0" x2="602.0" y2="18.0" class="ln-45"/>
+<circle cx="313.8" cy="190.9" r="3" class="pt-a"/>
+<circle cx="415.7" cy="128.1" r="3" class="pt-a"/>
+<circle cx="415.6" cy="113.8" r="3" class="pt-a"/>
+<circle cx="307.0" cy="197.9" r="3" class="pt-a"/>
+<circle cx="208.8" cy="252.6" r="3" class="pt-a"/>
+<circle cx="350.4" cy="161.5" r="3" class="pt-a"/>
+<circle cx="266.6" cy="227.6" r="3" class="pt-a"/>
+<circle cx="473.8" cy="92.2" r="3" class="pt-a"/>
+<circle cx="355.8" cy="166.0" r="3" class="pt-a"/>
+<circle cx="351.8" cy="176.2" r="3" class="pt-a"/>
+<circle cx="286.7" cy="217.4" r="3" class="pt-a"/>
+<circle cx="357.0" cy="167.4" r="3" class="pt-a"/>
+<circle cx="299.6" cy="211.3" r="3" class="pt-a"/>
+<circle cx="262.6" cy="230.8" r="3" class="pt-a"/>
+<circle cx="364.6" cy="175.5" r="3" class="pt-a"/>
+<circle cx="251.8" cy="237.4" r="3" class="pt-a"/>
+<circle cx="325.0" cy="194.6" r="3" class="pt-a"/>
+<circle cx="390.0" cy="142.6" r="3" class="pt-a"/>
+<circle cx="382.7" cy="111.1" r="3" class="pt-out"/>
+<circle cx="270.6" cy="233.2" r="3" class="pt-a"/>
+<circle cx="378.7" cy="160.0" r="3" class="pt-a"/>
+<circle cx="251.6" cy="239.0" r="3" class="pt-a"/>
+<circle cx="428.8" cy="140.4" r="3" class="pt-a"/>
+<circle cx="319.3" cy="193.9" r="3" class="pt-a"/>
+<circle cx="191.4" cy="290.0" r="3" class="pt-a"/>
+<circle cx="317.0" cy="185.3" r="3" class="pt-a"/>
+<circle cx="414.9" cy="131.6" r="3" class="pt-a"/>
+<circle cx="352.1" cy="169.6" r="3" class="pt-a"/>
+<circle cx="371.5" cy="155.2" r="3" class="pt-a"/>
+<circle cx="353.9" cy="172.6" r="3" class="pt-a"/>
+<circle cx="185.9" cy="278.5" r="3" class="pt-a"/>
+<circle cx="372.3" cy="163.8" r="3" class="pt-a"/>
+<circle cx="235.3" cy="230.4" r="3" class="pt-a"/>
+<circle cx="359.9" cy="162.6" r="3" class="pt-a"/>
+<circle cx="341.8" cy="168.7" r="3" class="pt-a"/>
+<circle cx="332.3" cy="182.9" r="3" class="pt-a"/>
+<circle cx="267.3" cy="216.0" r="3" class="pt-a"/>
+<circle cx="300.1" cy="212.2" r="3" class="pt-a"/>
+<circle cx="321.8" cy="192.4" r="3" class="pt-a"/>
+<circle cx="361.3" cy="181.6" r="3" class="pt-a"/>
+<circle cx="274.3" cy="214.2" r="3" class="pt-a"/>
+<circle cx="315.1" cy="205.9" r="3" class="pt-a"/>
+<circle cx="344.2" cy="171.7" r="3" class="pt-a"/>
+<circle cx="334.4" cy="182.3" r="3" class="pt-a"/>
+<circle cx="389.7" cy="123.5" r="3" class="pt-a"/>
+<circle cx="405.2" cy="146.6" r="3" class="pt-a"/>
+<circle cx="331.9" cy="176.5" r="3" class="pt-a"/>
+<circle cx="436.6" cy="108.8" r="3" class="pt-a"/>
+<circle cx="249.2" cy="232.7" r="3" class="pt-a"/>
+<circle cx="387.5" cy="145.4" r="3" class="pt-a"/>
+<circle cx="353.9" cy="193.3" r="3" class="pt-a"/>
+<circle cx="419.8" cy="132.8" r="3" class="pt-a"/>
+<circle cx="316.1" cy="194.0" r="3" class="pt-a"/>
+<circle cx="480.0" cy="95.0" r="3" class="pt-a"/>
+<circle cx="327.9" cy="178.7" r="3" class="pt-a"/>
+<circle cx="345.5" cy="185.2" r="3" class="pt-a"/>
+<circle cx="307.5" cy="193.9" r="3" class="pt-a"/>
+<circle cx="477.9" cy="95.7" r="3" class="pt-a"/>
+<circle cx="383.7" cy="163.8" r="3" class="pt-a"/>
+<circle cx="263.5" cy="230.4" r="3" class="pt-a"/>
+<circle cx="392.2" cy="145.7" r="3" class="pt-a"/>
+<circle cx="267.0" cy="242.2" r="3" class="pt-a"/>
+<circle cx="537.2" cy="66.8" r="3" class="pt-a"/>
+<circle cx="298.2" cy="200.3" r="3" class="pt-a"/>
+<circle cx="349.4" cy="168.0" r="3" class="pt-a"/>
+<circle cx="448.4" cy="121.2" r="3" class="pt-a"/>
+<circle cx="256.4" cy="241.8" r="3" class="pt-a"/>
+<circle cx="245.9" cy="251.3" r="3" class="pt-a"/>
+<circle cx="332.9" cy="192.2" r="3" class="pt-a"/>
+<circle cx="349.2" cy="180.1" r="3" class="pt-a"/>
+<circle cx="406.4" cy="139.5" r="3" class="pt-a"/>
+<circle cx="445.8" cy="118.1" r="3" class="pt-a"/>
+<circle cx="362.6" cy="161.7" r="3" class="pt-a"/>
+<circle cx="347.4" cy="178.5" r="3" class="pt-a"/>
+<circle cx="441.0" cy="118.3" r="3" class="pt-a"/>
+<circle cx="295.2" cy="213.3" r="3" class="pt-a"/>
+<circle cx="438.9" cy="120.2" r="3" class="pt-a"/>
+<circle cx="405.5" cy="142.1" r="3" class="pt-a"/>
+<circle cx="356.5" cy="173.6" r="3" class="pt-a"/>
+<circle cx="318.1" cy="186.6" r="3" class="pt-a"/>
+<circle cx="328.3" cy="177.8" r="3" class="pt-a"/>
+<circle cx="391.6" cy="151.1" r="3" class="pt-a"/>
+<circle cx="193.2" cy="277.6" r="3" class="pt-a"/>
+<circle cx="409.2" cy="141.0" r="3" class="pt-a"/>
+<circle cx="318.6" cy="192.3" r="3" class="pt-a"/>
+<circle cx="335.6" cy="180.9" r="3" class="pt-a"/>
+<circle cx="372.4" cy="151.1" r="3" class="pt-a"/>
+<circle cx="270.9" cy="223.8" r="3" class="pt-a"/>
+<circle cx="210.3" cy="263.2" r="3" class="pt-a"/>
+<circle cx="280.6" cy="217.6" r="3" class="pt-a"/>
+<circle cx="345.2" cy="185.0" r="3" class="pt-a"/>
+<circle cx="343.2" cy="194.3" r="3" class="pt-a"/>
+<circle cx="265.7" cy="230.6" r="3" class="pt-a"/>
+<circle cx="304.1" cy="209.0" r="3" class="pt-a"/>
+<circle cx="157.2" cy="288.5" r="3" class="pt-a"/>
+<circle cx="459.8" cy="118.6" r="3" class="pt-a"/>
+<circle cx="166.9" cy="292.1" r="3" class="pt-a"/>
+<circle cx="357.6" cy="165.0" r="3" class="pt-a"/>
+<circle cx="382.5" cy="150.2" r="3" class="pt-a"/>
+<circle cx="269.7" cy="234.1" r="3" class="pt-a"/>
+<circle cx="399.6" cy="131.9" r="3" class="pt-a"/>
+<circle cx="428.9" cy="111.5" r="3" class="pt-a"/>
+<circle cx="367.8" cy="142.6" r="3" class="pt-a"/>
+<circle cx="108.0" cy="319.4" r="3" class="pt-a"/>
+<circle cx="374.6" cy="150.5" r="3" class="pt-a"/>
+<circle cx="306.8" cy="194.8" r="3" class="pt-a"/>
+<circle cx="330.3" cy="186.4" r="3" class="pt-a"/>
+<circle cx="319.6" cy="190.8" r="3" class="pt-a"/>
+<circle cx="269.4" cy="259.2" r="3" class="pt-out"/>
+<circle cx="463.5" cy="104.4" r="3" class="pt-a"/>
+<circle cx="379.1" cy="133.7" r="3" class="pt-a"/>
+<circle cx="343.6" cy="182.8" r="3" class="pt-a"/>
+<circle cx="188.1" cy="263.9" r="3" class="pt-a"/>
+<circle cx="330.6" cy="180.2" r="3" class="pt-a"/>
+<circle cx="228.5" cy="252.6" r="3" class="pt-a"/>
+<circle cx="439.2" cy="113.7" r="3" class="pt-a"/>
+<circle cx="490.7" cy="78.1" r="3" class="pt-a"/>
+<circle cx="342.8" cy="180.3" r="3" class="pt-a"/>
+<circle cx="468.4" cy="93.6" r="3" class="pt-a"/>
+<circle cx="282.7" cy="205.6" r="3" class="pt-a"/>
+<circle cx="328.5" cy="181.8" r="3" class="pt-a"/>
+<circle cx="335.5" cy="177.8" r="3" class="pt-a"/>
+<circle cx="380.4" cy="152.4" r="3" class="pt-a"/>
+<circle cx="290.3" cy="196.8" r="3" class="pt-a"/>
+<circle cx="286.3" cy="211.9" r="3" class="pt-a"/>
+<circle cx="389.0" cy="145.0" r="3" class="pt-a"/>
+<circle cx="322.9" cy="199.3" r="3" class="pt-a"/>
+<circle cx="161.2" cy="285.7" r="3" class="pt-a"/>
+<circle cx="366.1" cy="170.5" r="3" class="pt-a"/>
+<circle cx="370.6" cy="166.9" r="3" class="pt-a"/>
+<circle cx="252.2" cy="253.6" r="3" class="pt-a"/>
+<circle cx="390.5" cy="158.6" r="3" class="pt-a"/>
+<circle cx="276.0" cy="195.2" r="3" class="pt-a"/>
+<circle cx="352.4" cy="169.0" r="3" class="pt-a"/>
+<circle cx="331.3" cy="179.5" r="3" class="pt-a"/>
+<circle cx="414.5" cy="146.5" r="3" class="pt-a"/>
+<circle cx="321.8" cy="184.3" r="3" class="pt-a"/>
+<circle cx="290.7" cy="208.0" r="3" class="pt-a"/>
+<circle cx="317.1" cy="172.8" r="3" class="pt-a"/>
+<circle cx="279.5" cy="217.7" r="3" class="pt-a"/>
+<circle cx="307.3" cy="160.5" r="3" class="pt-out"/>
+<circle cx="270.7" cy="215.3" r="3" class="pt-a"/>
+<circle cx="359.6" cy="117.2" r="3" class="pt-out"/>
+<circle cx="330.0" cy="181.6" r="3" class="pt-a"/>
+<circle cx="348.2" cy="173.4" r="3" class="pt-a"/>
+<circle cx="343.5" cy="166.3" r="3" class="pt-a"/>
+<circle cx="333.2" cy="194.6" r="3" class="pt-a"/>
+<circle cx="386.5" cy="155.7" r="3" class="pt-a"/>
+<circle cx="375.0" cy="157.8" r="3" class="pt-a"/>
+<circle cx="319.0" cy="193.6" r="3" class="pt-a"/>
+<circle cx="414.3" cy="140.2" r="3" class="pt-a"/>
+<circle cx="348.4" cy="177.7" r="3" class="pt-a"/>
+<circle cx="191.6" cy="270.4" r="3" class="pt-a"/>
+<circle cx="378.4" cy="164.6" r="3" class="pt-a"/>
+<circle cx="286.0" cy="223.1" r="3" class="pt-a"/>
+<circle cx="371.9" cy="158.5" r="3" class="pt-a"/>
+<circle cx="444.7" cy="105.4" r="3" class="pt-a"/>
+<circle cx="260.3" cy="235.8" r="3" class="pt-a"/>
+<circle cx="326.8" cy="186.9" r="3" class="pt-a"/>
+<circle cx="331.9" cy="193.2" r="3" class="pt-a"/>
+<circle cx="318.0" cy="194.8" r="3" class="pt-a"/>
+<circle cx="332.5" cy="180.4" r="3" class="pt-a"/>
+<circle cx="326.3" cy="192.6" r="3" class="pt-a"/>
+<circle cx="418.7" cy="131.9" r="3" class="pt-a"/>
+<circle cx="220.9" cy="250.4" r="3" class="pt-a"/>
+<circle cx="253.6" cy="239.5" r="3" class="pt-a"/>
+<circle cx="367.1" cy="157.4" r="3" class="pt-a"/>
+<circle cx="300.5" cy="149.5" r="3" class="pt-out"/>
+<circle cx="387.5" cy="147.3" r="3" class="pt-a"/>
+<circle cx="293.2" cy="218.7" r="3" class="pt-a"/>
+<circle cx="250.1" cy="235.0" r="3" class="pt-a"/>
+<circle cx="448.8" cy="100.7" r="3" class="pt-a"/>
+<circle cx="505.9" cy="91.1" r="3" class="pt-a"/>
+<circle cx="199.6" cy="261.3" r="3" class="pt-a"/>
+<circle cx="276.9" cy="215.6" r="3" class="pt-a"/>
+<circle cx="381.1" cy="155.4" r="3" class="pt-a"/>
+<circle cx="389.9" cy="140.7" r="3" class="pt-a"/>
+<circle cx="425.6" cy="115.5" r="3" class="pt-a"/>
+<circle cx="420.8" cy="137.3" r="3" class="pt-a"/>
+<circle cx="401.6" cy="171.4" r="3" class="pt-out"/>
+<circle cx="419.4" cy="129.9" r="3" class="pt-a"/>
+<circle cx="319.7" cy="187.2" r="3" class="pt-a"/>
+<circle cx="275.4" cy="141.5" r="3" class="pt-out"/>
+<circle cx="333.5" cy="198.0" r="3" class="pt-a"/>
+<circle cx="438.1" cy="124.2" r="3" class="pt-a"/>
+<circle cx="315.1" cy="186.8" r="3" class="pt-a"/>
+<circle cx="432.2" cy="122.4" r="3" class="pt-a"/>
+<circle cx="279.1" cy="200.8" r="3" class="pt-a"/>
+<circle cx="446.2" cy="104.7" r="3" class="pt-a"/>
+<circle cx="384.7" cy="153.8" r="3" class="pt-a"/>
+<circle cx="284.7" cy="213.2" r="3" class="pt-a"/>
+<circle cx="481.6" cy="96.4" r="3" class="pt-a"/>
+<circle cx="220.8" cy="264.9" r="3" class="pt-a"/>
+<circle cx="219.8" cy="274.0" r="3" class="pt-a"/>
+<circle cx="323.8" cy="197.4" r="3" class="pt-a"/>
+<circle cx="295.2" cy="234.8" r="3" class="pt-out"/>
+<circle cx="367.7" cy="163.7" r="3" class="pt-a"/>
+<circle cx="298.1" cy="199.0" r="3" class="pt-a"/>
+<circle cx="390.0" cy="149.1" r="3" class="pt-a"/>
+<circle cx="303.0" cy="192.0" r="3" class="pt-a"/>
+<circle cx="354.8" cy="165.7" r="3" class="pt-a"/>
+<circle cx="405.3" cy="143.9" r="3" class="pt-a"/>
+<circle cx="540.9" cy="70.3" r="3" class="pt-a"/>
+<circle cx="364.0" cy="160.2" r="3" class="pt-a"/>
+<circle cx="315.1" cy="191.3" r="3" class="pt-a"/>
+<circle cx="327.8" cy="176.1" r="3" class="pt-a"/>
+<circle cx="332.7" cy="191.5" r="3" class="pt-a"/>
+<circle cx="261.3" cy="228.3" r="3" class="pt-a"/>
+<circle cx="388.4" cy="146.7" r="3" class="pt-a"/>
+<circle cx="394.8" cy="138.6" r="3" class="pt-a"/>
+<circle cx="366.7" cy="166.7" r="3" class="pt-a"/>
+<circle cx="333.6" cy="174.8" r="3" class="pt-a"/>
+<circle cx="471.5" cy="102.5" r="3" class="pt-a"/>
+<circle cx="351.7" cy="171.4" r="3" class="pt-a"/>
+<circle cx="399.7" cy="147.7" r="3" class="pt-a"/>
+<circle cx="407.1" cy="137.7" r="3" class="pt-a"/>
+<circle cx="399.8" cy="156.0" r="3" class="pt-a"/>
+<circle cx="333.2" cy="179.2" r="3" class="pt-a"/>
+<circle cx="221.3" cy="253.4" r="3" class="pt-a"/>
+<circle cx="313.9" cy="206.1" r="3" class="pt-a"/>
+<circle cx="242.0" cy="224.3" r="3" class="pt-a"/>
+<circle cx="343.8" cy="182.2" r="3" class="pt-a"/>
+<circle cx="294.2" cy="212.3" r="3" class="pt-a"/>
+<circle cx="331.7" cy="172.7" r="3" class="pt-a"/>
+<circle cx="354.5" cy="168.0" r="3" class="pt-a"/>
+<circle cx="268.9" cy="226.4" r="3" class="pt-a"/>
+<circle cx="324.2" cy="189.3" r="3" class="pt-a"/>
+<circle cx="150.5" cy="290.3" r="3" class="pt-a"/>
+<circle cx="395.8" cy="150.6" r="3" class="pt-a"/>
+<circle cx="336.4" cy="161.0" r="3" class="pt-a"/>
+<line x1="58" y1="352" x2="602" y2="352" class="pl-ax"/><line x1="58" y1="18" x2="58" y2="352" class="pl-ax"/>
+<text x="330" y="391" class="pl-lab" text-anchor="middle">ahorro externo = −CC (% PIB)</text>
+<text x="15" y="185" class="pl-lab" text-anchor="middle" transform="rotate(-90 15 185)">ahorro externo = I − S (% PIB)</text>
+<text x="459" y="49" class="pl-note">línea de 45°</text></svg>
+<figcaption>Si la identidad fuera exacta en los datos, todos los puntos caerían sobre la línea punteada.
+En rojo, las observaciones que se apartan más de 3 puntos del PIB.</figcaption>
+</figure>
+
+<details><summary>Si es una identidad exacta, ¿por qué la discrepancia no es cero?</summary>
+<div class="dbody">
+<p>Por tres razones, y ninguna es un error de ustedes ni del Banco Mundial:</p>
+<ul>
+<li><strong>Discrepancia estadística.</strong> Cuentas nacionales y balance de pagos se compilan con fuentes
+distintas y no cierran perfectamente.</li>
+<li><strong>Transferencias corrientes.</strong> El ahorro nacional bruto las incluye; según cómo se definan
+los agregados, aparece la brecha.</li>
+<li><strong>Renta de factores.</strong> El tratamiento de la renta neta del exterior difiere entre series.</li>
+</ul>
+<p>Lo que se evalúa no es que la discrepancia sea chica, sino que la <strong>reporten, la expliquen</strong>
+y elijan una medida como principal justificando por qué.</p>
+</div></details>
+
+<div class="note"><span class="tag">Para entender la identidad desde cero</span>
+<p>Krugman, Obstfeld y Melitz, <em>Economía Internacional</em>, capítulo de contabilidad nacional y balanza
+de pagos. Construye la identidad partiendo de la economía cerrada, con datos reales, antes de abrir al
+sector externo.</p></div>
+
+<h2 class="sec" id="datos"><span class="n">4</span>Datos</h2>
+
+<div class="tw"><table>
+<thead><tr><th>Fuente</th><th>Qué tiene</th><th>Acceso</th></tr></thead>
+<tbody>
+<tr><td><strong>WDI</strong> · Banco Mundial</td><td>Cuenta corriente, ahorro, inversión, PIB, apertura, población, inflación</td><td><a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">databank.worldbank.org</a></td></tr>
+<tr><td><strong>PWT</strong> · Groningen</td><td>PIB per cápita a PPA, capital, PTF. 185 países, 1950–2023</td><td><a href="https://www.rug.nl/ggdc/productivity/pwt/" target="_blank" rel="noopener">rug.nl/ggdc</a></td></tr>
+<tr><td><strong>IFS</strong> · FMI</td><td>Estadísticas financieras internacionales, balance de pagos</td><td><a href="https://data.imf.org" target="_blank" rel="noopener">data.imf.org</a></td></tr>
+</tbody></table></div>
+
+<h3>Variables</h3>
+<div class="tw"><table>
+<thead><tr><th>Variable</th><th>Código WDI</th><th>Descripción</th></tr></thead>
+<tbody>
+<tr><td><code>gdp_pc2021</code></td><td><code>NY.GDP.PCAP.PP.KD</code></td><td>PIB per cápita PPA, int$ constantes</td></tr>
+<tr><td><code>cab</code></td><td><code>BN.CAB.XOKA.GD.ZS</code></td><td>Saldo de cuenta corriente (% PIB)</td></tr>
+<tr><td><code>gns</code></td><td><code>NY.GNS.ICTR.ZS</code></td><td>Ahorro nacional bruto (% PIB)</td></tr>
+<tr><td><code>inv</code></td><td><code>NE.GDI.TOTL.ZS</code></td><td>Formación bruta de capital (% PIB)</td></tr>
+<tr><td><code>exports</code> · <code>imports</code></td><td><code>NE.EXP.GNFS.ZS</code> · <code>NE.IMP.GNFS.ZS</code></td><td>Exportaciones e importaciones (% PIB)</td></tr>
+<tr><td><code>pop_gr</code></td><td><code>SP.POP.GROW</code></td><td>Crecimiento poblacional (%)</td></tr>
+<tr><td><code>infl</code></td><td><code>FP.CPI.TOTL.ZG</code></td><td>Inflación, precios al consumidor (%)</td></tr>
+</tbody></table></div>
+
+<h2 class="sec" id="stata"><span class="n">5</span>Armar el panel</h2>
+
+<h3>Antes de importar</h3>
+<ul>
+<li>Nombres de variables en minúscula y en la primera fila. Sin espacios: usen guión bajo.</li>
+<li>Verifiquen que el separador decimal coincida entre Excel y Stata: <code>set dp comma</code> o <code>set dp period</code>.</li>
+<li>Si guardan como CSV, Excel avisa que se pierden las hojas múltiples. Es lo que buscan.</li>
+</ul>
+
+<div class="tabs"><div class="tabbar" role="tablist" aria-label="Formas de importar datos">
+<button role="tab" aria-selected="true">Excel</button>
+<button role="tab" aria-selected="false">CSV</button>
+<button role="tab" aria-selected="false">API del Banco Mundial</button></div>
+<div class="tabpanel" role="tabpanel"><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>import excel using datos_WB_2026.xlsx, first sheet(1) clear
+
+label var gdp_pc2021 "PIB per capita PPA"
+label var cab        "Cuenta corriente (%PIB)"
+label var gns        "Ahorro nacional bruto (%PIB)"
+label var inv        "Inversion (%PIB)"
+
+sum
+save wb_data.dta, replace</code></pre></div></div>
+<div class="tabpanel" role="tabpanel" hidden><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>import delimited using datos_WB_2026.csv, clear
+save wb_data.dta, replace</code></pre></div></div>
+<div class="tabpanel" role="tabpanel" hidden><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Requiere: ssc install wbopendata
+wbopendata, language(en) long clear ///
+    indicator(NY.GDP.PCAP.PP.KD;BN.CAB.XOKA.GD.ZS;NY.GNS.ICTR.ZS;NE.GDI.TOTL.ZS)
+
+* Los nombres vienen en minuscula con guiones bajos: bn_cab_xoka_gd_zs
+describe</code></pre></div><div class="note warn"><span class="tag">Atención</span>
+<p>Es la vía más reproducible, pero los nombres que devuelve el paquete cambian entre versiones.
+Corran <code>describe</code> siempre antes de renombrar.</p></div></div></div>
+<h3>Unir, agregar, reorganizar</h3>
+<div class="tabs"><div class="tabbar" role="tablist" aria-label="Operaciones sobre la base">
+<button role="tab" aria-selected="true">merge</button>
+<button role="tab" aria-selected="false">collapse</button>
+<button role="tab" aria-selected="false">reshape</button></div>
+<div class="tabpanel" role="tabpanel"><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>use wb_data.dta, clear
+merge m:1 ccode using meta.dta, keep(match master) nogen</code></pre></div><p class="sub"><code>append</code> hace lo otro: pega bases una debajo de la otra, agrega observaciones.</p></div><div class="tabpanel" role="tabpanel" hidden><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>collapse gdp_pc2021 (max) cab_max = cab (p50) inv_p50 = inv, by(region)
+list</code></pre></div></div><div class="tabpanel" role="tabpanel" hidden><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* de largo a ancho
+keep ccode year cab
+rename cab cc
+reshape wide cc, i(ccode) j(year)
+
+* y de vuelta
+reshape long cc, i(ccode) j(year)</code></pre></div></div></div>
+<h3>Definir el panel y crear variables</h3>
+<div class="codewrap"><div class="hd"><span class="fn">setup.do</span><button class="copy" type="button">Copiar</button></div><pre><code>use wb_data.dta, clear
+merge m:1 ccode using meta.dta, keep(match master) nogen
+
+egen id = group(ccode)
+order id ccode year
+tsset id year, yearly
+
+gen gdp_gr = ((gdp_pc2021 / L.gdp_pc2021) - 1) * 100
+egen open  = rowtotal(exports imports)
+gen lny    = ln(gdp_pc2021)
+gen linfl  = ln(1 + infl/100)
+
+label var gdp_gr "Crecimiento (PIBpc)"
+label var open   "Apertura comercial (%PIB)"
+label var lny    "Log PIB per capita PPA"</code></pre></div>
+<div class="note"><span class="tag">Decisión, no detalle</span>
+<p><code>linfl</code> acota el efecto de las hiperinflaciones sin descartar observaciones. Es una decisión de
+construcción de datos y <strong>tiene que estar declarada</strong> en el informe.</p></div>
+
+<h3 id="ef">Efectos fijos: por qué importan</h3>
+
+<p>Un panel tiene varias unidades observadas en el tiempo: <strong>doble variabilidad</strong>. Eso permite
+controlar por efectos no observables que varían sólo por individuo. Si no los incluimos, hay
+<strong>sesgo por variable omitida</strong>.</p>
+
+<div class="eq">
+$$ y_{it} \;=\; x'_{it}\,\beta \;+\; \mu_i \;+\; \varepsilon_{it} $$
+<span class="cap">El estimador de efectos fijos es MCO con $(N-1)$ variables binarias por individuo:
+un intercepto distinto para cada uno.</span>
+</div>
+
+<p>La <strong>transformación <em>within</em></strong> muestra qué está pasando: controlar por efectos fijos
+es idéntico a restarle a cada observación la media de su individuo. La identificación pasa a venir sólo de
+la variación <em>dentro</em> de cada país.</p>
+
+<figure><svg viewBox="0 0 640 380" role="img" aria-label="La recta de MCO agrupado es más plana que las rectas estimadas dentro de cada país">
+<rect x="52" y="18" width="570" height="318" class="pl-bg"/>
+<line x1="52" y1="18.0" x2="622" y2="18.0" class="pl-grid"/>
+<line x1="52" y1="97.5" x2="622" y2="97.5" class="pl-grid"/>
+<line x1="52" y1="177.0" x2="622" y2="177.0" class="pl-grid"/>
+<line x1="52" y1="256.5" x2="622" y2="256.5" class="pl-grid"/>
+<line x1="52" y1="336.0" x2="622" y2="336.0" class="pl-grid"/>
+<circle cx="505.3" cy="128.8" r="3.4" class="pt-a"/>
+<circle cx="498.4" cy="52.6" r="3.4" class="pt-a"/>
+<circle cx="254.4" cy="251.7" r="3.4" class="pt-a"/>
+<circle cx="447.4" cy="152.5" r="3.4" class="pt-a"/>
+<circle cx="558.2" cy="97.0" r="3.4" class="pt-a"/>
+<circle cx="496.1" cy="120.5" r="3.4" class="pt-a"/>
+<circle cx="334.6" cy="217.9" r="3.4" class="pt-a"/>
+<circle cx="457.6" cy="133.8" r="3.4" class="pt-a"/>
+<circle cx="430.9" cy="151.1" r="3.4" class="pt-a"/>
+<circle cx="449.8" cy="176.2" r="3.4" class="pt-a"/>
+<circle cx="367.6" cy="177.3" r="3.4" class="pt-a"/>
+<circle cx="547.7" cy="51.8" r="3.4" class="pt-a"/>
+<circle cx="259.3" cy="279.4" r="3.4" class="pt-a"/>
+<circle cx="438.0" cy="163.2" r="3.4" class="pt-a"/>
+<circle cx="298.6" cy="265.3" r="3.4" class="pt-a"/>
+<circle cx="408.1" cy="222.6" r="3.4" class="pt-a"/>
+<circle cx="347.7" cy="214.0" r="3.4" class="pt-a"/>
+<circle cx="235.1" cy="302.2" r="3.4" class="pt-a"/>
+<circle cx="488.9" cy="140.6" r="3.4" class="pt-a"/>
+<circle cx="229.7" cy="298.7" r="3.4" class="pt-a"/>
+<circle cx="305.4" cy="236.3" r="3.4" class="pt-a"/>
+<circle cx="377.1" cy="263.8" r="3.4" class="pt-a"/>
+<circle cx="420.0" cy="243.6" r="3.4" class="pt-a"/>
+<circle cx="445.9" cy="123.8" r="3.4" class="pt-a"/>
+<circle cx="593.1" cy="36.3" r="3.4" class="pt-a"/>
+<circle cx="403.9" cy="146.7" r="3.4" class="pt-a"/>
+<circle cx="357.5" cy="245.5" r="3.4" class="pt-a"/>
+<circle cx="291.7" cy="249.0" r="3.4" class="pt-a"/>
+<circle cx="278.7" cy="284.3" r="3.4" class="pt-a"/>
+<circle cx="378.9" cy="233.8" r="3.4" class="pt-a"/>
+<circle cx="349.7" cy="207.8" r="3.4" class="pt-a"/>
+<circle cx="472.0" cy="137.0" r="3.4" class="pt-a"/>
+<circle cx="492.5" cy="137.4" r="3.4" class="pt-a"/>
+<circle cx="451.9" cy="124.7" r="3.4" class="pt-a"/>
+<circle cx="376.4" cy="258.4" r="3.4" class="pt-a"/>
+<circle cx="309.3" cy="212.9" r="3.4" class="pt-a"/>
+<circle cx="557.4" cy="66.4" r="3.4" class="pt-a"/>
+<circle cx="358.8" cy="203.0" r="3.4" class="pt-a"/>
+<circle cx="440.0" cy="106.9" r="3.4" class="pt-a"/>
+<circle cx="440.5" cy="173.7" r="3.4" class="pt-a"/>
+<circle cx="361.1" cy="136.0" r="3.4" class="pt-b"/>
+<circle cx="318.1" cy="155.5" r="3.4" class="pt-b"/>
+<circle cx="373.0" cy="82.4" r="3.4" class="pt-b"/>
+<circle cx="113.1" cy="317.7" r="3.4" class="pt-b"/>
+<circle cx="311.9" cy="144.8" r="3.4" class="pt-b"/>
+<circle cx="361.8" cy="158.5" r="3.4" class="pt-b"/>
+<circle cx="145.2" cy="259.5" r="3.4" class="pt-b"/>
+<circle cx="327.4" cy="152.8" r="3.4" class="pt-b"/>
+<circle cx="370.2" cy="110.6" r="3.4" class="pt-b"/>
+<circle cx="391.6" cy="91.5" r="3.4" class="pt-b"/>
+<circle cx="221.7" cy="206.0" r="3.4" class="pt-b"/>
+<circle cx="293.8" cy="141.5" r="3.4" class="pt-b"/>
+<circle cx="314.1" cy="237.3" r="3.4" class="pt-b"/>
+<circle cx="314.0" cy="162.1" r="3.4" class="pt-b"/>
+<circle cx="194.1" cy="273.9" r="3.4" class="pt-b"/>
+<circle cx="400.9" cy="123.1" r="3.4" class="pt-b"/>
+<circle cx="305.0" cy="134.2" r="3.4" class="pt-b"/>
+<circle cx="343.9" cy="147.7" r="3.4" class="pt-b"/>
+<circle cx="209.6" cy="229.4" r="3.4" class="pt-b"/>
+<circle cx="280.2" cy="171.9" r="3.4" class="pt-b"/>
+<circle cx="181.4" cy="233.7" r="3.4" class="pt-b"/>
+<circle cx="370.4" cy="198.8" r="3.4" class="pt-b"/>
+<circle cx="267.5" cy="167.8" r="3.4" class="pt-b"/>
+<circle cx="366.4" cy="99.1" r="3.4" class="pt-b"/>
+<circle cx="325.3" cy="197.9" r="3.4" class="pt-b"/>
+<circle cx="80.9" cy="285.1" r="3.4" class="pt-b"/>
+<circle cx="486.1" cy="71.3" r="3.4" class="pt-b"/>
+<circle cx="226.2" cy="176.2" r="3.4" class="pt-b"/>
+<circle cx="421.0" cy="81.5" r="3.4" class="pt-b"/>
+<circle cx="288.2" cy="141.1" r="3.4" class="pt-b"/>
+<circle cx="373.5" cy="124.2" r="3.4" class="pt-b"/>
+<circle cx="283.1" cy="135.7" r="3.4" class="pt-b"/>
+<circle cx="348.0" cy="122.3" r="3.4" class="pt-b"/>
+<circle cx="315.6" cy="174.5" r="3.4" class="pt-b"/>
+<circle cx="310.8" cy="195.1" r="3.4" class="pt-b"/>
+<circle cx="122.4" cy="251.5" r="3.4" class="pt-b"/>
+<circle cx="267.5" cy="185.6" r="3.4" class="pt-b"/>
+<circle cx="213.4" cy="241.1" r="3.4" class="pt-b"/>
+<circle cx="330.1" cy="186.9" r="3.4" class="pt-b"/>
+<circle cx="321.2" cy="205.7" r="3.4" class="pt-b"/>
+<line x1="66.4" y1="305.3" x2="607.6" y2="61.5" class="ln-pool"/>
+<line x1="229.7" y1="303.7" x2="593.1" y2="50.2" class="ln-a"/>
+<line x1="80.9" y1="297.7" x2="486.1" y2="62.7" class="ln-b"/>
+<line x1="52" y1="336" x2="622" y2="336" class="pl-ax"/><line x1="52" y1="18" x2="52" y2="336" class="pl-ax"/>
+<text x="337" y="368" class="pl-lab" text-anchor="middle">Ahorro externo</text>
+<text x="15" y="177" class="pl-lab" text-anchor="middle" transform="rotate(-90 15 177)">Crecimiento</text>
+<g class="lgd"><rect x="64" y="28" width="228" height="68" rx="6"/><circle cx="80" cy="45" r="4" class="pt-a"/><text x="92" y="49">País A · dentro: β ≈ 1.10</text><circle cx="80" cy="65" r="4" class="pt-b"/><text x="92" y="69">País B · dentro: β ≈ 0.91</text><line x1="74" y1="83" x2="86" y2="83" class="ln-pool"/><text x="92" y="87">MCO agrupado: β ≈ 0.71</text></g></svg>
+<figcaption><strong>El mismo dato, dos respuestas.</strong> Dentro de cada país la pendiente es cercana a 1.
+La recta de MCO agrupado, que ignora la heterogeneidad, es visiblemente más plana porque mezcla la variación
+dentro de cada país con las diferencias permanentes entre ellos. Guarden esta figura: en la sección 6 van a
+ver el mismo fenómeno con datos reales.</figcaption>
+</figure>
+
+<h2 class="sec" id="descriptivo"><span class="n">6</span>Del dato a la evidencia</h2>
+
+<h3>Armar la muestra</h3>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>keep if inrange(year, 2000, 2023)
+
+egen nobs = count(gdp_gr) if !missing(sext, lny), by(id)
+bysort id: egen nobs_max = max(nobs)
+keep if nobs_max &gt;= 15
+
+egen tag = tag(ccode)
+count if tag</code></pre></div>
+
+<div class="note warn"><span class="tag">Declarar siempre</span>
+<p>Ese filtro de 15 años es un <strong>criterio de exclusión</strong>. Reporten cuántos países quedan, cuáles
+se cayeron y por qué. Si los que se caen son sistemáticamente los más pobres, tienen un problema de
+selección que hay que mencionar entre las limitaciones.</p></div>
+
+<h3>Comparar grupos</h3>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>table (region) (result), ///
+    statistic(mean gdp_gr sext gns inv) ///
+    statistic(n gdp_gr) nformat(%6.2f mean)
+
+table (incomelevel) (result), ///
+    statistic(mean gdp_gr sext gns inv) ///
+    statistic(n gdp_gr) nformat(%6.2f mean)</code></pre></div>
+
+<details><summary>Promedios simples o ponderados: ¿por qué la diferencia importa?</summary>
+<div class="dbody">
+<p>Lo de arriba es un promedio <strong>simple</strong>: Luxemburgo pesa lo mismo que China.</p>
+<p>Si ponderan por PIB, el resultado pasa a estar dominado por China y Estados Unidos, que tienen saldos de
+cuenta corriente <strong>grandes y de signo opuesto</strong>. El promedio del grupo puede cambiar de signo
+según qué ponderación usen.</p>
+<p>Ninguna es «la correcta»: responden preguntas distintas. El promedio simple describe al país típico, el
+ponderado describe al agregado. Calculen los dos y digan cuál usan y por qué.</p>
+</div></details>
+
+<h3>Dos gráficos que dicen cosas distintas</h3>
+<p>El primero mide diferencias <em>entre</em> países: un punto por país. El segundo mide la variación
+<em>dentro</em> de cada país, después de quitar las diferencias permanentes y los choques globales de cada
+año.</p>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* (a) relacion ENTRE paises: un punto por pais
+preserve
+collapse (mean) gdp_gr sext, by(ccode incomelevel)
+gen byte hic = (incomelevel == "HIC")
+gen byte arg = (ccode == "ARG")
+
+two (scatter gdp_gr sext if hic==0, msize(small) mcolor(stc1%50))  ///
+    (scatter gdp_gr sext if hic==1, msize(small) mcolor(stc2%50))  ///
+    (scatter gdp_gr sext if arg==1, msize(medium) mcolor(black)    ///
+        msymbol(D) mlabel(ccode) mlabpos(12))                       ///
+    (lfit gdp_gr sext, lcolor(black) lpattern(dash)),               ///
+    legend(order(1 "En desarrollo" 2 "Ingreso alto" 3 "Argentina")  ///
+        rows(1) pos(6)) scheme(stcolor)                             ///
+    xtitle("Ahorro externo promedio (%PIB)")                        ///
+    ytitle("Crecimiento promedio PIB pc (%)")
+restore</code></pre></div>
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* (b) relacion DENTRO de cada pais: efectos fijos parcializados
+preserve
+keep if !missing(gdp_gr, sext)
+
+qui reg gdp_gr i.id i.year
+predict double g_res, resid
+qui reg sext i.id i.year
+predict double s_res, resid
+
+xtile bin = s_res, nq(20)
+collapse (mean) g_res s_res, by(bin)
+
+two (scatter g_res s_res, mcolor(stc1)) ///
+    (lfit g_res s_res, lcolor(stc2)),   ///
+    legend(off) scheme(stcolor)          ///
+    xtitle("Ahorro externo (residuo de EF pais y anio)") ///
+    ytitle("Crecimiento (residuo de EF pais y anio)")
+restore</code></pre></div>
+
+<div class="note"><span class="tag">La observación más valiosa de la sección</span>
+<p><strong>Comparen las dos pendientes.</strong> Si difieren en signo o en magnitud, expliquen por qué: es
+exactamente el fenómeno de la figura de efectos fijos, ahora con datos reales. Y es la mejor introducción
+posible a la sección siguiente.</p></div>
+
+<h3>Argentina</h3>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>preserve
+keep if ccode == "ARG"
+
+two (bar sext year, color(stc1%60) yaxis(1))                    ///
+    (line gdp_gr year, lcolor(stc2) lwidth(medthick) yaxis(2)), ///
+    yline(0, lcolor(gs10) axis(1)) scheme(stcolor)               ///
+    legend(order(1 "Ahorro externo (%PIB)" 2 "Crecimiento pc (%)") rows(1) pos(6)) ///
+    xtitle("") ytitle("%PIB", axis(1)) ytitle("% anual", axis(2))
+restore</code></pre></div>
+
+<p>Identifiquen los episodios de mayor ahorro externo y miren <strong>qué pasó en los años siguientes</strong>.
+Eso es el enfoque de episodios de Cavallo, Eichengreen y Panizza aplicado a un caso.</p>
+
+<h2 class="sec" id="estimacion"><span class="n">7</span>Estimación</h2>
+
+<div class="eq">
+$$ g_{it} \;=\; \alpha \;+\; \beta\,S^{ext}_{it} \;+\; \gamma\,\ln y_{i,t-1} \;+\; \delta' X_{it}
+\;+\; \mu_i \;+\; \tau_t \;+\; \varepsilon_{it} $$
+<span class="cap">$\mu_i$ absorbe todo lo permanente de cada país. $\tau_t$ absorbe los choques globales
+comunes. $\beta$ es el coeficiente de interés.</span>
+</div>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtset id year, yearly
+eststo clear
+
+* (1) MCO agrupado
+eststo m1: reg gdp_gr sext, vce(cluster id)
+
+* (2) EF de pais
+eststo m2: xtreg gdp_gr sext, fe rob
+
+* (3) EF de pais y de anio
+eststo m3: xtreg gdp_gr sext i.year, fe rob
+
+* (4) EF + controles
+eststo m4: xtreg gdp_gr sext L.lny open pop_gr linfl i.year, fe rob</code></pre></div>
+
+<div class="note ok"><span class="tag">Dato útil</span>
+<p>En <code>xtreg, fe rob</code> Stata usa automáticamente errores estándar <strong>agrupados por
+panel</strong>. No hace falta escribir <code>vce(cluster id)</code>.</p></div>
+
+<h3>La quinta: cambiar una decisión de construcción de datos</h3>
+<p>Una de las cinco especificaciones tiene que variar una decisión sobre <strong>cómo se construyeron los
+datos</strong>, no un control. Acá pasamos de datos anuales a promedios quinquenales no superpuestos.</p>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>preserve
+gen periodo = 2000 + 5*floor((year - 2000)/5)
+bysort id periodo (year): gen lny_ini = lny[1]
+
+collapse (mean) gdp_gr sext open pop_gr linfl (first) lny_ini, by(id periodo)
+
+xtset id periodo, delta(5)
+eststo m5: xtreg gdp_gr sext lny_ini open pop_gr linfl i.periodo, fe rob
+restore</code></pre></div>
+
+<details><summary>¿Por qué esto es sustantivo y no un capricho?</summary>
+<div class="dbody">
+<p>Los datos anuales están dominados por la relación <strong>mecánica de corto plazo</strong> entre absorción
+y saldo externo: un año de recesión comprime importaciones y mejora la cuenta corriente sin que haya pasado
+nada estructural.</p>
+<p>La pregunta del trabajo es de mediano plazo. Los promedios quinquenales filtran esa alta frecuencia.</p>
+<p><strong>Si el coeficiente cambia al pasar de una frecuencia a la otra, eso es un resultado</strong>, no un
+problema: indica que la conclusión depende de qué horizonte se considere relevante. Escríbanlo así.</p>
+</div></details>
+
+<h3>Una sola tabla</h3>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>esttab m1 m2 m3 m4 m5, ///
+    se bracket r2 star(* 0.10 ** 0.05 *** 0.01) label ///
+    keep(sext L.lny lny_ini open pop_gr linfl) ///
+    mtitles("MCO" "EF pais" "EF pais+anio" "+ controles" "Quinquenios")
+
+esttab m1 m2 m3 m4 m5 using regs_tp1.csv, ///
+    se bracket r2 star(* 0.10 ** 0.05 *** 0.01) label replace</code></pre></div>
+
+<p>Interpreten en términos <strong>cuantitativos</strong>: cuántos puntos porcentuales de crecimiento implica
+un punto porcentual más de ahorro externo, y si esa magnitud es relevante frente al desvío estándar de la
+variable. Comparen columna contra columna explicando qué cambia y por qué.</p>
+
+<h3 id="trampa">La trampa de la inversión</h3>
+
+<div class="note danger"><span class="tag">El error que más se repite</span>
+<p>Meter la inversión como control sin advertir lo que implica. Por la identidad
+$S^{ext} = I - S^{n}$, condicionar en $I$ convierte el coeficiente en el efecto de <em>sustituir</em> ahorro
+doméstico por externo manteniendo la inversión total constante.</p>
+<p>Es una pregunta legítima. <strong>No es la pregunta del trabajo.</strong></p></div>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>eststo clear
+eststo sin_inv: xtreg gdp_gr sext L.lny open pop_gr linfl i.year, fe rob
+eststo con_inv: xtreg gdp_gr sext L.lny inv open pop_gr linfl i.year, fe rob
+
+esttab sin_inv con_inv, se bracket r2 label keep(sext L.lny inv) ///
+    mtitles("Sin inversion" "Con inversion")</code></pre></div>
+
+<p class="sub">Si el coeficiente cambia mucho entre las dos columnas, no es un problema de robustez: son dos
+preguntas distintas. Escríbanlo así en el informe.</p>
+
+<h2 class="sec" id="problemas"><span class="n">8</span>Qué puede salir mal</h2>
+
+<div class="grid g3">
+  <div class="card"><h4>Causalidad inversa</h4><p>La cuenta corriente responde al crecimiento esperado tanto
+  como podría afectarlo. Es el mecanismo mismo de la lectura benigna.</p></div>
+  <div class="card"><h4>Variables omitidas</h4><p>Términos de intercambio y precios de <em>commodities</em>
+  mueven las dos variables a la vez. Los efectos fijos de país no los capturan: varían en el tiempo.</p></div>
+  <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 3 sesga $\beta$ hacia cero.
+  Un coeficiente no significativo puede ser uno atenuado.</p></div>
+</div>
+
+<p>Un diagnóstico rápido y muy informativo: si el ahorro externo es muy persistente, los efectos fijos de
+país se comen buena parte de su variación útil.</p>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtreg sext L.sext, fe rob</code></pre></div>
+
+<h2 class="sec" id="cierre"><span class="n">9</span>Antes de entregar</h2>
+
+<div class="check">
+  <div class="hdr"><strong>Checklist</strong><span class="cnt">0 de 10</span></div>
+  <label><input type="checkbox"><span>Las cinco consignas son cinco secciones, en orden.</span></label>
+  <label><input type="checkbox"><span>Máximo 12 carillas. La 13 no se corrige.</span></label>
+  <label><input type="checkbox"><span>Al menos 5 trabajos en la revisión, con metodología y limitaciones.</span></label>
+  <label><input type="checkbox"><span>Formato de cita uniforme en todo el documento.</span></label>
+  <label><input type="checkbox"><span>Reportamos la discrepancia entre las dos medidas de ahorro externo.</span></label>
+  <label><input type="checkbox"><span>Declaramos los criterios de exclusión y cuántos países quedaron.</span></label>
+  <label><input type="checkbox"><span>Las cinco especificaciones están en una sola tabla.</span></label>
+  <label><input type="checkbox"><span>Una de las cinco varía una decisión de construcción de datos.</span></label>
+  <label><input type="checkbox"><span>Los coeficientes están interpretados en magnitudes, no sólo en signos.</span></label>
+  <label><input type="checkbox"><span>El <code>.do</code> corre de punta a punta e incluimos la declaración de uso de IA.</span></label>
+</div>
+
+<div class="note ok"><span class="tag">Último consejo</span>
+<p>Un trabajo que concluya «la relación no es robusta» y lo demuestre bien vale tanto como uno que encuentre
+un efecto significativo. Se evalúa el razonamiento, no el signo del coeficiente.</p></div>
+
+<footer>
+<p><strong>Política Económica II</strong> · Facultad de Ciencias Económicas · Universidad Nacional de La Plata · 2026</p>
+<p>Clase 1. Todas las fuentes citadas son de acceso público y gratuito.</p>
+</footer>
+
+</main>
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+<script>
+/* tema */
+var theme='light';
+var tb=document.getElementById('themeBtn');
+if(tb){tb.addEventListener('click',function(){
+  theme=theme==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',theme);
+  var l=this.querySelector('.tl'); if(l) l.textContent=theme==='light'?'Oscuro':'Claro';
+  this.setAttribute('aria-label',theme==='light'?'Activar tema oscuro':'Activar tema claro');
+});}
+
+/* resaltado Stata */
+var CMDS=('use save clear import export delimited excel merge append collapse reshape preserve restore keep '+
+'drop rename order sort gsort by bysort egen gen generate replace label summarize sum tabulate tab table '+
+'collect list count describe codebook pwcorr correlate regress reg xtreg xtset tsset tsfilter hp predict '+
+'eststo esttab estimates etable local global set display di if in of using foreach forvalues while return '+
+'quietly qui noisily capture confirm assert duplicates twoway two scatter line lfit bar function connected '+
+'histogram graph levelsof xtile inrange missing max min mean tsline dfuller pperron rowtotal group'
+).split(' ');
+var CRE=new RegExp('\\b('+CMDS.join('|')+')\\b','g');
+function hl(s){return s.split('\n').map(function(l){
+  var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if(/^\s*\*/.test(e))return '<span class="t-com">'+e+'</span>';
+  var c='',m=e.match(/(\s\/\/.*)$/);
+  if(m){c='<span class="t-com">'+m[1]+'</span>';e=e.slice(0,e.length-m[1].length);}
+  var st=[];
+  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '\u0000'+(st.length-1)+'\u0000';});
+  e=e.replace(/\$[A-Za-z_][A-Za-z0-9_]*/g,'<span class="t-mac">$&</span>');
+  e=e.replace(/`[^'`]*'/g,'<span class="t-mac">$&</span>');
+  e=e.replace(CRE,'<span class="t-cmd">$1</span>');
+  e=e.replace(/(,\s*)([a-z][a-zA-Z0-9_]*)/g,'$1<span class="t-opt">$2</span>');
+  e=e.replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="t-num">$1</span>');
+  e=e.replace(/\u0000(\d+)\u0000/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
+  return e+c;}).join('\n');}
+document.querySelectorAll('pre code').forEach(function(c){c.dataset.raw=c.textContent;c.innerHTML=hl(c.textContent);});
+
+/* copiar */
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var c=b.closest('.codewrap').querySelector('code'),t=c.dataset.raw||c.textContent;
+  function ok(){b.textContent='Copiado';b.classList.add('done');
+    setTimeout(function(){b.textContent='Copiar';b.classList.remove('done');},1600);}
+  function fb(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;
+    document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(a);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb);}else{fb();}
+});});
+
+/* pestañas */
+document.querySelectorAll('.tabs').forEach(function(box){
+  var bs=box.querySelectorAll('.tabbar button'),ps=box.querySelectorAll('.tabpanel');
+  bs.forEach(function(b,i){
+    b.addEventListener('click',function(){bs.forEach(function(x,j){
+      x.setAttribute('aria-selected',j===i?'true':'false');ps[j].hidden=j!==i;});});
+    b.addEventListener('keydown',function(ev){
+      var d=ev.key==='ArrowRight'?1:ev.key==='ArrowLeft'?-1:0;
+      if(d){ev.preventDefault();var k=(i+d+bs.length)%bs.length;bs[k].focus();bs[k].click();}});
+  });
+});
+
+/* progreso */
+var bar=document.getElementById('bar');
+if(bar){function pg(){var h=document.documentElement.scrollHeight-window.innerHeight;
+  bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+'%';}
+  window.addEventListener('scroll',pg,{passive:true});pg();}
+
+/* scrollspy */
+var links=[].slice.call(document.querySelectorAll('.toc a')),map={};
+links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var tg=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
+if(tg.length&&'IntersectionObserver' in window){
+  var seen={};
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){seen[e.target.id]=e.isIntersecting;});
+    for(var i=0;i<tg.length;i++){if(seen[tg[i].id]){
+      links.forEach(function(a){a.classList.remove('on');});
+      if(map[tg[i].id])map[tg[i].id].classList.add('on');break;}}
+  },{rootMargin:'-78px 0px -68% 0px'});
+  tg.forEach(function(t){io.observe(t);});
+}
+
+/* índice móvil */
+var tt=document.getElementById('tocBtn'),toc=document.getElementById('toc');
+if(tt&&toc){
+  tt.addEventListener('click',function(){var o=toc.classList.toggle('open');
+    tt.setAttribute('aria-expanded',o?'true':'false');});
+  toc.addEventListener('click',function(e){if(e.target.tagName==='A'&&window.innerWidth<=900){
+    toc.classList.remove('open');tt.setAttribute('aria-expanded','false');}});
+}
+
+/* checklist */
+document.querySelectorAll('.check').forEach(function(b){
+  var ins=b.querySelectorAll('input'),o=b.querySelector('.cnt');
+  function u(){var n=0;ins.forEach(function(i){if(i.checked)n++;});
+    o.textContent=n+' de '+ins.length;o.style.color=n===ins.length?'var(--ok)':'';}
+  ins.forEach(function(i){i.addEventListener('change',u);});u();
+});
+</script>
+</body>
+</html>
