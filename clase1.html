@@ -772,14 +772,10 @@ tsset id year, yearly
 gen gdp_gr = ((gdp_pc2021 / L.gdp_pc2021) - 1) * 100
 egen open  = rowtotal(exports imports)
 gen lny    = ln(gdp_pc2021)
-gen linfl  = ln(1 + infl/100)
 
 label var gdp_gr "Crecimiento (PIBpc)"
 label var open   "Apertura comercial (%PIB)"
 label var lny    "Log PIB per capita PPA"</code></pre></div>
-<div class="note"><span class="tag">Decisión, no detalle</span>
-<p><code>linfl</code> acota el efecto de las hiperinflaciones sin descartar observaciones. Es una decisión de
-construcción de datos y <strong>tiene que estar declarada</strong> en el informe.</p></div>
 
 <h3 id="ef">Efectos fijos: por qué importan</h3>
 
