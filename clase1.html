@@ -398,8 +398,8 @@ comparen antes de hacer cualquier otra cosa:</p>
 gen sext_is = inv - gns       // via identidad I - S
 gen disc    = sext - sext_is  // discrepancia
 
-label var sext    &quot;Ahorro externo (%PIB)&quot;
-label var sext_is &quot;Ahorro externo, medida I-S (%PIB)&quot;
+label var sext    "Ahorro externo (%PIB)"
+label var sext_is "Ahorro externo, medida I-S (%PIB)"
 
 sum sext sext_is disc
 pwcorr sext sext_is, sig</code></pre></div>
@@ -1148,13 +1148,15 @@ function hl(s){return s.split('\n').map(function(l){
   var c='',m=e.match(/(\s\/\/.*)$/);
   if(m){c='<span class="t-com">'+m[1]+'</span>';e=e.slice(0,e.length-m[1].length);}
   var st=[];
-  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '\u0000'+(st.length-1)+'\u0000';});
+  // 1. Agregamos 'STR' al marcador para blindarlo contra la regla de números
+  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '\u0000STR'+(st.length-1)+'\u0000';});
   e=e.replace(/\$[A-Za-z_][A-Za-z0-9_]*/g,'<span class="t-mac">$&</span>');
   e=e.replace(/`[^'`]*'/g,'<span class="t-mac">$&</span>');
   e=e.replace(CRE,'<span class="t-cmd">$1</span>');
   e=e.replace(/(,\s*)([a-z][a-zA-Z0-9_]*)/g,'$1<span class="t-opt">$2</span>');
   e=e.replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="t-num">$1</span>');
-  e=e.replace(/\u0000(\d+)\u0000/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
+  // 2. Buscamos el marcador con 'STR' para restaurar el texto correctamente
+  e=e.replace(/\u0000STR(\d+)\u0000/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
   return e+c;}).join('\n');}
 document.querySelectorAll('pre code').forEach(function(c){c.dataset.raw=c.textContent;c.innerHTML=hl(c.textContent);});
 
