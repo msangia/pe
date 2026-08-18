@@ -697,7 +697,7 @@ sector externo.</p></div>
 <tbody>
 <tr><td><strong>WDI</strong> · Banco Mundial</td><td>Cuenta corriente, ahorro, inversión, PIB, apertura, población, inflación</td><td><a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">databank.worldbank.org</a></td></tr>
 <tr><td><strong>PWT</strong> · Groningen</td><td>PIB per cápita a PPA, capital, PTF. 185 países, 1950–2023</td><td><a href="https://www.rug.nl/ggdc/productivity/pwt/" target="_blank" rel="noopener">rug.nl/ggdc</a></td></tr>
-<tr><td><strong>IFS</strong> · FMI</td><td>Estadísticas financieras internacionales, balance de pagos</td><td><a href="https://data.imf.org" target="_blank" rel="noopener">data.imf.org</a></td></tr>
+<tr><td><strong>IFS</strong> · FMI</td><td>Estadísticas financieras internacionales, balance de pagos</td><td><a href="https://data.imf.org/en/Datasets#t=coveo117bcfc4&sort=%40idata_publication_date%20descending&f:Topics=[International%20Financial%20Statistics%20(IFS)]" target="_blank" rel="noopener">data.imf.org</a></td></tr>
 </tbody></table></div>
 
 <h3>Variables</h3>
