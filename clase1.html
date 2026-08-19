@@ -311,9 +311,18 @@ footer p{margin:0 0 6px}
 <p><strong>Asistentes de IA.</strong> Permitidos para programar o depurar código. Es obligatorio un párrafo final declarando qué herramientas usaron y para qué.</p>
 <p>El grupo responde por cada línea de código y cada afirmación del texto. Una referencia que no existe, o un número que el código no reproduce, se evalúa como error propio.</p></div>
 
-<div class="note warn" id="ia"><span class="tag">La trampa de la productividad y la IA</span>
-<p>Un estudio reciente sobre casi 27.000 estudiantes demostró que usar IA generativa para resolver tareas eleva las notas del hogar en un 18% y ahorra un 30% del tiempo, pero <strong>reduce el rendimiento en exámenes a libro cerrado en un 20%</strong>[cite: 1]. En el largo plazo, el perjuicio sobre el aprendizaje acumulativo llega a mermar el rendimiento en un 24%[cite: 1].</p>
-<p>La penalización se concentra en quienes "tercerizan" el esfuerzo cognitivo (respuestas rápidas sin razonamiento)[cite: 1]. Úsenla como tutor para destrabar la sintaxis de Stata, no para que piense la economía empírica por ustedes, porque el aprendizaje (y la nota) proviene del esfuerzo del análisis.</p>
+<div class="note warn" id="ia"><span class="tag">La trampa de la productividad</span>
+<p>Un estudio con 26.811 estudiantes secundarios y 30 meses de datos de panel encontró que adoptar IA
+generativa sube las notas de las tareas domiciliarias un 18% y recorta el tiempo de resolución un 30%,
+pero <strong>baja las notas de los exámenes a libro cerrado un 20% en seis meses</strong>. El daño se
+concentra en quienes entregan mucho más rápido que el resto: los que usan IA y <em>mantienen</em> el
+tiempo de trabajo sacan mejores notas en las tareas y las mismas notas en los exámenes.</p>
+<p>La regla práctica no es sobre qué delegar sino sobre el tiempo. Si la IA les ahorra una hora,
+reinviértanla en el problema. El día que el trabajo salga en la mitad del tiempo y con mejor nota, ese es
+exactamente el patrón que el estudio identifica como costoso.</p>
+<p class="sub">Strömberg, Lei y Wu (2026), <em>The Generative AI Learning Penalty</em>, SSRN 6868618.
+<a href="https://papers.ssrn.com/sol3/Delivery.cfm/6868618.pdf?abstractid=6868618&amp;mirid=1">Preprint</a>. Es secundaria en China y la fecha de adopción es autorreportada: tómenlo
+como evidencia sugestiva, no como una ley sobre cursos universitarios.</p>
 </div>
 
 <h3>Reproducibilidad</h3>
@@ -334,7 +343,7 @@ el crecimiento. Ese desacuerdo entre teoría y evidencia es el tema del TP.</p>
 <p>¿Los países que financian su inversión con ahorro externo crecen más rápido, o crecen más los que la
 financian con ahorro propio?</p></div>
 
-<h3>Cinco trabajos para empezar</h3>
+<h3>Seis trabajos para empezar</h3>
 <p class="sub">No pueden ser los únicos. La revisión de literatura tiene que organizar un debate, no
 encadenar resúmenes.</p>
 
@@ -685,9 +694,12 @@ En rojo, las observaciones que se apartan más de 3 puntos del PIB.</figcaption>
 <ul>
 <li><strong>Discrepancia estadística.</strong> Cuentas nacionales y balance de pagos se compilan con fuentes
 distintas y no cierran perfectamente.</li>
-<li><strong>Transferencias corrientes.</strong> El ahorro nacional bruto las incluye; según cómo se definan
-los agregados, aparece la brecha.</li>
-<li><strong>Renta de factores.</strong> El tratamiento de la renta neta del exterior difiere entre paises.</li>
+<li><strong>La discrepancia estadística del PIB.</strong> Medido por el gasto y medido por la
+producción, el PIB no da igual, y esa brecha se traslada a la inversión y al ahorro expresados como
+porcentaje.</li>
+<li><strong>Capacidad estadística.</strong> La brecha no está repartida al azar: es chica en los países de
+ingreso alto y grande en los de ingreso bajo. No es un detalle contable, es el error de medición del que
+habla la sección 8.</li>
 </ul>
 </div></details>
 
@@ -900,12 +912,33 @@ count if tag</code></pre></div>
 <p>Ese filtro de 15 años es un <strong>criterio de exclusión</strong>. Reporten cuántos países quedan, cuáles se cayeron y por qué. Si los que se caen son sistemáticamente los más pobres, tienen un problema de selección que hay que mencionar entre las limitaciones.</p></div>
 
 <div class="note" id="sesgo"><span class="tag">Filtros y sesgo de selección</span>
-<p>Al depurar observaciones, recuerden la intuición empírica detrás de MCO:</p>
+<p>Van a tener que descartar observaciones. MCO promedia distancias verticales respecto de la recta, y de
+ahí salen cuatro casos que conviene distinguir:</p>
 <ul>
-  <li><strong>Filtrar por variables independientes ($X$):</strong> Reduce la muestra y la precisión, pero el estimador <strong>no se sesga</strong>, ya que no alteramos la distribución del término de error condicional a $X$.</li>
-  <li><strong>Filtrar por la variable dependiente ($Y$):</strong> Eliminar países solo porque "tuvieron recesiones muy fuertes" trunca asimétricamente los residuos. Como MCO promedia la distancia vertical de los datos respecto a la recta, esto <strong>distorsiona y aplana la pendiente estimada</strong>.</li>
+  <li><strong>Filtrar por una variable explicativa ($X$).</strong> No sesga $\beta$: no altera la
+  distribución del error condicional a $X$. Cuesta precisión, porque achica la varianza de $X$. Y tiene una
+  salvedad: si la relación no es lineal o la pendiente difiere entre grupos, recortar el rango de $X$ cambia
+  <em>qué</em> están estimando, aunque el estimador siga siendo insesgado en el rango que queda.</li>
+
+  <li><strong>Filtrar por la variable dependiente ($Y$).</strong> Descartar países porque «tuvieron
+  recesiones muy fuertes» trunca los residuos de un solo lado y <strong>aplana la pendiente</strong>. No lo
+  hagan.</li>
+
+  <li><strong>Filtrar por un tercer criterio, que es el caso normal.</strong> «Al menos 15 años de datos»,
+  «más de un millón de habitantes». No son ni $X$ ni $Y$, y ahí está el riesgo: la disponibilidad de datos
+  no es aleatoria. Los países sin estadísticas suelen ser los que tuvieron guerras, colapsos o Estados
+  frágiles, es decir, países cuyo crecimiento difiere por razones que el modelo no observa. La regla general
+  es que el criterio sea independiente del error dado $X$; cuando no puedan garantizarlo, decláremlo,
+  reporten quiénes quedaron afuera y muestren si el resultado cambia sin ese filtro.</li>
+
+  <li><strong>Filtrar mirando los residuos: el peor caso.</strong> Sacar los puntos que «se ven raros» en el
+  gráfico, o los que más mueven el coeficiente, es seleccionar directamente sobre el término de error. Es la
+  forma más rápida de fabricar un resultado sin darse cuenta. Si van a excluir atípicos, definan el criterio
+  <em>antes</em> de mirar cuáles son, aplíquenlo en las dos colas, y reporten la estimación con y sin
+  ellos.</li>
 </ul>
-<p>En resumen: no recorten la muestra descartando observaciones basándose en su variable de resultado.</p>
+<p>Resumido: recortar por las explicativas es caro pero honesto; recortar por el resultado o por los
+residuos es barato y tramposo.</p>
 </div>
 
 <h3>Comparar grupos</h3>
@@ -970,6 +1003,7 @@ keep if ccode == "ARG"
 two (bar sext year, color(stc1%60) yaxis(1))                    ///
     (line gdp_gr year, lcolor(stc2) lwidth(medthick) yaxis(2)), ///
     yline(0, lcolor(gs10) axis(1)) scheme(stcolor)               ///
+    ylabel(-12(4)12, axis(1)) ylabel(-12(4)12, axis(2))          ///
     legend(order(1 "Ahorro externo (%PIB)" 2 "Crecimiento pc (%)") rows(1) pos(6)) ///
     xtitle("") ytitle("%PIB", axis(1)) ytitle("% anual", axis(2))
 restore</code></pre></div>
@@ -988,8 +1022,10 @@ $$ g_{it} \;=\; \alpha \;+\; \beta\,S^{ext}_{it} \;+\; \gamma\,\ln y_{i,t-1} \;+
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtset id year, yearly
 eststo clear
 
-* (1) MCO agrupado
-eststo m1: reg gdp_gr sext, vce(cluster id)
+* (1) BETWEEN: la relacion ENTRE paises, un dato por pais
+*     Promedia cada pais a lo largo del tiempo y compara paises entre si.
+*     Nota: el estimador between no admite errores robustos ni cluster.
+eststo m1: xtreg gdp_gr sext, be
 
 * (2) EF de pais
 eststo m2: xtreg gdp_gr sext, fe rob
@@ -1025,12 +1061,22 @@ nada estructural.</p>
 <p><strong>Si el coeficiente cambia al pasar de una frecuencia a la otra, eso es un resultado</strong>, no un problema: indica que la conclusión depende de qué horizonte se considere relevante.</p>
 </div></details>
 
+<div class="note warn"><span class="tag">El signo puede depender del horizonte</span>
+<p>Un déficit externo grande puede convivir con más crecimiento en los primeros años y con menos varios
+años después: la absorción sube primero y el ajuste llega más tarde. Su $\beta$ es un promedio de esos
+tramos, con el peso que le dé la frecuencia de los datos.</p>
+<p>Por eso no lo lean como «el efecto», sin más. Digan a qué horizonte corresponde la estimación y qué
+parte de la dinámica no están viendo. Parte de la literatura abandona precisamente la regresión lineal
+promedio y sigue a los países durante y después de los episodios de déficit: su tabla no puede replicar
+eso, y decirlo va en las limitaciones.</p>
+</div>
+
 <h3>Una sola tabla</h3>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>esttab m1 m2 m3 m4 m5, ///
     se bracket r2 star(* 0.10 ** 0.05 *** 0.01) label ///
     keep(sext L.lny lny_ini open pop_gr linfl) ///
-    mtitles("MCO" "EF pais" "EF pais+anio" "+ controles" "Quinquenios")
+    mtitles("Between" "EF pais" "EF pais+anio" "+ controles" "Quinquenios")
 
 esttab m1 m2 m3 m4 m5 using regs_tp1.csv, ///
     se bracket r2 star(* 0.10 ** 0.05 *** 0.01) label replace</code></pre></div>
@@ -1039,12 +1085,25 @@ esttab m1 m2 m3 m4 m5 using regs_tp1.csv, ///
 un punto porcentual más de ahorro externo, y si esa magnitud es relevante frente al desvío estándar de la
 variable. Comparen columna contra columna explicando qué cambia y por qué.</p>
 
+<div class="note"><span class="tag">Qué compara cada columna</span>
+<p>La columna (1) y las que siguen no usan la misma variación. El estimador <em>between</em> promedia cada
+país a lo largo del período y los compara entre sí: responde si los países que en promedio recurrieron más
+al ahorro externo crecieron más. Las columnas con efectos fijos comparan a cada país consigo mismo en el
+tiempo: responden si un país crece más en los años en que recurre más al ahorro externo. Son dos preguntas
+distintas y no tienen por qué dar lo mismo.</p>
+<p><strong>Si la columna (1) difiere de las demás, eso es un resultado y hay que escribirlo</strong>, no una
+inconsistencia que se resuelva eligiendo una. Digan cuál de las dos preguntas es la del trabajo y por qué.
+Es el mismo contraste de los dos gráficos de la sección 6, ahora con controles.</p>
+</div>
+
 <h3 id="trampa">La trampa de la inversión</h3>
 
 <div class="note danger"><span class="tag">El error que más se repite</span>
 <p>Meter la inversión como control sin advertir lo que implica. Por la identidad
 $S^{ext} = I - S^{n}$, condicionar en $I$ convierte el coeficiente en el efecto de <em>sustituir</em> ahorro doméstico por externo manteniendo la inversión total constante.</p>
-<p>Es una pregunta legítima. <strong>No es la pregunta del trabajo.</strong></p></div>
+<p>Es una pregunta legítima, y es la que permite separar el papel del ahorro doméstico del papel del
+ahorro externo. <strong>Pero no es la misma pregunta</strong>, y hay que decir cuál se está
+respondiendo.</p></div>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>eststo clear
 eststo sin_inv: xtreg gdp_gr sext L.lny open pop_gr linfl i.year, fe rob
@@ -1056,6 +1115,11 @@ esttab sin_inv con_inv, se bracket r2 label keep(sext L.lny inv) ///
 <p class="sub">Si el coeficiente cambia mucho entre las dos columnas, no es un problema de robustez: son dos
 preguntas distintas. Escríbanlo así en el informe.</p>
 
+<p>Una verificación que conviene hacer: por la identidad, el coeficiente del ahorro externo condicionado en
+$I$ tiene que ser igual y de signo opuesto al del ahorro doméstico condicionado en $I$. Corran las dos
+regresiones y compárenlos. Lo que los separe es la discrepancia de la sección 3, es decir, error de
+medición y nada más.</p>
+
 <h2 class="sec" id="problemas"><span class="n">8</span>Qué puede salir mal</h2>
 
 <div class="grid g3">
@@ -1064,9 +1128,15 @@ preguntas distintas. Escríbanlo así en el informe.</p>
   <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 3 sesga $\beta$ hacia cero. Un coeficiente no significativo puede ser uno atenuado.</p></div>
 </div>
 
-<p>Un diagnóstico rápido y muy informativo: si el ahorro externo es muy persistente, los efectos fijos de país se comen buena parte de su variación útil.</p>
+<p>Un diagnóstico rápido: estimen la persistencia del ahorro externo y comparen su dispersión
+<em>entre</em> países con su dispersión <em>dentro</em> de cada país. Van a encontrar que variación dentro
+hay de sobra. El problema no es que los efectos fijos se coman la variación, sino de qué tipo es la que
+queda: movimientos anuales dominados por el ciclo y la absorción, no por el patrón de mediano plazo que les
+interesa. Es la misma razón por la que los promedios quinquenales de la sección 7 pueden cambiar la
+respuesta.</p>
 
-<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtreg sext L.sext, fe rob</code></pre></div>
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtreg sext L.sext, fe rob
+xtsum sext gdp_gr</code></pre></div>
 
 <h2 class="sec" id="cierre"><span class="n">9</span>Antes de entregar</h2>
 
