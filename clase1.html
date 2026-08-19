@@ -269,12 +269,14 @@ footer p{margin:0 0 6px}
 <h2>En esta clase</h2>
 
 <a href="#reglas">1. Reglas de entrega</a>
+<a href="#ia" class="sub">El uso de IA</a>
 <a href="#pregunta">2. La pregunta</a>
 <a href="#identidad">3. La identidad</a>
 <a href="#datos">4. Datos</a>
 <a href="#stata">5. Armar el panel</a>
 <a href="#ef" class="sub">Efectos fijos</a>
 <a href="#descriptivo">6. Del dato a la evidencia</a>
+<a href="#sesgo" class="sub">Sesgo de selección</a>
 <a href="#estimacion">7. Estimación</a>
 <a href="#trampa" class="sub">La trampa de la inversión</a>
 <a href="#problemas">8. Qué puede salir mal</a>
@@ -307,8 +309,12 @@ footer p{margin:0 0 6px}
 
 <div class="note"><span class="tag">Nuevo en 2026</span>
 <p><strong>Asistentes de IA.</strong> Permitidos para programar o depurar código. Es obligatorio un párrafo final declarando qué herramientas usaron y para qué.</p>
-<p>El grupo responde por cada línea de código y cada afirmación del texto. Una referencia que no existe,
-o un número que el código no reproduce, se evalúa como error propio.</p></div>
+<p>El grupo responde por cada línea de código y cada afirmación del texto. Una referencia que no existe, o un número que el código no reproduce, se evalúa como error propio.</p></div>
+
+<div class="note warn" id="ia"><span class="tag">La trampa de la productividad y la IA</span>
+<p>Un estudio reciente sobre casi 27.000 estudiantes demostró que usar IA generativa para resolver tareas eleva las notas del hogar en un 18% y ahorra un 30% del tiempo, pero <strong>reduce el rendimiento en exámenes a libro cerrado en un 20%</strong>[cite: 1]. En el largo plazo, el perjuicio sobre el aprendizaje acumulativo llega a mermar el rendimiento en un 24%[cite: 1].</p>
+<p>La penalización se concentra en quienes "tercerizan" el esfuerzo cognitivo (respuestas rápidas sin razonamiento)[cite: 1]. Úsenla como tutor para destrabar la sintaxis de Stata, no para que piense la economía empírica por ustedes, porque el aprendizaje (y la nota) proviene del esfuerzo del análisis.</p>
+</div>
 
 <h3>Reproducibilidad</h3>
 <p>Entreguen el <code>script</code> junto con el informe. Tiene que correr de principio a fin, desde los datos
@@ -700,21 +706,6 @@ sector externo.</p></div>
 <tr><td><strong>IFS</strong> · FMI</td><td>Estadísticas financieras internacionales, balance de pagos</td><td><a href="https://data.imf.org/en/Datasets#t=coveo117bcfc4&sort=%40idata_publication_date%20descending&f:Topics=[International%20Financial%20Statistics%20(IFS)]" target="_blank" rel="noopener">data.imf.org</a></td></tr>
 </tbody></table></div>
 
-<!-- 
-<h3>Variables</h3>
-<div class="tw"><table>
-<thead><tr><th>Variable</th><th>Código WDI</th><th>Descripción</th></tr></thead>
-<tbody>
-<tr><td><code>gdp_pc2021</code></td><td><code>NY.GDP.PCAP.PP.KD</code></td><td>PIB per cápita PPA, int$ constantes</td></tr>
-<tr><td><code>cab</code></td><td><code>BN.CAB.XOKA.GD.ZS</code></td><td>Saldo de cuenta corriente (% PIB)</td></tr>
-<tr><td><code>gns</code></td><td><code>NY.GNS.ICTR.ZS</code></td><td>Ahorro nacional bruto (% PIB)</td></tr>
-<tr><td><code>inv</code></td><td><code>NE.GDI.TOTL.ZS</code></td><td>Formación bruta de capital (% PIB)</td></tr>
-<tr><td><code>exports</code> · <code>imports</code></td><td><code>NE.EXP.GNFS.ZS</code> · <code>NE.IMP.GNFS.ZS</code></td><td>Exportaciones e importaciones (% PIB)</td></tr>
-<tr><td><code>pop_gr</code></td><td><code>SP.POP.GROW</code></td><td>Crecimiento poblacional (%)</td></tr>
-<tr><td><code>infl</code></td><td><code>FP.CPI.TOTL.ZG</code></td><td>Inflación, precios al consumidor (%)</td></tr>
-</tbody></table></div>
--->
-
 <h2 class="sec" id="stata"><span class="n">5</span>Armar el panel</h2>
 
 <h3>Antes de importar</h3>
@@ -906,9 +897,16 @@ egen tag = tag(ccode)
 count if tag</code></pre></div>
 
 <div class="note warn"><span class="tag">Declarar siempre</span>
-<p>Ese filtro de 15 años es un <strong>criterio de exclusión</strong>. Reporten cuántos países quedan, cuáles
-se cayeron y por qué. Si los que se caen son sistemáticamente los más pobres, tienen un problema de
-selección que hay que mencionar entre las limitaciones.</p></div>
+<p>Ese filtro de 15 años es un <strong>criterio de exclusión</strong>. Reporten cuántos países quedan, cuáles se cayeron y por qué. Si los que se caen son sistemáticamente los más pobres, tienen un problema de selección que hay que mencionar entre las limitaciones.</p></div>
+
+<div class="note" id="sesgo"><span class="tag">Filtros y sesgo de selección</span>
+<p>Al depurar observaciones, recuerden la intuición empírica detrás de MCO:</p>
+<ul>
+  <li><strong>Filtrar por variables independientes ($X$):</strong> Reduce la muestra y la precisión, pero el estimador <strong>no se sesga</strong>, ya que no alteramos la distribución del término de error condicional a $X$.</li>
+  <li><strong>Filtrar por la variable dependiente ($Y$):</strong> Eliminar países solo porque "tuvieron recesiones muy fuertes" trunca asimétricamente los residuos. Como MCO promedia la distancia vertical de los datos respecto a la recta, esto <strong>distorsiona y aplana la pendiente estimada</strong>.</li>
+</ul>
+<p>En resumen: no recorten la muestra descartando observaciones basándose en su variable de resultado.</p>
+</div>
 
 <h3>Comparar grupos</h3>
 
@@ -961,8 +959,7 @@ two (scatter g_res s_res, mcolor(stc1)) ///
 restore</code></pre></div>
 
 <div class="note"><span class="tag">La observación más valiosa de la sección</span>
-<p><strong>Comparen las dos pendientes.</strong> Si difieren en signo o en magnitud, expliquen por qué: es
-exactamente el fenómeno de la figura de efectos fijos, ahora con datos reales. Y es la mejor introducción
+<p><strong>Comparen las dos pendientes.</strong> Si difieren en signo o en magnitud, expliquen por qué: es exactamente el fenómeno de la figura de efectos fijos, ahora con datos reales. Y es la mejor introducción
 posible a la sección siguiente.</p></div>
 
 <h3>Argentina</h3>
@@ -1008,8 +1005,7 @@ eststo m4: xtreg gdp_gr sext L.lny open pop_gr linfl i.year, fe rob</code></pre>
 panel</strong>. No hace falta escribir <code>vce(cluster id)</code>.</p></div>
 
 <h3>La quinta: cambiar una decisión de construcción de datos</h3>
-<p>Una de las cinco especificaciones tiene que variar una decisión sobre <strong>cómo se construyeron los
-datos</strong>, no un control. Acá pasamos de datos anuales a promedios quinquenales no superpuestos.</p>
+<p>Una de las cinco especificaciones tiene que variar una decisión sobre <strong>cómo se construyeron los datos</strong>, no un control. Acá pasamos de datos anuales a promedios quinquenales no superpuestos.</p>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>preserve
 gen periodo = 2000 + 5*floor((year - 2000)/5)
@@ -1023,12 +1019,10 @@ restore</code></pre></div>
 
 <details><summary>¿Qué es lo que cambia?</summary>
 <div class="dbody">
-<p>Los datos anuales están dominados por la relación <strong>mecánica de corto plazo</strong> entre absorción
-y saldo externo: un año de recesión comprime importaciones y mejora la cuenta corriente sin que haya pasado
+<p>Los datos anuales están dominados por la relación <strong>mecánica de corto plazo</strong> entre absorción y saldo externo: un año de recesión comprime importaciones y mejora la cuenta corriente sin que haya pasado
 nada estructural.</p>
 <p>La pregunta del trabajo es de mediano plazo. Los promedios quinquenales filtran esa alta frecuencia.</p>
-<p><strong>Si el coeficiente cambia al pasar de una frecuencia a la otra, eso es un resultado</strong>, no un
-problema: indica que la conclusión depende de qué horizonte se considere relevante.</p>
+<p><strong>Si el coeficiente cambia al pasar de una frecuencia a la otra, eso es un resultado</strong>, no un problema: indica que la conclusión depende de qué horizonte se considere relevante.</p>
 </div></details>
 
 <h3>Una sola tabla</h3>
@@ -1049,8 +1043,7 @@ variable. Comparen columna contra columna explicando qué cambia y por qué.</p>
 
 <div class="note danger"><span class="tag">El error que más se repite</span>
 <p>Meter la inversión como control sin advertir lo que implica. Por la identidad
-$S^{ext} = I - S^{n}$, condicionar en $I$ convierte el coeficiente en el efecto de <em>sustituir</em> ahorro
-doméstico por externo manteniendo la inversión total constante.</p>
+$S^{ext} = I - S^{n}$, condicionar en $I$ convierte el coeficiente en el efecto de <em>sustituir</em> ahorro doméstico por externo manteniendo la inversión total constante.</p>
 <p>Es una pregunta legítima. <strong>No es la pregunta del trabajo.</strong></p></div>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>eststo clear
@@ -1066,16 +1059,12 @@ preguntas distintas. Escríbanlo así en el informe.</p>
 <h2 class="sec" id="problemas"><span class="n">8</span>Qué puede salir mal</h2>
 
 <div class="grid g3">
-  <div class="card"><h4>Causalidad inversa</h4><p>La cuenta corriente responde al crecimiento esperado tanto
-  como podría afectarlo. Es el mecanismo mismo de la lectura benigna.</p></div>
-  <div class="card"><h4>Variables omitidas</h4><p>Términos de intercambio y precios de <em>commodities</em>
-  mueven las dos variables a la vez. Los efectos fijos de país no los capturan: varían en el tiempo.</p></div>
-  <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 3 sesga $\beta$ hacia cero.
-  Un coeficiente no significativo puede ser uno atenuado.</p></div>
+  <div class="card"><h4>Causalidad inversa</h4><p>La cuenta corriente responde al crecimiento esperado tanto como podría afectarlo. Es el mecanismo mismo de la lectura benigna.</p></div>
+  <div class="card"><h4>Variables omitidas</h4><p>Términos de intercambio y precios de <em>commodities</em> mueven las dos variables a la vez. Los efectos fijos de país no los capturan: varían en el tiempo.</p></div>
+  <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 3 sesga $\beta$ hacia cero. Un coeficiente no significativo puede ser uno atenuado.</p></div>
 </div>
 
-<p>Un diagnóstico rápido y muy informativo: si el ahorro externo es muy persistente, los efectos fijos de
-país se comen buena parte de su variación útil.</p>
+<p>Un diagnóstico rápido y muy informativo: si el ahorro externo es muy persistente, los efectos fijos de país se comen buena parte de su variación útil.</p>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtreg sext L.sext, fe rob</code></pre></div>
 
@@ -1096,8 +1085,7 @@ país se comen buena parte de su variación útil.</p>
 </div>
 
 <div class="note ok"><span class="tag">Último consejo</span>
-<p>Un trabajo que concluya «la relación no es robusta» y lo demuestre bien vale tanto como uno que encuentre
-un efecto significativo. Se evalúa el razonamiento, no el signo del coeficiente.</p></div>
+<p>Un trabajo que concluya «la relación no es robusta» y lo demuestre bien vale tanto como uno que encuentre un efecto significativo. Se evalúa el razonamiento, no el signo del coeficiente.</p></div>
 
 <footer>
 <p><strong>Política Económica II</strong> · Facultad de Ciencias Económicas · Universidad Nacional de La Plata · 2026</p>
