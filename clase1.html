@@ -896,7 +896,7 @@ dentro de cada país con las diferencias permanentes entre ellos. Figura ilustra
 
 <h3>Armar la muestra</h3>
 
-<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>keep if inrange(year, 2000, 2023)
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>keep if inrange(year, 2000, 2024)
 
 egen nobs = count(gdp_gr) if !missing(sext, lny), by(id)
 bysort id: egen nobs_max = max(nobs)
