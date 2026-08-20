@@ -586,8 +586,9 @@ La brecha entre ambos es la parte del resultado que se explica por la posición 
 <h3 id="elasticidades">Estimación de elasticidades</h3>
 
 <p>El insumo central del balance estructural es la sensibilidad de ingresos y gastos respecto del PIB. La
-forma habitual de estimarlas es en logaritmos, donde el coeficiente <em>es</em> la elasticidad:</p>
+forma habitual de estimarlas es en logaritmos.</p>
 
+<!--
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Elasticidad de la recaudacion respecto del PIB
 gen lreca = ln(recaudacion_real)
 gen lgc   = ln(gasto_corriente_real)
@@ -605,6 +606,7 @@ scalar beta = _b[D.lpib]
 
 display "Elasticidad ingresos: " epsilon
 display "Elasticidad gasto corriente: " beta</code></pre></div>
+-->
 
 <div class="note danger"><span class="tag">Antes de correr esa regresión</span>
 <p>Tengan en cuenta las <strong>propiedades estadísticas de las series</strong>. Si las series en niveles son
@@ -613,6 +615,7 @@ espuria: $R^2$ altísimo, $t$ enormes y ninguna relación real.</p>
 <p>Contrasten raíz unitaria antes, y si corresponde trabajen en primeras diferencias o verifiquen
 cointegración.</p></div>
 
+<!--
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Balance estructural: ojo con los corchetes
 gen ratio = pib_potencial / pib_real
 
@@ -637,6 +640,7 @@ two (bar obs_pib year, color(stc1%60))            ///
 </div>
 <p>Presenten las dos en una tabla y expliquen las diferencias. Si difieren mucho, el balance estructural que
 obtengan va a depender de cuál usen, y eso hay que decirlo.</p>
+-->
 
 <h2 class="sec" id="biblio"><span class="n">7</span>Bibliografía</h2>
 
