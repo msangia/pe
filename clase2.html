@@ -468,8 +468,7 @@ gasto. Cuando los dos ciclos se mueven en la misma dirección, la correlación e
 <h2 class="sec" id="empalme"><span class="n">5</span>Empalme de series</h2>
 
 <p>Antes de filtrar nada hay un problema previo: las cuentas nacionales argentinas cambiaron de año base y
-las series no son directamente comparables. El empalme <strong>retropola</strong> la serie nueva usando las
-variaciones de la vieja.</p>
+las series no son directamente comparables. El empalme extiende la serie nueva hacia atrás utilizando las variaciones de la serie anterior.</p>
 
 <div class="tw"><table>
 <thead><tr><th>Año</th><th>Base 1993</th><th>Base 2004</th><th>Variación base 1993</th><th>Serie empalmada</th></tr></thead>
@@ -522,11 +521,6 @@ $$ B_{E,t}^{ARG} \;=\; \left[\, R_t \left(\frac{Y_t^{*}}{Y_t}\right)^{\varepsilo
 $Y_t^{*}$: producto potencial · $Y_t$: producto observado · $\varepsilon$: elasticidad de la recaudación
 cíclica · $GC_t$: gasto corriente · $GK_t$: resto del gasto · $\beta$: elasticidad del gasto corriente.</span>
 </div>
-
-<div class="note warn"><span class="tag">Cuidado con los corchetes</span>
-<p>Los corchetes no son decorativos. <strong>Todo el bloque de gastos se resta</strong>: si se pierden, el
-resto del gasto $GK_t$ termina sumando en lugar de restar y el balance queda mal calculado. Es un error
-fácil de cometer al transcribir la fórmula y difícil de detectar después.</p></div>
 
 <div class="grid g2">
   <div class="card"><h4>Ingresos</h4>
