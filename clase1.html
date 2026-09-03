@@ -322,6 +322,10 @@ tiempo de trabajo sacan mejores notas en las tareas y las mismas notas en los ex
 <a href="https://papers.ssrn.com/sol3/Delivery.cfm/6868618.pdf?abstractid=6868618&amp;mirid=1">Preprint</a>.</p>
 </div>
 
+<div class="note"><span class="tag">Costos cognitivos ocultos y delegación</span>
+<p>Adicionalmente a la penalidad en el aprendizaje reportada por la literatura reciente, la delegación excesiva de tareas analíticas en modelos de lenguaje impacta en los procesos de razonamiento. El proyecto <a href="https://www.media.mit.edu/projects/your-brain-on-chatgpt/overview/" target="_blank"><em>Your Brain on ChatGPT</em> del MIT Media Lab</a> investiga cómo el uso continuo de estas herramientas altera las estrategias de resolución de problemas, la retención de información y la carga cognitiva. En el contexto de la programación econométrica, tercerizar la depuración de datos sin una revisión profunda debilita la comprensión de las decisiones metodológicas subyacentes, motivo por el cual el grupo debe responder por cada línea de código entregada.</p>
+</div>
+
 <h3>Reproducibilidad</h3>
 <p>Entreguen el <code>script</code> junto con el informe. Tiene que correr de principio a fin, desde los datos
 crudos hasta las tablas finales. Si no corre, el trabajo vuelve antes de corregirse. Es la misma regla que
@@ -388,7 +392,7 @@ ahorro-inversión:</p>
 <div class="eq">
 $$ \underbrace{S^{n}_{t}}_{\text{ahorro nacional}} + \underbrace{S^{ext}_{t}}_{\text{ahorro externo}} = I_{t}
 \qquad\Longrightarrow\qquad S^{ext}_{t} \;\equiv\; I_{t} - S^{n}_{t} \;=\; -\,CC_{t} $$
-<span class="cap">Un déficit de cuenta corriente ($CC_t &lt; 0$) equivale a ahorro externo positivo:
+<span class="cap">Un déficit de cuenta corriente ($CC_t < 0$) equivale a ahorro externo positivo:
 el país absorbe más de lo que produce y financia la diferencia con el resto del mundo.</span>
 </div>
 
@@ -907,6 +911,26 @@ count if tag</code></pre></div>
 <div class="note warn"><span class="tag">Declarar siempre</span>
 <p>Ese filtro de 15 años es un <strong>criterio de exclusión</strong>. Reporten cuántos países quedan, cuáles se cayeron y por qué. Si los que se caen son sistemáticamente los más pobres, tienen un problema de selección que hay que mencionar entre las limitaciones.</p></div>
 
+<h3>Depuración de la muestra: Enfoque Secuencial vs. Variable Indicadora</h3>
+
+<p>La construcción de la muestra de estimación puede encararse mediante una depuración secuencial o mediante la creación de una variable indicadora de selección (<code>dummy</code>).</p>
+
+<div class="tabs"><div class="tabbar" role="tablist" aria-label="Métodos de selección">
+<button role="tab" aria-selected="true">Variable Indicadora (Recomendado)</button>
+<button role="tab" aria-selected="false">Enfoque Secuencial</button></div>
+<div class="tabpanel" role="tabpanel"><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>gen sample = 1
+replace sample = 0 if fyear &lt; 1985 | fyear &gt; 2005
+replace sample = 0 if sic &gt;= 6000 &amp; sic &lt;= 6999
+replace sample = 0 if leverage &gt; 3
+replace sample = 0 if sales_growth &gt; 500</code></pre></div></div>
+<div class="tabpanel" role="tabpanel" hidden><div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>keep if fyear &gt;= 1985 &amp; fyear &lt;= 2005
+drop if sic &gt;= 6000 &amp; sic &lt;= 6999
+drop if leverage &gt; 3
+drop if sales_growth &gt; 500</code></pre></div></div></div>
+
+<p>En el enfoque secuencial, cada comando elimina físicamente las observaciones de la memoria activa; en consecuencia, el segundo filtro evalúa condiciones únicamente sobre la submuestra que sobrevivió al primer corte. Si bien esto reduce marginalmente el costo computacional en bases de datos de gran volumen, destruye la trazabilidad sobre la población inicial.</p>
+<p>En contraste, el enfoque de la variable indicadora preserva el universo completo de datos hasta el último paso. Esta metodología es muy superior para el trabajo empírico, ya que permite tabular exactamente cuántas observaciones y qué individuos se pierden por cada criterio de exclusión antes de ejecutar el corte definitivo. Garantizar esta trazabilidad es un paso ineludible, dado que la disponibilidad de datos o los filtros aplicados rara vez son aleatorios y es indispensable evaluar si estos criterios están introduciendo algún sesgo de selección en la evidencia reportada.</p>
+
 <div class="note" id="sesgo"><span class="tag">Filtros y sesgo de selección</span>
 <p>Van a tener que descartar observaciones. MCO promedia distancias verticales respecto de la recta, y de
 ahí salen cuatro casos que conviene distinguir:</p>
@@ -1012,7 +1036,7 @@ Eso es el enfoque de episodios de Cavallo, Eichengreen y Panizza aplicado a un c
 <div class="eq">
 $$ g_{it} \;=\; \alpha \;+\; \beta\,S^{ext}_{it} \;+\; \gamma\,\ln y_{i,t-1} \;+\; \delta' X_{it}
 \;+\; \mu_i \;+\; \tau_t \;+\; \varepsilon_{it} $$
-<span class="cap">$\mu_i$ absorbe todo lo permanente de cada país. $\tau_t$ absorbe los <i>shocks</i> globales comunes. $\beta$ es el coeficiente de interés.</span>
+<span class="cap">$\mu_i$ absorbe todo lo permanente de cada país. $\tau_t$ absorbe los <i>shocks</i> globales comunes. $\beta$ es el coeficiente de interest.</span>
 </div>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtset id year, yearly
