@@ -271,17 +271,21 @@ footer p{margin:0 0 6px}
 
 <a href="#reglas">1. Reglas de los trabajos prácticos</a>
 <a href="#ia" class="sub">El uso de IA</a>
-<a href="#pregunta">2. La pregunta</a>
-<a href="#identidad">3. La identidad</a>
-<a href="#datos">4. Datos</a>
-<a href="#stata">5. Armar el panel</a>
+<a href="#informe">2. Cómo se escribe el informe</a>
+<a href="#consistencia" class="sub">Consistencia interna y externa</a>
+<a href="#abstract" class="sub">El abstract</a>
+<a href="#secciones" class="sub">Qué secciones tiene un paper</a>
+<a href="#pregunta">3. La pregunta</a>
+<a href="#identidad">4. La identidad</a>
+<a href="#datos">5. Datos</a>
+<a href="#problemas">6. Qué puede salir mal</a>
+<a href="#stata">7. Armar el panel</a>
 <a href="#ef" class="sub">Efectos fijos</a>
-<a href="#descriptivo">6. Del dato a la evidencia</a>
+<a href="#descriptivo">8. Del dato a la evidencia</a>
 <a href="#sesgo" class="sub">Sesgo de selección</a>
-<a href="#estimacion">7. Estimación</a>
+<a href="#estimacion">9. Estimación</a>
 <a href="#trampa" class="sub">La trampa de la inversión</a>
-<a href="#problemas">8. Qué puede salir mal</a>
-<a href="#cierre">9. Antes de entregar</a>
+<a href="#cierre">10. Antes de entregar</a>
 
 </nav>
 <main id="main">
@@ -331,7 +335,161 @@ tiempo de trabajo sacan mejores notas en las tareas y las mismas notas en los ex
 crudos hasta las tablas finales. Si no corre, el trabajo vuelve antes de corregirse. Es la misma regla que
 aplican hoy las revistas de la profesión.</p>
 
-<h2 class="sec" id="pregunta"><span class="n">2</span>La pregunta</h2>
+<h2 class="sec" id="informe"><span class="n">2</span>Cómo se escribe el informe</h2>
+
+<p>Las cinco consignas del enunciado no son tareas sueltas: son las secciones de un paper aplicado, en
+el mismo orden en que aparecen en cualquier revista de la profesión. Escribir el informe como tal, y
+no como una tarea con subtítulos, es lo que separa un trabajo que se lee bien de uno que además
+convence. Antes de entrar en la estructura, dos ideas que atraviesan todo el documento: consistencia
+interna y consistencia externa.</p>
+
+<h3 id="consistencia">Consistencia interna y externa</h3>
+
+<p>Un documento es <strong>internamente consistente</strong> cuando cada afirmación se sostiene con lo
+que el propio documento muestra. La pregunta del título es la que responde la conclusión. El número
+del abstract es el número de la tabla. El signo que interpretan en el texto es el signo que salió en
+la regresión. La muestra que describen en Datos es la que produjo esos resultados. Revisarlo es
+mecánico: todo número citado en prosa tiene que existir en una tabla o un gráfico, el <code>.do</code>
+tiene que reproducirlo, y no puede haber afirmaciones sin respaldo en el propio trabajo.</p>
+
+<p>Un documento es <strong>externamente consistente</strong> cuando dialoga correctamente con lo que
+ya se sabe: los resultados se comparan con la literatura citada, las definiciones y las unidades son
+las estándar del campo, y si hay una discrepancia con un trabajo previo, el texto la señala y la
+explica en vez de ignorarla. También es verificable: que los cinco trabajos de la revisión digan
+efectivamente lo que el informe les atribuye, que el coeficiente propio sea comparable en magnitud y
+unidades con los publicados, y que si el resultado contradice la literatura, el texto lo diga y ofrezca
+una razón.</p>
+
+<div class="note ok"><span class="tag">Se necesitan las dos</span>
+<p>Un trabajo puede ser internamente consistente y estar completamente equivocado: la lógica interna
+cierra, pero parte de un supuesto falso o de una base mal construida. También puede ser externamente
+consistente y estar mal: repetir el consenso de la literatura sin que los propios datos lo respalden.
+Ninguna de las dos alcanza sola.</p></div>
+
+<p>Esto conecta con la regla de IA de la sección 1. Una referencia que la herramienta inventó y que el
+grupo no verificó es una falla de consistencia externa: el documento dialoga con una fuente que no
+existe. Un número que el <code>.do</code> no reproduce es una falla de consistencia interna: el
+documento no se sostiene ni con su propia evidencia. Las dos se evalúan igual de duro, y por la misma
+razón.</p>
+
+<h3 id="abstract">El abstract</h3>
+
+<p>La plantilla de contexto general, contexto específico, vacío de conocimiento, «acá mostramos»,
+resultados con valores y significado es el estándar de <em>Nature</em> y de las ciencias de la vida.
+Los abstracts de macro aplicada no la siguen al pie de la letra: casi nunca dicen «acá mostramos», el
+vacío suele quedar implícito, y en cambio casi siempre incluyen algo que esa plantilla no tiene: la
+fuente de los datos y la estrategia de identificación. Léanla como funciones que el abstract tiene que
+cumplir, no como una secuencia obligatoria de oraciones.</p>
+
+<p>Un ejemplo real, del tema exacto de este TP:</p>
+
+<div class="note">
+<p><strong>Coppola, A., Maggiori, M., Neiman, B. y Schreger, J. (2021)</strong>, «Redrawing the Map of
+Global Capital Flows: The Role of Cross-Border Financing and Tax Havens», <em>Quarterly Journal of
+Economics</em> 136(3), 1499–1556. DOI: <a href="https://doi.org/10.1093/qje/qjab014" target="_blank" rel="noopener">10.1093/qje/qjab014</a>.</p>
+<blockquote class="quote">Global firms finance themselves through foreign subsidiaries, often shell
+companies in tax havens, which obscures their true economic location in official statistics. We
+associate the universe of traded securities issued by firms in tax havens with their issuer's ultimate
+parent and restate bilateral investment positions to better reflect the financial linkages connecting
+countries around the world. Bilateral portfolio investment from developed countries to firms in large
+emerging markets is dramatically larger than previously thought. The national accounts of the United
+States, for example, understate the U.S. position in Chinese firms by nearly USD 600 billion. Further,
+we demonstrate how offshore issuance in tax havens affects our understanding of the currency
+composition of external portfolio liabilities and the nature of foreign direct investment. Finally, we
+provide additional restatements of bilateral investment positions, including one based on the
+geographic distribution of sales.</blockquote>
+<p class="sub">Se reemplazó el símbolo de dólar por «USD» solo para no interferir con el renderizado de
+fórmulas de esta página; el resto del texto es textual.</p>
+</div>
+
+<ul>
+<li><strong>(1) Contexto general (general background).</strong> La primera oración, sobre cómo las
+firmas se financian a través de subsidiarias en guaridas fiscales y distorsionan su ubicación
+económica real.</li>
+<li><strong>(2) Contexto específico (specific background).</strong> No aparece como oración aparte:
+está fusionado con el contexto general.</li>
+<li><strong>(3) El vacío (knowledge gap).</strong> También implícito, y contenido en esa misma primera
+oración: si las estadísticas oficiales obscurecen la ubicación real, ahí está el problema que el
+trabajo resuelve.</li>
+<li><strong>(4) Qué hace el paper (here we show).</strong> En macro aplicada, en lugar de «acá
+mostramos» va la fuente de datos y la estrategia de identificación: la segunda oración, donde asocian
+el universo de títulos emitidos en guaridas fiscales con la casa matriz última y reconstruyen las
+posiciones bilaterales de inversión.</li>
+<li><strong>(5) Resultados con valores.</strong> Tercera y cuarta oración: la inversión de cartera
+hacia grandes mercados emergentes es «dramáticamente» mayor a lo pensado, y Estados Unidos subestima
+su posición en firmas chinas en casi USD 600.000 millones.</li>
+<li><strong>(6) Significado / implicancia.</strong> Quinta y sexta oración: la reclasificación importa
+para la composición por monedas del pasivo externo y la naturaleza de la inversión extranjera directa,
+y habilita reasignar la inversión bilateral según el destino geográfico de las ventas de cada
+firma.</li>
+</ul>
+
+<p>El abstract del TP no necesita las seis etiquetas en oraciones separadas, igual que este no las
+lleva. Sí tiene que cumplir esas funciones, en 120 a 180 palabras: sin citas, sin siglas sin definir la
+primera vez que aparecen, y con al menos un número propio. Escríbanlo último, cuando ya saben qué dice
+la tabla.</p>
+
+<h3 id="secciones">Qué secciones tiene un paper</h3>
+
+<p>Esta es la lista base. El enunciado la resume en cinco consignas; un paper publicado la despliega en
+estas doce partes.</p>
+
+<h4>Título y abstract</h4>
+<p>Lo último que se escribe, aunque va primero.</p>
+
+<h4>Introducción</h4>
+<p>Presenta la pregunta, dice por qué importa, qué se hace —datos y estrategia, en una frase—, el
+resultado principal con su número, qué agrega respecto de lo ya publicado y cómo sigue el resto del
+trabajo.</p>
+
+<h4>Antecedentes y revisión de literatura</h4>
+<p>Se organiza por argumento, no como una lista de resúmenes uno detrás del otro, y ubica el propio
+trabajo dentro de ese mapa.</p>
+
+<h4>Marco conceptual</h4>
+<p>El modelo o la identidad que le da sentido a lo que se va a estimar, y de donde sale el signo
+esperado del coeficiente.</p>
+
+<h4>Datos</h4>
+<p>Fuente, cobertura, definición de cada variable, criterios de exclusión. Alguien que no participó del
+trabajo tiene que poder reconstruir la base a partir de esta sección.</p>
+
+<h4>Estrategia empírica</h4>
+<p>La ecuación, qué representa cada término, qué variación identifica el parámetro de interés y bajo
+qué supuesto esa estimación puede leerse como causal.</p>
+
+<h4>Resultados</h4>
+<p>Los coeficientes van en una tabla, interpretados en magnitud y en unidades. Lo que no da
+significativo también se reporta.</p>
+
+<h4>Robustez</h4>
+<p>Qué pasa si cambia una decisión: la muestra, el período, la frecuencia, la especificación.</p>
+
+<h4>Discusión y limitaciones</h4>
+<p>El mecanismo probable, las amenazas a la identificación, y sobre todo qué es lo que estos resultados
+<strong>no</strong> permiten concluir.</p>
+
+<h4>Conclusión</h4>
+<p>Responde la pregunta de la introducción. No introduce resultados nuevos.</p>
+
+<h4>Referencias</h4>
+<p>Formato uniforme. Todo lo que se cita aparece acá, y todo lo que está acá se citó en el texto.</p>
+
+<h4>Apéndice</h4>
+<p>Lo que no cabe en el cuerpo pero alguien podría necesitar para reproducir o auditar el trabajo.</p>
+
+<p>El mapeo es directo: la consigna 1 (Introducción) es el ítem homónimo; la consigna 2 (Revisión de
+literatura) es Antecedentes y revisión de literatura; la consigna 3 (Análisis descriptivo) corresponde
+a Datos, más la parte descriptiva de Resultados; la consigna 4 (Estimaciones econométricas) reúne
+Estrategia empírica, Resultados, Robustez —ahí entra la especificación que cambia una decisión de
+construcción de datos— y Discusión y limitaciones —ahí entran los problemas econométricos que pide
+comentar el enunciado—; y la consigna 5 (Conclusiones) es la sección Conclusión. Marco conceptual queda
+repartido entre la Introducción y la consigna 1, que pide precisar la identidad antes de seguir.</p>
+
+<p>El resto de esta clase construye, en orden, el contenido que va en cada una de esas secciones: la
+pregunta, la identidad, los datos y la estimación.</p>
+
+<h2 class="sec" id="pregunta"><span class="n">3</span>La pregunta</h2>
 
 <p>El modelo neoclásico tiene una predicción clara. Si el capital es escaso donde el ingreso es bajo, su
 producto marginal ahí es más alto, y el capital debería fluir de los países ricos a los pobres. Esos países
@@ -384,7 +542,7 @@ encadenar resúmenes.</p>
 recurren al ahorro externo no crecen más y son más frágiles. Si la revisión no deja clara esa tensión, no
 está cumpliendo su función.</p></div>
 
-<h2 class="sec" id="identidad"><span class="n">3</span>La identidad</h2>
+<h2 class="sec" id="identidad"><span class="n">4</span>La identidad</h2>
 
 <p>Todo el trabajo se apoya en la identidad de cuentas nacionales de una economía abierta. Del equilibrio
 ahorro-inversión:</p>
@@ -402,7 +560,7 @@ el país absorbe más de lo que produce y financia la diferencia con el resto de
 dice nada sobre causalidad. Un déficit puede reflejar inversión que sube, ahorro que cae, o las dos cosas.</li>
 <li><strong>El signo esperado es ambiguo.</strong> Una lectura ve convergencia; la otra ve apreciación real,
 pérdida de competitividad del sector transable y exposición a reversiones súbitas.</li>
-<li><strong>Condicionar en $I$ cambia la pregunta.</strong> Volvemos sobre esto en la sección 7, y es el
+<li><strong>Condicionar en $I$ cambia la pregunta.</strong> Volvemos sobre esto en la sección 9, y es el
 error más frecuente del trabajo.</li>
 </ol>
 
@@ -411,7 +569,7 @@ error más frecuente del trabajo.</li>
 de pagos. Construye la identidad partiendo de la economía cerrada, con datos reales, antes de abrir al
 sector externo.</p></div>
 
-<h2 class="sec" id="datos"><span class="n">4</span>Datos</h2>
+<h2 class="sec" id="datos"><span class="n">5</span>Datos</h2>
 
 <div class="tw"><table>
 <thead><tr><th>Fuente</th><th>Qué tiene</th><th>Acceso</th></tr></thead>
@@ -421,7 +579,22 @@ sector externo.</p></div>
 <tr><td><strong>IFS</strong> · FMI</td><td>Estadísticas financieras internacionales, balance de pagos</td><td><a href="https://data.imf.org/en/Datasets#t=coveo117bcfc4&sort=%40idata_publication_date%20descending&f:Topics=[International%20Financial%20Statistics%20(IFS)]" target="_blank" rel="noopener">data.imf.org</a></td></tr>
 </tbody></table></div>
 
-<h2 class="sec" id="stata"><span class="n">5</span>Armar el panel</h2>
+<h2 class="sec" id="problemas"><span class="n">6</span>Qué puede salir mal</h2>
+
+<div class="grid g3">
+  <div class="card"><h4>Causalidad inversa</h4><p>La cuenta corriente responde al crecimiento esperado tanto como podría afectarlo. Es el mecanismo mismo de la lectura benigna.</p></div>
+  <div class="card"><h4>Variables omitidas</h4><p>Términos de intercambio y precios de <em>commodities</em> mueven las dos variables a la vez. Los efectos fijos de país no los capturan: varían en el tiempo.</p></div>
+  <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 4 sesga el coeficiente de la regresión, $\beta$, hacia cero. Un coeficiente no significativo puede ser uno atenuado.</p></div>
+</div>
+
+<p>Un diagnóstico rápido: estimen la persistencia del ahorro externo y comparen su dispersión
+<em>entre</em> países con su dispersión <em>dentro</em> de cada país. Van a encontrar que variación dentro
+hay de sobra. El problema no es que los efectos fijos se coman la variación, sino de qué tipo es la que
+queda: movimientos anuales dominados por el ciclo y la absorción, no por el patrón de mediano plazo que les
+interesa. Es la misma razón por la que los promedios quinquenales de la sección 9 pueden cambiar la
+respuesta. El diagnóstico completo está al final de la sección 9.</p>
+
+<h2 class="sec" id="stata"><span class="n">7</span>Armar el panel</h2>
 
 <h3>Antes de importar</h3>
 <ul>
@@ -598,7 +771,7 @@ La recta de MCO agrupado, que ignora la heterogeneidad, es visiblemente más pla
 dentro de cada país con las diferencias permanentes entre ellos. Figura ilustrativa.</figcaption>
 </figure>
 
-<h2 class="sec" id="descriptivo"><span class="n">6</span>Del dato a la evidencia</h2>
+<h2 class="sec" id="descriptivo"><span class="n">8</span>Del dato a la evidencia</h2>
 
 <h3>Armar la muestra</h3>
 
@@ -734,7 +907,7 @@ restore</code></pre></div>
 <p>Identifiquen los episodios de mayor ahorro externo y miren <strong>qué pasó en los años siguientes</strong>.
 Eso es el enfoque de episodios de Cavallo, Eichengreen y Panizza aplicado a un caso.</p>
 -->
-<h2 class="sec" id="estimacion"><span class="n">7</span>Estimación</h2>
+<h2 class="sec" id="estimacion"><span class="n">9</span>Estimación</h2>
 
 <div class="eq">
 $$ g_{it} \;=\; \alpha \;+\; \beta\,S^{ext}_{it} \;+\; \gamma\,\ln y_{i,t-1} \;+\; \delta' X_{it}
@@ -818,7 +991,7 @@ tiempo: responden si un país crece más en los años en que recurre más al aho
 distintas y no tienen por qué dar lo mismo.</p>
 <p><strong>Si la columna (1) difiere de las demás, eso es un resultado y hay que escribirlo</strong>, no una
 inconsistencia que se resuelva eligiendo una. Digan cuál de las dos preguntas es la del trabajo y por qué.
-Es el mismo contraste de los dos gráficos de la sección 6, ahora con controles.</p>
+Es el mismo contraste de los dos gráficos de la sección 8, ahora con controles.</p>
 </div>
 -->
 <h3 id="trampa">La trampa de la inversión</h3>
@@ -842,31 +1015,17 @@ preguntas distintas. Escríbanlo así en el informe.</p>
 
 <p>Una verificación que conviene hacer: por la identidad, el coeficiente del ahorro externo condicionado en
 $I$ tiene que ser igual y de signo opuesto al del ahorro doméstico condicionado en $I$. Corran las dos
-regresiones y compárenlos. Lo que los separe es la discrepancia de la sección 3, es decir, error de
+regresiones y compárenlos. Lo que los separe es la discrepancia de la sección 4, es decir, error de
 medición y nada más.</p>
 -->
-<h2 class="sec" id="problemas"><span class="n">8</span>Qué puede salir mal</h2>
-
-<div class="grid g3">
-  <div class="card"><h4>Causalidad inversa</h4><p>La cuenta corriente responde al crecimiento esperado tanto como podría afectarlo. Es el mecanismo mismo de la lectura benigna.</p></div>
-  <div class="card"><h4>Variables omitidas</h4><p>Términos de intercambio y precios de <em>commodities</em> mueven las dos variables a la vez. Los efectos fijos de país no los capturan: varían en el tiempo.</p></div>
-  <div class="card"><h4>Error de medición</h4><p>La discrepancia de la sección 3 sesga $\beta$ hacia cero. Un coeficiente no significativo puede ser uno atenuado.</p></div>
-</div>
-
-<p>Un diagnóstico rápido: estimen la persistencia del ahorro externo y comparen su dispersión
-<em>entre</em> países con su dispersión <em>dentro</em> de cada país. Van a encontrar que variación dentro
-hay de sobra. El problema no es que los efectos fijos se coman la variación, sino de qué tipo es la que
-queda: movimientos anuales dominados por el ciclo y la absorción, no por el patrón de mediano plazo que les
-interesa. Es la misma razón por la que los promedios quinquenales de la sección 7 pueden cambiar la
-respuesta.</p>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>xtreg sext L.sext, fe rob
 xtsum sext gdp_gr</code></pre></div>
 
-<h2 class="sec" id="cierre"><span class="n">9</span>Antes de entregar</h2>
+<h2 class="sec" id="cierre"><span class="n">10</span>Antes de entregar</h2>
 
 <div class="check">
-  <div class="hdr"><strong>Checklist</strong><span class="cnt">0 de 10</span></div>
+  <div class="hdr"><strong>Checklist</strong><span class="cnt">0 de 12</span></div>
   <label><input type="checkbox"><span>Las cinco consignas son cinco secciones, en orden.</span></label>
   <label><input type="checkbox"><span>Máximo 12 carillas. La 13 no se corrige.</span></label>
   <label><input type="checkbox"><span>Al menos 5 trabajos en la revisión, con metodología y limitaciones.</span></label>
@@ -877,10 +1036,13 @@ xtsum sext gdp_gr</code></pre></div>
   <label><input type="checkbox"><span>Una de las cinco varía una decisión de construcción de datos.</span></label>
   <label><input type="checkbox"><span>Los coeficientes están interpretados en magnitudes, no sólo en signos.</span></label>
   <label><input type="checkbox"><span>El <code>.do</code> corre de punta a punta e incluimos la declaración de uso de IA.</span></label>
+  <label><input type="checkbox"><span>Todo número citado en el texto existe en una tabla y el <code>.do</code> lo reproduce.</span></label>
+  <label><input type="checkbox"><span>Los trabajos citados en la revisión dicen efectivamente lo que el informe les atribuye.</span></label>
 </div>
 
 <div class="note ok"><span class="tag">Último consejo</span>
-<p>Un trabajo que concluya «la relación no es robusta» y lo demuestre bien vale tanto como uno que encuentre un efecto significativo. Se evalúa el razonamiento, no el signo del coeficiente.</p></div>
+<p>Un trabajo que concluya «la relación no es robusta» y lo demuestre bien vale tanto como uno que encuentre un efecto significativo. Se evalúa el razonamiento, no el signo del coeficiente.</p>
+<p>Antes de entregar, relean el informe una vez más buscando específicamente fallas de consistencia interna y externa: son el error más fácil de pasar por alto porque no aparecen al leer una sola sección, sino al cruzarlas.</p></div>
 
 <footer>
 <p><strong>Política Económica II</strong> · Facultad de Ciencias Económicas · Universidad Nacional de La Plata · 2026</p>
