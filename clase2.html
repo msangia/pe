@@ -281,6 +281,7 @@ footer p{margin:0 0 6px}
 <a href="#estructural">7. Balance estructural</a>
 <a href="#elasticidades" class="sub">Elasticidades</a>
 <a href="#biblio">8. Bibliografía</a>
+<a href="#cierre">9. Antes de entregar</a>
 
 </nav>
 <main id="main">
@@ -341,8 +342,9 @@ $$ (1+g_t)\,b_t \;=\; (1+r_t)\,b_t - \bar{s}_t
 $\bar{s} = b\,(r-g)$.</span>
 </div>
 
-<p>La versión exacta, cuando se toma el <em>stock</em> del período anterior, incorpora el denominador del
-crecimiento:</p>
+<p>Con el stock del período anterior, la expresión incorpora el denominador del crecimiento. Ambas versiones
+son exactas: la diferencia es una convención sobre a qué momento refiere el <em>stock</em> de deuda (fin o
+inicio de período), no una aproximación — lo importante es declarar cuál se usa.</p>
 
 <div class="eq">
 $$ \bar{s}_t \;=\; \frac{r_t - g_t}{1 + g_t}\; b_{t-1} $$
@@ -368,6 +370,35 @@ y en dólares.</li>
 </ul>
 <p>En el caso argentino las tres difieren de manera sustancial.</p>
 </div></details>
+
+<h3 id="sfa">Por qué la deuda observada no cierra con la ecuación</h3>
+
+<p>Si toman el ratio de deuda observado en dos años consecutivos y lo comparan con lo que predice la
+dinámica de la sección anterior a partir del resultado primario, en general <strong>no van a coincidir</strong>.
+La diferencia no es un error de cálculo: es un residuo identificable, el <strong>ajuste stock-flujo</strong>
+(<em>stock-flow adjustment</em>, SFA), que agrupa todo lo que modifica el <em>stock</em> de deuda sin pasar por
+el resultado primario del período.</p>
+
+<div class="eq">
+$$ \Delta b_t \;=\; \underbrace{\frac{r_t-g_t}{1+g_t}b_{t-1} - s_t}_{\text{dinámica estándar}}
+\;+\; \underbrace{SFA_t}_{\text{ajuste stock-flujo}} $$
+</div>
+
+<div class="note warn"><span class="tag">Los cuatro componentes del SFA</span>
+<ul>
+<li><strong>Valuación cambiaria:</strong> una depreciación real sube el ratio de deuda sin que haya déficit
+primario — el efecto dominante en 2018-19.</li>
+<li><strong>Indexación CER:</strong> capital que crece con la inflación pasada, no con el déficit del período.</li>
+<li><strong>Intereses capitalizados:</strong> cupones que no se pagan en efectivo y se suman al <em>stock</em>
+de deuda en vez de aparecer en el resultado financiero.</li>
+<li><strong>Operaciones "bajo la línea":</strong> asistencia a provincias, canjes, reconocimiento de pasivos —
+mueven el <em>stock</em> de deuda sin pasar por el resultado financiero.</li>
+</ul></div>
+
+<p>Un SFA grande y persistente indica que el superávit primario "a la Blanchard" subestima el esfuerzo fiscal
+realmente requerido: el indicador es útil como referencia contable, pero no como meta de política sin
+descomponer ese residuo. En el TP2 el SFA se reporta como una magnitud a calcular y discutir, no como un
+error a corregir.</p>
 
 <h2 class="sec" id="ciclicidad"><span class="n">3</span>Análisis de ciclicidad</h2>
 
@@ -398,12 +429,14 @@ cíclico del gasto público o de las tasas impositivas:</p>
 </div>
 
 <p>Para poder calcular esas correlaciones hace falta, primero, <strong>descomponer las series en tendencia
-y ciclo</strong>.</p>
+y ciclo</strong>. La pregunta del TP2 no es solo el signo de la correlación en toda la muestra, sino si ese
+signo cambia entre etapas. Y gasto total y gasto social pueden tener ciclicidades distintas: el gasto social
+procíclico es el hallazgo central de Braun y di Gresia (2003), ya citado más arriba.</p>
 
 <h2 class="sec" id="series"><span class="n">4</span>Series de tiempo: un repaso</h2>
 
 <div class="note"><span class="tag">La pregunta</span>
-<p>¿Por qué no se puede simplemente correr una regresión con las series como vienen?</p></div>
+<p>Antes de descomponer las series en tendencia y ciclo, ¿qué hay que saber sobre ellas primero?</p></div>
 
 <p>Para medir ciclicidad hay que separar tendencia y ciclo. Antes de filtrar conviene repasar algo más básico:
 muchas series fiscales y de PIB no son <strong>estacionarias</strong>, y tratarlas como si lo fueran produce
@@ -633,8 +666,19 @@ tsfilter hp cyc_pib = lpib, smooth(100) trend(trend_pib)
 gen lgasto = ln(gasto_real)
 tsfilter hp cyc_gasto = lgasto, smooth(100) trend(trend_gasto)
 
-* La pregunta de la seccion, en una linea
-pwcorr cyc_pib cyc_gasto, sig</code></pre></div>
+* Y para el gasto publico social real (lo pide el TP2 aparte del gasto total)
+gen lgsocial = ln(gsocial_real)
+tsfilter hp cyc_gsocial = lgsocial, smooth(100) trend(trend_gsocial)
+
+* El TP pregunta si la orientacion de politica cambia entre etapas:
+* particionar la muestra en periodos con sentido politico-economico,
+* no en mitades arbitrarias
+pwcorr cyc_pib cyc_gasto cyc_gsocial, sig
+pwcorr cyc_pib cyc_gasto cyc_gsocial if year<=2001, sig
+pwcorr cyc_pib cyc_gasto cyc_gsocial if year>2001 & year<=2015, sig
+pwcorr cyc_pib cyc_gasto cyc_gsocial if year>2015, sig
+
+* Repetir todo el procedimiento anterior para el pais desarrollado de comparacion (punto 2 del TP2)</code></pre></div>
 
 <figure><svg viewBox="0 0 660 430" role="img" aria-label="Panel superior: PIB observado y tendencia HP. Panel inferior: componentes cíclicos del PIB y del gasto">
 <rect x="54" y="16" width="590" height="196" class="pl-bg"/>
@@ -667,6 +711,56 @@ gasto. Cuando los dos ciclos se mueven en la misma dirección, la correlación e
 </figcaption>
 </figure>
 
+<h3 id="critica">El problema del final</h3>
+
+<p>El HP es un filtro de <strong>dos colas</strong>: en el interior de la muestra, la tendencia en cada punto
+se calcula con un promedio aproximadamente simétrico de datos pasados y futuros. En los extremos de la
+muestra —sobre todo en el último año disponible— hay mucho menos dato "futuro" para promediar, así que la
+tendencia estimada queda menos restringida y se pega más al valor observado: la brecha calculada se comprime
+justo donde más importa para el diagnóstico de política.</p>
+
+<p>La consecuencia práctica es que la brecha estimada para un año dado se <strong>revisa</strong> cuando llegan
+datos nuevos: al agregar un año más de información, el filtro reescribe la tendencia hacia atrás. Estas
+revisiones en tiempo real pueden ser del mismo orden de magnitud que la brecha misma, e incluso cambiarle el
+signo (Orphanides y van Norden, 2002). Esto conecta directamente con la sección de <a href="#estructural">Balance
+estructural</a>: un balance estructural calculado con la brecha de los últimos años del HP hereda ese problema
+de fin de muestra.</p>
+
+<p>Una alternativa simple es una tendencia lineal por tramos, con quiebre de pendiente en 2011-12 (fin del
+rebote post-2002 / comienzo del estancamiento) y 2020-21 tratado como <em>dummy</em> fuera de la tendencia, no
+como quiebre de pendiente: con solo 4-5 datos después de 2021 no se puede estimar una pendiente nueva confiable,
+y si se lo mete como quiebre la tendencia "se traga" el colapso COVID y la brecha de 2020 queda casi nula —
+exactamente el error que hay que evitar. Hamilton (2018), ya citado en la bibliografía de esta clase, es otra
+alternativa, con horizonte $h=2$ años en datos anuales; en una muestra corta como la de este TP (~25
+observaciones) conviene tratarla como chequeo de robustez más que como alternativa principal, porque sus
+coeficientes se estiman con poca precisión.</p>
+
+<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Tendencia lineal por tramos: quiebre de pendiente en 2011-12
+* El COVID (2020-21) va como dummy, no como quiebre de tendencia
+gen double t     = year - 1999
+gen double t11   = max(0, year - 2011)
+gen byte   d2020 = inrange(year, 2020, 2021)
+
+reg lpib t t11 d2020
+predict double trend_pib_pw, xb
+replace trend_pib_pw = trend_pib_pw - _b[d2020]*d2020
+gen double cyc_pib_pw = lpib - trend_pib_pw
+
+* Repetir la misma especificacion para el gasto (mismos quiebres)
+reg lgasto t t11 d2020
+predict double trend_gasto_pw, xb
+replace trend_gasto_pw = trend_gasto_pw - _b[d2020]*d2020
+gen double cyc_gasto_pw = lgasto - trend_gasto_pw
+
+* Superponer HP y tendencia por tramos, y comparar la prociclicidad
+* con el MISMO filtro aplicado a las dos series
+twoway (line cyc_pib year, lw(medthick)) (line cyc_pib_pw year, lp(dash)), ///
+    yline(0) legend(order(1 "Brecha HP" 2 "Tramos lineales"))
+pwcorr cyc_pib_pw cyc_gasto_pw, sig</code></pre></div>
+
+<p>La crítica de Ffrench-Davis a usar la tendencia del PIB como potencial se verifica —o no— comparando la
+brecha de esta sección con la del punto anterior en los últimos años de la muestra.</p>
+
 <h2 class="sec" id="empalme"><span class="n">6</span>Empalme de series</h2>
 
 <p>Antes de filtrar nada hay un problema previo: las cuentas nacionales argentinas cambiaron de año base y
@@ -682,11 +776,18 @@ las series no son directamente comparables. El empalme extiende la serie nueva h
 <tr><td>2005</td><td>—</td><td>528.056</td><td>—</td><td>528.056</td></tr>
 </tbody></table></div>
 
-<p>La mecánica es hacia atrás desde el año de solapamiento: se divide el valor de la base nueva por la
-variación de la base vieja.</p>
+<p>La mecánica es hacia atrás desde el año de solapamiento: se multiplica el valor ya empalmado por la
+variación de la base vieja entre esos dos años.</p>
 
 <div class="eq">
-$$ 445.423 \;=\; \frac{485.115}{1{,}089} \qquad\qquad 408.812 \;=\; \frac{445.423}{1{,}090} $$
+$$ X^{emp}_{t-1} \;=\; X^{emp}_{t}\,\cdot\,\frac{X^{viejo}_{t-1}}{X^{viejo}_{t}} $$
+</div>
+
+<div class="eq">
+$$ 445.423 \;=\; 485.115\cdot\frac{256.302}{279.141} \qquad\qquad
+408.812 \;=\; 445.423\cdot\frac{235.236}{256.302} $$
+<span class="cap">La columna "Variación base 1993" de la tabla está redondeada a tres decimales para la
+exposición; el cálculo real usa los valores completos de la serie vieja, sin redondear.</span>
 </div>
 
 <div class="note warn"><span class="tag">Declarar el empalme</span>
@@ -715,6 +816,15 @@ $$ B_t = B_{C,t} + B_{E,t} = R_t - G_t
 
 <p>Para Argentina, la formulación ajusta ingresos y gastos cíclicos por la brecha entre producto potencial y
 observado, elevada a sus respectivas elasticidades:</p>
+
+<div class="note warn"><span class="tag">Tendencia no es potencial</span>
+<p>En el TP2, el $Y_t^{*}$ de esta fórmula es la <code>trend_pib</code> que salió del filtro HP: conviene
+decirlo explícitamente en el informe, porque es un supuesto de trabajo, no un dato objetivo. No son lo mismo:
+la tendencia HP es una propiedad estadística de la serie observada y absorbe estancamientos prolongados,
+mientras que el potencial es un concepto de oferta (factores de producción plenamente empleados) — si la
+economía estuvo deprimida una década, la tendencia estadística incorpora esa depresión, la brecha calculada
+se achica, y el balance estructural resultante luce mejor de lo que la posición fiscal real amerita. Ver
+Ffrench-Davis (2016) y la sección <a href="#critica">El problema del final</a>.</p></div>
 
 <div class="eq">
 $$ B_{E,t}^{ARG} \;=\; \left[\, R_t \left(\frac{Y_t^{*}}{Y_t}\right)^{\varepsilon} + OR_t \,\right]
@@ -790,7 +900,6 @@ La brecha entre ambos es la parte del resultado que se explica por la posición 
 <p>El insumo central del balance estructural es la sensibilidad de ingresos y gastos respecto del PIB. La
 forma habitual de estimarlas es en logaritmos.</p>
 
-<!--
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Elasticidad de la recaudacion respecto del PIB
 gen lreca = ln(recaudacion_real)
 gen lgc   = ln(gasto_corriente_real)
@@ -808,7 +917,6 @@ scalar beta = _b[D.lpib]
 
 display "Elasticidad ingresos: " epsilon
 display "Elasticidad gasto corriente: " beta</code></pre></div>
--->
 
 <div class="note danger"><span class="tag">Antes de correr esa regresión</span>
 <p>Tengan en cuenta las <strong>propiedades estadísticas de las series</strong>. Si las series en niveles son
@@ -832,6 +940,7 @@ two (bar obs_pib year, color(stc1%60))            ///
     yline(0, lcolor(gs10)) scheme(stcolor)         ///
     legend(order(1 "Resultado financiero" 2 "Balance estructural") rows(1) pos(6)) ///
     xtitle("") ytitle("% del PIB")</code></pre></div>
+-->
 
 <h3>Dos vías para estimar, y por qué comparar</h3>
 <div class="grid g2">
@@ -842,7 +951,6 @@ two (bar obs_pib year, color(stc1%60))            ///
 </div>
 <p>Presenten las dos en una tabla y expliquen las diferencias. Si difieren mucho, el balance estructural que
 obtengan va a depender de cuál usen, y eso hay que decirlo.</p>
--->
 
 <h2 class="sec" id="biblio"><span class="n">8</span>Bibliografía</h2>
 
@@ -851,14 +959,17 @@ obtengan va a depender de cuál usen, y eso hay que decirlo.</p>
 <tbody>
 <tr><td>Berrettoni, D. y E. Vázquez (2013). «Sostenibilidad de la deuda pública: una nota sobre su evaluación en la práctica». Nota de cátedra, FCE-UNLP.</td><td>Punto de partida del enfoque estándar</td></tr>
 <tr><td>Basso, M. (2006). «El Balance Estructural: metodología y estimación para Argentina». Anales de la AAEP.</td><td>La fórmula del balance estructural argentino</td></tr>
+<tr><td>Blanchard, O. (1990). «Suggestions for a New Set of Fiscal Indicators». OECD Economics Department WP 79.</td><td>El origen del indicador</td></tr>
 <tr><td>Braun, M. y L. di Gresia (2003). «Towards Effective Social Insurance in Latin America». BID, WP 487.</td><td>Ciclicidad y seguro social</td></tr>
 <tr><td>Dickey, D. y W. Fuller (1979). «Distribution of the Estimators for Autoregressive Time Series with a Unit Root». <em>JASA</em>, 74(366).</td><td>El test de raíz unitaria</td></tr>
 <tr><td>Ffrench-Davis, R. (2016). «La experiencia de Chile con el balance fiscal estructural». <em>Cuadernos de Economía</em>, 35(67).</td><td>Crítica al uso de la tendencia del PIB</td></tr>
 <tr><td>Gamboni, Ortiz y Vega (2020). «PIB tendencial: metodología, limitaciones y alternativas». DIPRES, Chile.</td><td>Alternativas de estimación del potencial</td></tr>
 <tr><td>Hamilton, J. (2018). «Why You Should Never Use the Hodrick-Prescott Filter». <em>REStat</em>, 100(5).</td><td>La alternativa al HP</td></tr>
 <tr><td>MacKinnon, J. (2010). «Critical Values for Cointegration Tests». Queen's University WP 1227.</td><td>Los valores críticos que reporta Stata</td></tr>
+<tr><td>Martner, R. y V. Tromben (2004). «La sostenibilidad de la deuda pública, el efecto bola de nieve y el pecado original». Serie Gestión Pública 46, CEPAL.</td><td>Efecto bola de nieve y valuación cambiaria</td></tr>
 <tr><td>Martner, R. (2007). «La política fiscal en tiempos de bonanza». Serie Gestión Pública 66, CEPAL.</td><td>Ingresos transitorios</td></tr>
 <tr><td>Melamud, A. (2010). «Reglas fiscales en Argentina». Serie Gestión Pública 71, CEPAL.</td><td>La experiencia institucional argentina</td></tr>
+<tr><td>Orphanides, A. y S. van Norden (2002). «The Unreliability of Output-Gap Estimates in Real Time». <em>Review of Economics and Statistics</em>, 84(4).</td><td>Revisiones de la brecha estimada con HP en tiempo real</td></tr>
 <tr><td>Velasco <em>et al.</em> (2007). «Compromisos fiscales y la meta de superávit estructural». Hacienda, Chile.</td><td>Diseño de la regla chilena</td></tr>
 </tbody></table></div>
 
@@ -872,17 +983,29 @@ obtengan va a depender de cuál usen, y eso hay que decirlo.</p>
 <li><strong>FRED</strong> — <a href="https://fred.stlouisfed.org/series/DFII10" target="_blank" rel="noopener">tasa real de EE.UU. (DFII10)</a>, útil como referencia de $r$.</li>
 </ul>
 
+<h2 class="sec" id="cierre"><span class="n">9</span>Antes de entregar</h2>
+
 <div class="check">
-  <div class="hdr"><strong>Checklist</strong><span class="cnt">0 de 8</span></div>
+  <div class="hdr"><strong>Checklist</strong><span class="cnt">0 de 13</span></div>
   <label><input type="checkbox"><span>Declaramos la cobertura institucional del sector público que usamos.</span></label>
   <label><input type="checkbox"><span>$r$ y $g$ están en los mismos términos (reales o nominales).</span></label>
   <label><input type="checkbox"><span>Aclaramos qué tasa de interés usamos y por qué.</span></label>
   <label><input type="checkbox"><span>Documentamos el empalme de las series de cuentas nacionales.</span></label>
   <label><input type="checkbox"><span>Contrastamos el HP contra al menos una alternativa.</span></label>
   <label><input type="checkbox"><span>Verificamos estacionariedad antes de estimar elasticidades.</span></label>
-  <label><input type="checkbox"><span>Los corchetes de la fórmula del balance estructural están bien.</span></label>
+  <label><input type="checkbox"><span>Verificamos que la brecha (Y*/Y) se aplique solo a los componentes cíclicos de ingresos y gastos, no al total.</span></label>
   <label><input type="checkbox"><span>El <code>.do</code> corre de punta a punta e incluimos la declaración de uso de IA.</span></label>
+  <label><input type="checkbox"><span>Declaramos período, fuentes y todas las transformaciones sobre los datos originales.</span></label>
+  <label><input type="checkbox"><span>El punto 1 incluye Argentina y un segundo país de América Latina, y el punto 2 un país desarrollado.</span></label>
+  <label><input type="checkbox"><span>El análisis de sensibilidad tiene los tres escenarios (base, optimista, pesimista) y se compara con el dato observado.</span></label>
+  <label><input type="checkbox"><span>Reportamos el residuo entre la variación observada de la deuda y la que predice la ecuación, y lo comentamos.</span></label>
+  <label><input type="checkbox"><span>Las elasticidades están en una tabla, no solo en el texto.</span></label>
 </div>
+
+<div class="note ok"><span class="tag">Antes de entregar</span>
+<p>Un balance estructural mejor que el resultado observado no es un error si está bien justificado: revisen que la
+brecha, las elasticidades y el SFA cuenten la misma historia que el texto, no una versión más prolija de lo que
+el <code>.do</code> efectivamente produce.</p></div>
 
 <footer>
 <p><strong>Política Económica II</strong> · Facultad de Ciencias Económicas · Universidad Nacional de La Plata · 2026</p>
