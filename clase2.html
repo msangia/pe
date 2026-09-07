@@ -378,8 +378,8 @@ $$ (1+g_t)\,b_t \;=\; (1+r_t)\,b_t - \bar{s}_t
 $\bar{s} = b\,(r-g)$.</span>
 </div>
 
-<p>Con el <it>stock</it> del período anterior, la expresión incorpora el denominador del crecimiento. Ambas versiones
-son exactas: la diferencia es una convención sobre a qué momento refiere el <it>stock</it> de deuda (fin o
+<p>Con el <i>stock</i> del período anterior, la expresión incorpora el denominador del crecimiento. Ambas versiones
+son exactas: la diferencia es una convención sobre a qué momento refiere el <i>stock</i> de deuda (fin o
 inicio de período), no una aproximación — lo importante es declarar cuál se usa.</p>
 
 <div class="eq">
@@ -387,9 +387,7 @@ $$ \bar{s}_t \;=\; \frac{r_t - g_t}{1 + g_t}\; b_{t-1} $$
 </div>
 
 <div class="note warn"><span class="tag">La consistencia entre r y g</span>
-<p>Las dos tienen que estar en los mismos términos: <strong>ambas reales o ambas nominales</strong>. Mezclar
-una tasa nominal con un crecimiento real es el error de cálculo más común de este ejercicio, y produce
-resultados que parecen razonables pero no lo son.</p>
+<p>Las dos tienen que estar en los mismos términos: <strong>ambas reales o ambas nominales</strong>.</p>
 <p>Si $r > g$, el gobierno necesita superávit primario sólo para evitar que el ratio de deuda crezca por el
 efecto de los intereses.</p></div>
 
@@ -402,8 +400,7 @@ del período anterior:</p>
 $$ \bar{s}_t \;=\; \frac{r_t-g_t}{1+g_t}\,b_{t-1} \;=\; \frac{0{,}08-0{,}03}{1+0{,}03}\times 0{,}80
 \;\approx\; 0{,}0388 $$
 <span class="cap">Con esos supuestos, el superávit primario que estabiliza el ratio de deuda es de
-aproximadamente 3,9% del PIB. Este ejemplo es ilustrativo: es un caso hipotético con valores redondos, no un
-dato de ningún país. El cálculo se hace en la planilla, no hace falta código de Stata para esto.</span>
+aproximadamente 3,9% del PIB. Este ejemplo es ilustrativo.</span>
 </div>
 
 <h3>Análisis de sensibilidad: escenarios base, optimista y pesimista</h3>
@@ -437,49 +434,6 @@ hoy. Es la relevante para proyectar.</li>
 y en dólares.</li>
 </ul>
 <p>En el caso argentino las tres difieren de manera sustancial.</p>
-</div></details>
-
-<h3 id="sfa">Por qué la deuda observada no cierra con la ecuación</h3>
-
-<p>Si toman el ratio de deuda observado en dos años consecutivos y lo comparan con lo que predice la
-dinámica de la sección anterior a partir del resultado primario, en general <strong>no van a coincidir</strong>.
-La diferencia no es un error de cálculo: es un residuo identificable, el <strong>ajuste stock-flujo</strong>
-(<em>stock-flow adjustment</em>, SFA), que agrupa todo lo que modifica el <em>stock</em> de deuda sin pasar por
-el resultado primario del período.</p>
-
-<div class="eq">
-$$ \Delta b_t \;=\; \underbrace{\frac{r_t-g_t}{1+g_t}b_{t-1} - s_t}_{\text{dinámica estándar}}
-\;+\; \underbrace{SFA_t}_{\text{ajuste stock-flujo}} $$
-</div>
-
-<div class="note warn"><span class="tag">Los cuatro componentes del SFA</span>
-<ul>
-<li><strong>Valuación cambiaria:</strong> una depreciación real sube el ratio de deuda sin que haya déficit
-primario — el efecto dominante en 2018-19.</li>
-<li><strong>Indexación por Coeficiente de Estabilización de Referencia (CER):</strong> capital que crece con la
-inflación pasada, no con el déficit del período.</li>
-<li><strong>Intereses capitalizados:</strong> cupones que no se pagan en efectivo y se suman al <em>stock</em>
-de deuda en vez de aparecer en el resultado financiero.</li>
-<li><strong>Operaciones "bajo la línea":</strong> asistencia a provincias, canjes, reconocimiento de pasivos —
-mueven el <em>stock</em> de deuda sin pasar por el resultado financiero.</li>
-</ul></div>
-
-<p>Un SFA grande y persistente indica que el superávit primario "a la Blanchard" subestima el esfuerzo fiscal
-realmente requerido: el indicador es útil como referencia contable, pero no como meta de política sin
-descomponer ese residuo. En el TP2 el SFA se reporta como una magnitud a calcular y discutir, no como un
-error a corregir.</p>
-
-<details><summary>Chequeo: superávit primario con tasas no homogéneas</summary>
-<div class="dbody">
-<p><strong>Pregunta.</strong> Un país tiene $b=0{,}80$, tasa nominal de interés 15% y crecimiento real del PIB
-2%. ¿Cuál es el superávit primario requerido?</p>
-<p><strong>Respuesta.</strong> La pregunta está mal planteada: mezcla una tasa <em>nominal</em> con un
-crecimiento <em>real</em>, y $r$ y $g$ tienen que estar en los mismos términos (ver la nota "La consistencia
-entre r y g" más arriba). No se puede sustituir directamente $r=0{,}15$ y $g=0{,}02$ en la fórmula. La
-corrección es deflactar la tasa nominal por la inflación esperada para obtener una tasa real comparable con
-$g$, o alternativamente expresar $g$ en términos nominales (crecimiento real más inflación) para que sea
-comparable con la tasa de interés nominal. Cualquiera de las dos correcciones es válida; lo que no es válido
-es mezclar los términos como en el enunciado original.</p>
 </div></details>
 
 <h2 class="sec" id="ciclicidad"><span class="n">3</span>Análisis de ciclicidad</h2>
