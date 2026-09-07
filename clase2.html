@@ -604,13 +604,13 @@ simularon su distribución y publicaron valores críticos propios.</p>
 <div class="tw"><table>
 <thead><tr><th>Variante</th><th>Ecuación</th><th>$H_0$ describe</th><th>$H_1$ describe</th><th>Cuándo usarla</th></tr></thead>
 <tbody>
-<tr><td>Sin constante</td><td>$\Delta y_t = \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk puro, sin deriva</td><td>Estacionaria alrededor de cero</td><td>Series ya diferenciadas, o de media cero por construcción</td></tr>
+<tr><td>Sin constante</td><td>$\Delta y_t = \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk puro, sin drift</td><td>Estacionaria alrededor de cero</td><td>Series ya diferenciadas, o de media cero por construcción</td></tr>
 <tr><td>Con constante</td><td>$\Delta y_t = \alpha + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift $\alpha$</td><td>Estacionaria alrededor de una media $\mu=-\alpha/\gamma \neq 0$</td><td>Series sin tendencia visible pero con nivel distinto de cero</td></tr>
 <tr><td>Con constante y tendencia</td><td>$\Delta y_t = \alpha + \delta t + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift</td><td>Tendencia-estacionaria</td><td>Logaritmo de PIB real</td></tr>
 </tbody></table></div>
 
 <p>Rechazar $H_0$ sin constante no dice "es estacionaria": dice que lo es alrededor de cero, descartado si el
-nivel no es cero. $\alpha$ tiene doble lectura: deriva bajo $H_0$, media de la estacionaria bajo $H_1$
+nivel no es cero. $\alpha$ tiene doble lectura: drift bajo $H_0$, media de la estacionaria bajo $H_1$
 ($\mu=-\alpha/\gamma$).</p>
 
 <div class="tw"><table>
@@ -625,8 +625,8 @@ $T$ de la muestra usando las superficies de respuesta de MacKinnon (2010): usen 
 los de esta tabla.</p>
 
 <p>La correspondencia con <code>dfuller</code> es lo que más confunde. <code>noconstant</code>: sin constante; por
-defecto: con constante, nula sin deriva; <code>trend</code>: agrega la tendencia. Ojo con <code>drift</code>:
-misma regresión por defecto, pero cambia la nula a "con deriva" y la referencia a una $t$ común, mucho menos
+defecto: con constante, nula sin drift; <code>trend</code>: agrega la tendencia. Ojo con <code>drift</code>:
+misma regresión por defecto, pero cambia la nula a "con drift" y la referencia a una $t$ común, mucho menos
 exigente ($-2,4$/$-1,7$/$-1,3$): rechaza más fácil, así que "probarla" tras un no-rechazo no descubre nada.
 <code>lags(p)</code> convierte el DF en ADF, mismos críticos. El del TP2,
 <code>dfuller lreca, trend lags(1)</code>, es ADF(1) con constante y tendencia.</p>
@@ -641,7 +641,7 @@ dfuller lpib
 * y por lo tanto los valores criticos (mucho menos exigentes)
 dfuller lpib, drift
 
-* Variante con constante y tendencia, con 1 rezago para blanquear el residuo
+* Variante con constante y tendencia, con 1 rezago para que el residuo sea ruido blanco
 * Esta es la especificacion del TP2 para logaritmos de agregados fiscales
 dfuller lpib, trend lags(1)</code></pre></div>
 
