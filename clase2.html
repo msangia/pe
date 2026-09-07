@@ -690,13 +690,6 @@ de quiebre endógeno (tipo Zivot-Andrews) quedan fuera del curso.</p>
 <strong>descomponer</strong> una en tendencia y ciclo. El filtro de Hodrick-Prescott está pensado para eso: su
 componente cíclico ya sale estacionario por construcción.</p>
 
-<details><summary>Chequeo: qué se concluye de un dfuller que no rechaza</summary>
-<div class="dbody">
-<p><strong>Pregunta.</strong> Corren <code>dfuller lreca, trend lags(1) regress</code> con $T=27$ observaciones anuales y no rechazan $H_0$. ¿Qué se concluye?</p>
-<p><strong>Respuesta.</strong> No rechazar $H_0$ <strong>no es lo mismo</strong> que probar la existencia de una raíz unitaria. Solo significa que no hay evidencia suficiente en la muestra para descartarla. </p>
-<p>Como demostraron Christiano y Eichenbaum (1990) y Cochrane (1991), en muestras finitas es estadísticamente imposible distinguir un <em>random walk</em> de un proceso estacionario sumamente persistente (ej. $\rho=0.95$). En muestras de $T=27$, el test tiene una potencia bajísima. En la macroeconomía aplicada, ante un no-rechazo dudoso, la decisión final de tratar a la serie como $I(1)$ o $I(0)$ debe descansar fuertemente en la teoría económica y en la naturaleza de la variable, no solo en el estadístico ciego.</p>
-</div></details>
-  
 <h2 class="sec" id="hp"><span class="n">5</span>Filtro de Hodrick-Prescott</h2>
 
 <p>Método para obtener el componente tendencial de una serie temporal. La hipótesis de partida es que las
@@ -790,41 +783,6 @@ revisiones en tiempo real pueden ser del mismo orden de magnitud que la brecha m
 signo (Orphanides y van Norden, 2002). Esto conecta directamente con la sección de <a href="#estructural">Balance
 estructural</a>: un balance estructural calculado con la brecha de los últimos años del HP hereda ese problema
 de fin de muestra.</p>
-
-<p>Una alternativa simple es una tendencia lineal por tramos, con quiebre de pendiente en 2011-12 (fin del
-rebote post-2002 / comienzo del estancamiento) y 2020-21 tratado como <em>dummy</em> fuera de la tendencia, no
-como quiebre de pendiente: con solo 4-5 datos después de 2021 no se puede estimar una pendiente nueva confiable,
-y si se lo mete como quiebre la tendencia "se traga" el colapso COVID y la brecha de 2020 queda casi nula —
-exactamente el error que hay que evitar. Hamilton (2018) es otra alternativa, con horizonte $h=2$ años en
-datos anuales; en una muestra corta como la de este TP (~25
-observaciones) conviene tratarla como chequeo de robustez más que como alternativa principal, porque sus
-coeficientes se estiman con poca precisión.</p>
-
-<div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Tendencia lineal por tramos: quiebre de pendiente en 2011-12
-* El COVID (2020-21) va como dummy, no como quiebre de tendencia
-gen double t     = year - 1999
-gen double t11   = max(0, year - 2011)
-gen byte   d2020 = inrange(year, 2020, 2021)
-
-reg lpib t t11 d2020
-predict double trend_pib_pw, xb
-replace trend_pib_pw = trend_pib_pw - _b[d2020]*d2020
-gen double cyc_pib_pw = lpib - trend_pib_pw
-
-* Repetir la misma especificacion para el gasto (mismos quiebres)
-reg lgasto t t11 d2020
-predict double trend_gasto_pw, xb
-replace trend_gasto_pw = trend_gasto_pw - _b[d2020]*d2020
-gen double cyc_gasto_pw = lgasto - trend_gasto_pw
-
-* Superponer HP y tendencia por tramos, y comparar la prociclicidad
-* con el MISMO filtro aplicado a las dos series
-twoway (line cyc_pib year, lw(medthick)) (line cyc_pib_pw year, lp(dash)), ///
-    yline(0) legend(order(1 "Brecha HP" 2 "Tramos lineales"))
-pwcorr cyc_pib_pw cyc_gasto_pw, sig</code></pre></div>
-
-<p>La crítica de Ffrench-Davis a usar la tendencia del PIB como potencial se verifica —o no— comparando la
-brecha de esta sección con la del punto anterior en los últimos años de la muestra.</p>
 
 <h2 class="sec" id="empalme"><span class="n">6</span>Empalme de series</h2>
 
