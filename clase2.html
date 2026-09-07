@@ -615,7 +615,7 @@ el propio $y_{t-1}$ es no estacionario, y el $t$ de $\gamma$ no sigue la $t$ de 
 <tr><td>Con constante y tendencia</td><td>$\Delta y_t = \alpha + \delta t + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift</td><td>Tendencia-estacionaria, con pendiente $-\delta/\gamma$</td><td>Logaritmo de PIB real</td></tr>
 </tbody></table></div>
 
-<p><strong>El procedimiento secuencial (Enders, 2014):</strong> ¿Cómo leer la salida completa del test en la práctica? Como no sabemos el verdadero DGP (<em>Data Generating Process</em>) y elegir mal la variante quita potencia, la mejor práctica es ir de lo general a lo particular:</p>
+<p><strong>El procedimiento secuencial (Enders, 2014):</strong> ¿Cómo leer la salida completa del test en la práctica? Como no sabemos el verdadero DGP (<em>Data Generating Process</em>) y elegir mal la variante quita potencia (capacidad para detectar que la hipótesis nula ($H_{0}$) es falsa cuando efectivamente lo es), la mejor práctica es ir de lo general a lo particular:</p>
 
 <ol>
 <li><strong>Empezar con constante y tendencia (<code>trend regress</code>).</strong> Se mira el estadístico de DF para $\gamma$.
