@@ -979,39 +979,6 @@ two (bar obs_pib year, color(stc1%60))            ///
 <p>Presenten las dos en una tabla y expliquen las diferencias. Si difieren mucho, el balance estructural que
 obtengan va a depender de cuál usen, y eso hay que decirlo.</p>
 
-<h3>Qué haría falta para una regla contracíclica en Argentina</h3>
-
-<p>El punto 3.d del TP2 pide reflexionar sobre esto; los siguientes son insumos para esa discusión, no una
-respuesta cerrada:</p>
-
-<ul>
-<li>La regla fiscal chilena (Velasco <em>et al.</em>, 2007) ancla su componente estructural en el precio de
-referencia del cobre proyectado por un panel de expertos independiente del gobierno de turno. El equivalente argentino no tiene un único precio de referencia: la recaudación por
-derechos de exportación depende tanto del <strong>precio internacional de los granos</strong> como del
-<strong>volumen de la cosecha</strong>, dos fuentes de variación distintas —una de mercado internacional, otra
-climática y productiva local— que se combinan en el mismo ingreso fiscal.</li>
-<li>En Argentina el acceso al financiamiento es intermitente, a diferencia de Chile. Esto cambia la naturaleza
-de la restricción: no alcanza con calcular bien el componente estructural, hace falta además que el ahorro
-acumulado en la fase alta del ciclo sea sostenible institucional y financieramente —que exista un lugar seguro
-donde guardarlo y un mecanismo que resista la presión por gastarlo cuando llegan los ingresos transitorios.</li>
-<li>Sostener una regla fiscal en el tiempo es, ante todo, un problema institucional: qué la vuelve creíble,
-qué pasa cuando conviene incumplirla. Para la experiencia argentina con reglas fiscales, ver Melamud (2010).</li>
-</ul>
-
-<details><summary>Chequeo: balance estructural y estancamiento</summary>
-<div class="dbody">
-<p><strong>Pregunta.</strong> Durante una década de estancamiento económico, sin que la política fiscal
-cambiara en absoluto, el balance estructural calculado con el filtro HP "mejora" año a año. ¿Cómo puede ser,
-si la política no cambió?</p>
-<p><strong>Respuesta.</strong> No es que la política fiscal haya cambiado: es que la <strong>tendencia
-estadística</strong> que se está usando como <em>proxy</em> del producto potencial va absorbiendo el
-estancamiento. El HP recalcula la tendencia con los datos observados, así que si el PIB observado crece poco
-durante años, la tendencia HP también se aplana y la brecha entre producto observado y "potencial" se achica
-—no porque haya menos ciclo, sino porque el filtro confunde estancamiento persistente con nuevo potencial. El
-balance estructural resultante luce mejor de lo que la posición fiscal real amerita. Ver
-<a href="#critica">El problema del final</a>.</p>
-</div></details>
-
 <h2 class="sec" id="biblio"><span class="n">8</span>Bibliografía</h2>
 
 <div class="tw"><table>
@@ -1098,13 +1065,13 @@ function hl(s){return s.split('\n').map(function(l){
   var c='',m=e.match(/(\s\/\/.*)$/);
   if(m){c='<span class="t-com">'+m[1]+'</span>';e=e.slice(0,e.length-m[1].length);}
   var st=[];
-  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '\u0000'+(st.length-1)+'\u0000';});
+  e=e.replace(/"[^"]*"/g,function(x){st.push(x);return '__STR'+(st.length-1)+'__';});
   e=e.replace(/\$[A-Za-z_][A-Za-z0-9_]*/g,'<span class="t-mac">$&</span>');
   e=e.replace(/`[^'`]*'/g,'<span class="t-mac">$&</span>');
   e=e.replace(CRE,'<span class="t-cmd">$1</span>');
   e=e.replace(/(,\s*)([a-z][a-zA-Z0-9_]*)/g,'$1<span class="t-opt">$2</span>');
   e=e.replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="t-num">$1</span>');
-  e=e.replace(/\u0000(\d+)\u0000/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
+  e=e.replace(/__STR(\d+)__/g,function(_,i){return '<span class="t-str">'+st[i]+'</span>';});
   return e+c;}).join('\n');}
 document.querySelectorAll('pre code').forEach(function(c){c.dataset.raw=c.textContent;c.innerHTML=hl(c.textContent);});
 
