@@ -472,8 +472,7 @@ cíclico del gasto público o de las tasas impositivas:</p>
 
 <p>Para poder calcular esas correlaciones hace falta, primero, <strong>descomponer las series en tendencia
 y ciclo</strong>. La pregunta del TP2 no es solo el signo de la correlación en toda la muestra, sino si ese
-signo cambia entre etapas. Y gasto total y gasto social pueden tener ciclicidades distintas: el gasto social
-procíclico es el hallazgo central de Braun y di Gresia (2003).</p>
+signo cambia entre etapas. Y gasto total y gasto social pueden tener ciclicidades distintas.</p>
 
 <h2 class="sec" id="series"><span class="n">4</span>Series de tiempo: un repaso</h2>
 
@@ -482,9 +481,7 @@ procíclico es el hallazgo central de Braun y di Gresia (2003).</p>
 
 <p>Antes de filtrar conviene preguntarse qué propiedad estadística tiene que cumplir una serie para que
 separarla en tendencia y ciclo tenga sentido. Muchas series fiscales y de PIB no son <strong>estacionarias</strong>,
-y tratarlas como si lo fueran produce inferencias que parecen sólidas y no lo son —clave para el TP2 y para
-balance estructural, que contrasta esto antes de estimar elasticidades. Además, la serie de PIB de estos 20-25
-años requiere <a href="#empalme">empalmar bases</a> antes de correr cualquiera de los comandos que siguen.</p>
+y tratarlas como si lo fueran produce inferencias que parecen sólidas y no lo son.</p>
 
 <p>Una serie es estacionaria en sentido débil si su media y varianza son constantes y finitas, y la covarianza
 entre dos observaciones depende solo del rezago $k$, no de $t$. Más intuitivo: tras un <em>shock</em>, vuelve a
@@ -576,16 +573,13 @@ para volverse estacionaria es <strong>$I(1)$</strong>.</p>
 <text x="573.9" y="453" class="pl-tick" text-anchor="middle">90</text>
 <text x="644.0" y="453" class="pl-tick" text-anchor="middle">120</text>
 </svg>
-<figcaption>Misma semilla en los cuatro paneles: (a), la caminata con deriva de (c) y el AR(1) de (d) comparten los
-mismos <em>shocks</em>; la diferencia en su aspecto viene solo de la persistencia. Las escalas verticales de los
-cuatro paneles son muy distintas entre sí.</figcaption>
 </figure>
 
-<p>El (a) es una caminata pura: se abre en abanico sin volver a un nivel común. El (b) es más sutil: media
+<p>El (a) es una <i>random walk</i>: se abre en abanico sin volver a un nivel común. El (b) es más sutil: media
 constante en cero —sin tendencia— pero desvío creciente. Rompe una idea frecuente: "estacionaria" no es "sin
 tendencia", es media y varianza estables.</p>
 
-<p>El (c) es el que más importa: una caminata con deriva (<strong>tendencia estocástica</strong>) y un proceso
+<p>El (c) es el que más importa: una <i>random walk with drift</i> (<strong>tendencia estocástica</strong>) y un proceso
 <strong>tendencia-estacionario</strong> (tendencia determinística con reversión), casi indistinguibles a simple
 vista. El tratamiento es opuesto —diferenciar una, quitarle la tendencia a la otra— y a ojo no se sabe cuál es
 cuál. El (d), AR(1) con $\phi=0{,}7$, oscila alrededor de cero: la firma de una serie estacionaria.</p>
