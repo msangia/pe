@@ -628,8 +628,7 @@ los de esta tabla.</p>
 defecto: con constante, nula sin drift; <code>trend</code>: agrega la tendencia. Ojo con <code>drift</code>:
 misma regresión por defecto, pero cambia la nula a "con drift" y la referencia a una $t$ común, mucho menos
 exigente ($-2,4$/$-1,7$/$-1,3$): rechaza más fácil, así que "probarla" tras un no-rechazo no descubre nada.
-<code>lags(p)</code> convierte el DF en ADF, mismos críticos. El del TP2,
-<code>dfuller lreca, trend lags(1)</code>, es ADF(1) con constante y tendencia.</p>
+<code>lags(p)</code> convierte el DF en ADF, mismos críticos.</p>
 
 <div class="codewrap"><div class="hd"><span class="fn">Stata</span><button class="copy" type="button">Copiar</button></div><pre><code>* Variante sin constante: solo tiene sentido si la serie es de media cero
 dfuller lpib, noconstant
