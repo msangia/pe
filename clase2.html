@@ -605,13 +605,18 @@ simularon su distribución y publicaron valores críticos propios.</p>
 <thead><tr><th>Variante</th><th>Ecuación</th><th>$H_0$ describe</th><th>$H_1$ describe</th><th>Cuándo usarla</th></tr></thead>
 <tbody>
 <tr><td>Sin constante</td><td>$\Delta y_t = \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk puro, sin drift</td><td>Estacionaria alrededor de cero</td><td>Series ya diferenciadas, o de media cero por construcción</td></tr>
-<tr><td>Con constante</td><td>$\Delta y_t = \alpha + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift $\alpha$</td><td>Estacionaria alrededor de una media $\mu=-\alpha/\gamma \neq 0$</td><td>Series sin tendencia visible pero con nivel distinto de cero</td></tr>
-<tr><td>Con constante y tendencia</td><td>$\Delta y_t = \alpha + \delta t + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift</td><td>Tendencia-estacionaria</td><td>Logaritmo de PIB real</td></tr>
+<tr><td>Con constante</td><td>$\Delta y_t = \alpha + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift $\alpha$</td><td>Estacionaria alrededor de una media constante $\mu=-\alpha/\gamma$</td><td>Series sin tendencia visible pero con nivel distinto de cero</td></tr>
+<tr><td>Con constante y tendencia</td><td>$\Delta y_t = \alpha + \delta t + \gamma y_{t-1} + \varepsilon_t$</td><td>Random walk con drift</td><td>Tendencia-estacionaria, con pendiente $-\delta/\gamma$</td><td>Logaritmo de PIB real</td></tr>
 </tbody></table></div>
 
 <p>Rechazar $H_0$ sin constante no dice "es estacionaria": dice que lo es alrededor de cero, descartado si el
 nivel no es cero. $\alpha$ tiene doble lectura: drift bajo $H_0$, media de la estacionaria bajo $H_1$
-($\mu=-\alpha/\gamma$).</p>
+($\mu=-\alpha/\gamma$). Y el test se pronuncia <em>solo</em> sobre $\gamma$: que esa media sea distinta de cero,
+o que la tendencia exista de verdad, se lee en la significatividad de $\alpha$ y de $\delta$ en la misma
+regresión —recién una vez rechazada la raíz unitaria esos coeficientes se pueden mirar con la $t$ de siempre—.
+Si se rechaza $H_0$ con la variante de tendencia pero $\hat\delta$ no es significativa, lo que hay es una serie
+estacionaria alrededor de un nivel constante, no una tendencia-estacionaria; eso se interpreta, no se usa para
+volver a correr el test con otra variante.</p>
 
 <div class="tw"><table>
 <thead><tr><th>Variante</th><th>1%</th><th>5%</th><th>10%</th></tr></thead>
@@ -642,7 +647,8 @@ dfuller lpib, drift
 
 * Variante con constante y tendencia, con 1 rezago para que el residuo sea ruido blanco
 * Esta es la especificacion del TP2 para logaritmos de agregados fiscales
-dfuller lpib, trend lags(1)</code></pre></div>
+* regress muestra la regresion auxiliar: ahi se ven _cons y _trend
+dfuller lpib, trend lags(1) regress</code></pre></div>
 
 <div class="note danger"><span class="tag">Errores frecuentes</span>
 <ul>
